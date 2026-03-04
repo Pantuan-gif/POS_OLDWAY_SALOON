@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using POS_OLDWAY_SALOON.MVVM.MODELS;
 
 namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 {
-    public class RegistrationViewModels : ObservableObject
+    public partial class RegistrationViewModels : ObservableObject
     {
         [ObservableProperty]
         private string email;
@@ -24,6 +25,8 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
         {
             RegisterCommand = new RelayCommand(Register);
         }
+        public static ObservableCollection<User> User = new();
+
 
         private async void Register()
         {
@@ -33,7 +36,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
                 return;
             }
 
-            LoginViewModels.posmodels.Add(new Posmodel
+            LoginViewModels.User.Add(new User
             {
                 Email = email,
                 Password = password
