@@ -1,0 +1,3 @@
+#ffffff - White
+#000000 - Black
+#41250D - Brown
