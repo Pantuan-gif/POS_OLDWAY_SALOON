@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace POS_OLDWAY_SALOON.MVVM.MODELS
 {
-    public class UserModel
+    public class User
     {
         public int Id { get; set; }
         public string Username { get; set; }
