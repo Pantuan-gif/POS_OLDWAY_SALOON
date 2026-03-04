@@ -10,7 +10,7 @@ using POS_OLDWAY_SALOON.MVVM.MODELS;
 
 namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 {
-    public class RegistrationViewModels : ObservableObject
+    public partial class RegistrationViewModels : ObservableObject
     {
         [ObservableProperty]
         private string email;

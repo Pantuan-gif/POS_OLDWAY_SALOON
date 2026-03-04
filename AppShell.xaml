@@ -6,9 +6,19 @@
     xmlns:local="clr-namespace:POS_OLDWAY_SALOON"
     Title="POS_OLDWAY_SALOON">
 
-    <ShellContent
+    <!--<ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage" />-->
+    
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage" />
+
+    <ShellContent
+        Title="Register"
+        ContentTemplate="{DataTemplate views:RegisterPage}"
+        Route="RegisterPage" />
 
 </Shell>

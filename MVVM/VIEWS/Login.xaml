@@ -3,10 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.Login"
              Title="Login">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel/>
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="30" Spacing="15">
+
+        <Label Text="Login"
+               FontSize="24"
+               HorizontalOptions="Center"/>
+
+        <Entry Placeholder="Email"
+               Text="{Binding Email}" />
+
+        <Entry Placeholder="Password"
+               IsPassword="True"
+               Text="{Binding Password}" />
+
+        <Button Text="Login"
+                Command="{Binding LoginCommand}" />
+
+        <Button Text="Create Account"
+                Command="{Binding GoToRegisterCommand}" />
     </VerticalStackLayout>
 </ContentPage>
