@@ -22,7 +22,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
         public ICommand LoginCommand { get; }
         public ICommand GoToRegisterCommand { get; }
 
-        public static ObservableCollection<Posmodel> posmodels = new();
+        public static ObservableCollection<User> User = new();
 
         public LoginViewModels()
         {
@@ -35,7 +35,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 
         private async void Login()
         {
-            var user = posmodels.FirstOrDefault(u =>
+            var user = User.FirstOrDefault(u =>
                 u.Email == email && u.Password == password);
 
             if (user != null)
