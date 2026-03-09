@@ -2,26 +2,44 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.Login"
+             xmlns:ViewModel="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
              Title="Login">
     
+    <ContentPage.BindingContext>
+        <ViewModel:LoginViewModels/>
+    </ContentPage.BindingContext>
 
     <VerticalStackLayout Padding="30" Spacing="15">
 
-        <Label Text="Login"
-               FontSize="24"
-               HorizontalOptions="Center"/>
+        <Label Text="Email"
+               FontSize="16"
+            />
 
         <Entry Placeholder="Email"
                Text="{Binding Email}" />
-
+        <Label Text="Password"
+                FontSize="16"
+            />
         <Entry Placeholder="Password"
                IsPassword="True"
                Text="{Binding Password}" />
-
+        
         <Button Text="Login"
                 Command="{Binding LoginCommand}" />
 
-        <Button Text="Create Account"
+        <Border Stroke="Transparent"
+                Margin="0,50,0,0">
+            <VerticalStackLayout>
+        <Label
+            Text="Don't have an Account?"
+            HorizontalTextAlignment="Center"/>
+        <Button Text="Sign up"
+                WidthRequest="100"
+                FontAttributes="Bold"
+                BackgroundColor="Transparent"
+                TextColor="{StaticResource Primary}"
                 Command="{Binding GoToRegisterCommand}" />
+            </VerticalStackLayout>
+        </Border>
     </VerticalStackLayout>
 </ContentPage>
