@@ -33,12 +33,9 @@
         <Label
             Text="Don't have an Account?"
             HorizontalTextAlignment="Center"/>
-        <Button Text="Sign up"
-                WidthRequest="100"
-                FontAttributes="Bold"
-                BackgroundColor="Transparent"
-                TextColor="{StaticResource Primary}"
-                Command="{Binding GoToRegisterCommand}" />
+            <Button Text="Sign up"
+                    Style="{StaticResource SignUp}"
+                />
             </VerticalStackLayout>
         </Border>
     </VerticalStackLayout>
