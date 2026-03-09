@@ -3,10 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.Registration"
              Title="Registration">
-    
-    <ContentPage.BindingContext>
-        <vm:RegistrationViewModel/>
-    </ContentPage.BindingContext>
 
     <VerticalStackLayout Padding="30" Spacing="15">
 

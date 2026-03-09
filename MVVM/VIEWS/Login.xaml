@@ -4,9 +4,6 @@
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.Login"
              Title="Login">
     
-    <ContentPage.BindingContext>
-        <vm:LoginViewModel/>
-    </ContentPage.BindingContext>
 
     <VerticalStackLayout Padding="30" Spacing="15">
 
