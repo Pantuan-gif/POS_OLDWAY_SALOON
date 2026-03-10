@@ -6,8 +6,15 @@
     <Style TargetType="Button" x:Key="SignUp">
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="TextColor" Value="{StaticResource Primary}"/>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary},Dark={StaticResource PrimaryDark}}"/>
         <Setter Property="WidthRequest" Value="100"/>
+    </Style>
+
+    <Style TargetType="Border" x:Key="EntryBorder">
+        <Setter Property="StrokeShape" Value="RoundRectangle 5"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stroke" Value="Black"/>
+        <Setter Property="HeightRequest" Value="40"/>
     </Style>
 
 </ResourceDictionary>
