@@ -13,31 +13,41 @@
 
         <Image Source="logonobg.png"
                HeightRequest="300"/>
+        <Border Stroke="Transparent"
+                Padding="2">
+            <VerticalStackLayout>
+                <Label Text="Email"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                    />
+                <Border Style="{StaticResource EntryBorder}">
 
-        <Label Text="Email"
-               FontAttributes="Bold"
-               FontSize="16"
-            />
-        <Border Style="{StaticResource EntryBorder}">
-
-            <Entry
-               Keyboard="Email"
-               Text="{Binding Email}" />
+                    <Entry
+                       Keyboard="Email"
+                       Text="{Binding Email}" />
+                </Border>
+            </VerticalStackLayout>
         </Border>
-        <Label Text="Password"
-               FontAttributes="Bold"
-               FontSize="16"
-            />
-        <Border Style="{StaticResource EntryBorder}">
-            <Entry
-                   Keyboard="Password"
-                   IsPassword="True"
-                   Visual="Material"
-                   Text="{Binding Password}" />
-        </Border>
-        <Button Text="Login"
-                Command="{Binding LoginCommand}" />
 
+        <Border Stroke="Transparent"
+        Padding="2">
+            <VerticalStackLayout>
+                <Label Text="Password"
+                   FontAttributes="Bold"
+                   FontSize="16"
+                />
+                <Border Style="{StaticResource EntryBorder}">
+                    <Entry
+                       Keyboard="Password"
+                       IsPassword="True"
+                       Visual="Material"
+                       Text="{Binding Password}" />
+                </Border>
+                <Button Text="Login"
+                    Margin="0,30,0,0"
+                    Command="{Binding LoginCommand}" />
+            </VerticalStackLayout>
+        </Border>
         <Border Stroke="Transparent"
                 Margin="0,40,0,0">
             <VerticalStackLayout>
