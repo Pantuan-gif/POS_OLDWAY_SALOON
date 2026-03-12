@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model ="clr-namespace:POS_OLDWAY_SALOON.MVVM.MODELS"
+             xmlns:views ="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWS"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.FlyoutMenu"
+             Title="FlyoutMenu">
+
+    <CollectionView x:Name="collectionView"
+                    x:FieldModifier="public"
+                    SelectionMode="Single">
+        <CollectionView.ItemsSource>
+            <x:Array Type="{x:Type model:FlyoutMenuItem}">
+                <model:FlyoutMenuItem Title="Home"
+                                      Icon="placeholder.png"
+                                      TargetPage="{x:Type views:Home}"/>
+                <model:FlyoutMenuItem Title="User Management"
+                                      Icon="placeholder.png"
+                                      TargetPage="{x:Type views:UserManagement}"/>
+            </x:Array>
+        </CollectionView.ItemsSource>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="model:FlyoutMenuItem">
+                <Grid Padding="5,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding IconSource}" />
+                    <Label Grid.Column="1"
+                           Margin="20,0"
+                           Text="{Binding Title}"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+                    
+</ContentPage>

@@ -29,19 +29,17 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             LoginCommand = new RelayCommand(Login);
             GoToRegisterCommand = new RelayCommand(async () =>
             {
-                //await Shell.Current.GoToAsync("//RegisterPage");
                 await Application.Current.MainPage.Navigation.PushAsync(new MVVM.VIEWS.Registration());
             });
         }
 
         private async void Login()
         {
-            var user = User.FirstOrDefault(u =>
-                u.Email == email && u.Password == password);
-
-            if (user != null)
+            
+            if (email == "admin" & password == "admind")
             {
                 await Application.Current.MainPage.DisplayAlert("Success", "Login Successful!", "OK");
+                await Application.Current.MainPage.Navigation.PushModalAsync(new MVVM.VIEWS.Dashboard());
             }
             else
             {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.Home"
+             Title="Home">
+    <VerticalStackLayout>
+        <Label 
+            Text="HOME"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Grid RowDefinitions="0.2*,0.2*,0.2*" ColumnDefinitions="0.2*,0.2*,0.2*" Margin="20">
+            <Border Grid.Row="0" Grid.Column="0" 
+                    Grid.ColumnSpan="3" 
+                    Grid.RowSpan="3"
+                    StrokeShape="RoundRectangle 15"
+                    Background="{StaticResource Primary}" HeightRequest="200">
+                <VerticalStackLayout>
+                    <Label Text="Sample"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           TextColor="Wheat"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="Center"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
