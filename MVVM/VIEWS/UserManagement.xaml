@@ -3,10 +3,149 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.UserManagement"
              Title="UserManagement">
-    <VerticalStackLayout>
-        <Label 
-            Text="User management"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <!-- PROFILE CARD -->
+        <Grid Grid.Row="0"
+              Padding="15"
+              ColumnDefinitions="80,0.2*,Auto"
+              RowDefinitions="Auto,Auto,Auto"
+              BackgroundColor="White">
+
+            <Image Source="placeholder.png"
+                   HeightRequest="70"
+                   WidthRequest="70"
+                   Aspect="AspectFill"
+                   Clip="EllipseGeometry Center=35,35 RadiusX=35 RadiusY=35"/>
+
+            <VerticalStackLayout Grid.Column="1"
+                                 Spacing="2">
+
+                <Label Text="Hans Landa"
+                       FontSize="18"
+                       FontAttributes="Bold"/>
+
+                <Label Text="Admin"
+                       FontSize="14"
+                       TextColor="Gray"/>
+
+                <HorizontalStackLayout Spacing="5">
+                    <BoxView WidthRequest="10"
+                             HeightRequest="10"
+                             BackgroundColor="Green"
+                             CornerRadius="5"/>
+                    <Label Text="Active"
+                           FontSize="12"/>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+
+            <Button Grid.Column="2"
+                    Text="+ Add User"
+                    BackgroundColor="#5B341C"
+                    TextColor="White"
+                    CornerRadius="6"
+                    HeightRequest="10"
+                    Padding="15,8"/>
+
+        </Grid>
+
+
+        <!-- SEARCH + FILTER -->
+        <Grid Grid.Row="1"
+              Padding="15"
+              ColumnDefinitions="*,Auto"
+              ColumnSpacing="10">
+
+            <SearchBar Placeholder="Search"
+                       HeightRequest="40"/>
+
+            <Button Grid.Column="1"
+                    Text="Filter by Role ▼"
+                    BackgroundColor="White"
+                    BorderColor="Black"
+                    BorderWidth="1"
+                    HeightRequest="40"/>
+
+        </Grid>
+
+
+        <!-- USER LIST -->
+        <CollectionView Grid.Row="2"
+                        Margin="10"
+                        ItemsSource="{Binding Users}">
+
+            <CollectionView.Header>
+                <Grid Padding="10"
+                      BackgroundColor="#E6E6E6"
+                      ColumnDefinitions="2*,*,*">
+
+                    <Label Text="User"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="1"
+                           Text="Role"
+                           FontAttributes="Bold"/>
+
+                    <Label Grid.Column="2"
+                           Text="Actions"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold"/>
+
+                </Grid>
+            </CollectionView.Header>
+
+
+            <CollectionView.ItemTemplate>
+
+                <DataTemplate>
+
+                    <Grid Padding="10"
+                          ColumnDefinitions="2*,*,*"
+                          RowDefinitions="Auto"
+                          BackgroundColor="White"
+                          Margin="0,0,0,2">
+
+                        <!-- USER -->
+                        <HorizontalStackLayout Spacing="10">
+
+                            <Image Source="{Binding Avatar}"
+                                   HeightRequest="40"
+                                   WidthRequest="40"
+                                   Aspect="AspectFill"
+                                   Clip="EllipseGeometry Center=20,20 RadiusX=20 RadiusY=20"/>
+
+                            <Label Text="{Binding Name}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+
+
+                        <!-- ROLE -->
+                        <Label Grid.Column="1"
+                               Text="{Binding Role}"
+                               VerticalOptions="Center"/>
+
+
+                        <!-- ACTIONS -->
+                        <HorizontalStackLayout Grid.Column="2"
+                                               HorizontalOptions="Center"
+                                               Spacing="15">
+
+                            <Image Source="placeholder.png"
+                                   HeightRequest="22"/>
+
+                            <Image Source="placeholder.png"
+                                   HeightRequest="22"/>
+
+                        </HorizontalStackLayout>
+
+                    </Grid>
+
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </Grid>
 </ContentPage>
