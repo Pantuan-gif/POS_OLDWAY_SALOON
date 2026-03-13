@@ -11,88 +11,86 @@
                FontAttributes="Bold"
                HorizontalTextAlignment="Start"
                HorizontalOptions="Center"/>
-        
-        <!--Full Names -->
-        <Border Stroke="Transparent"
-                Padding="5">
+
+        <!-- First Name -->
+        <Border Stroke="Transparent" Padding="5">
             <VerticalStackLayout>
                 <Label Text="First Name"
                        FontAttributes="Bold"
                        FontSize="16"
                        Margin="0,0,0,10"/>
                 <Border Style="{StaticResource EntryBorder}">
-                    <Entry 
-                   Visual="Default"
-                   BackgroundColor="Transparent"
-                   Text="{Binding Email}" />
+                    <Entry Visual="Default"
+                           BackgroundColor="Transparent"
+                           Text="{Binding FirstName}" />
                 </Border>
             </VerticalStackLayout>
         </Border>
-        
-        <Border Stroke="Transparent"
-        Padding="5">
+
+        <!-- Last Name -->
+        <Border Stroke="Transparent" Padding="5">
             <VerticalStackLayout>
                 <Label Text="Last Name"
-               FontAttributes="Bold"
-               FontSize="16"
-               Margin="0,0,0,10"/>
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       Margin="0,0,0,10"/>
                 <Border Style="{StaticResource EntryBorder}">
-                    <Entry
-           Visual="Default"
-           BackgroundColor="Transparent"
-           Text="{Binding Email}" />
+                    <Entry Visual="Default"
+                           BackgroundColor="Transparent"
+                           Text="{Binding LastName}" />
                 </Border>
             </VerticalStackLayout>
         </Border>
-        <!-- End of Full Name-->
-        
-        <Border Stroke="Transparent"
-        Padding="5">
+
+        <!-- Email -->
+        <Border Stroke="Transparent" Padding="5">
             <VerticalStackLayout>
                 <Label Text="Email"
-               FontAttributes="Bold"
-               FontSize="16"
-               Margin="0,0,0,10"/>
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       Margin="0,0,0,10"/>
                 <Border Style="{StaticResource EntryBorder}">
-                    <Entry  Keyboard="Email"
-                            Visual="Default"
-                            BackgroundColor="Transparent"
-                            Text="{Binding Email}" />
+                    <Entry Keyboard="Email"
+                           Visual="Default"
+                           BackgroundColor="Transparent"
+                           Text="{Binding Email}" />
                 </Border>
             </VerticalStackLayout>
         </Border>
 
-        <Border Stroke="Transparent"
-        Padding="5">
+        <!-- Password -->
+        <Border Stroke="Transparent" Padding="5">
             <VerticalStackLayout>
                 <Label Text="Password"
-               FontAttributes="Bold"
-               FontSize="16"
-               Margin="0,0,0,10"/>
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       Margin="0,0,0,10"/>
                 <Border Style="{StaticResource EntryBorder}">
-                    <Entry  Keyboard="Password"
-                            Visual="Default"
-                            BackgroundColor="Transparent"
-                            Text="{Binding Email}" />
+                    <Entry IsPassword="True"
+                           Visual="Default"
+                           BackgroundColor="Transparent"
+                           Text="{Binding Password}" />
                 </Border>
             </VerticalStackLayout>
         </Border>
 
-        <Border Stroke="Transparent"
-        Padding="5">
+        <!-- Confirm Password -->
+        <Border Stroke="Transparent" Padding="5">
             <VerticalStackLayout>
                 <Label Text="Confirm Password"
-               FontAttributes="Bold"
-               FontSize="16"
-               Margin="0,0,0,10"/>
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       Margin="0,0,0,10"/>
                 <Border Style="{StaticResource EntryBorder}">
-                    <Entry  Keyboard="Password"
-                            Visual="Default"
-                            BackgroundColor="Transparent"
-                            Text="{Binding Email}" />
+                    <Entry IsPassword="True"
+                           Visual="Default"
+                           BackgroundColor="Transparent"
+                           Text="{Binding ConfirmPassword}" />
                 </Border>
             </VerticalStackLayout>
         </Border>
+
+        <!-- Sign Up Button -->
         <Button Text="Sign Up"
                 Margin="5,0,5,0"
                 Command="{Binding RegisterCommand}" />

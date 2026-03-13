@@ -1,50 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using POS_OLDWAY_SALOON.MVVM.MODELS;
+using POS_OLDWAY_SALOON.MVVM.VIEWMODELS;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
-namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
+public partial class RegistrationViewModels : ObservableObject
 {
-    public partial class RegistrationViewModels : ObservableObject
+    [ObservableProperty]
+    private string firstName;
+
+    [ObservableProperty]
+    private string lastName;
+
+    [ObservableProperty]
+    private string email;
+
+    [ObservableProperty]
+    private string password;
+
+    [ObservableProperty]
+    private string confirmPassword;
+
+    public ICommand RegisterCommand { get; }
+
+    public RegistrationViewModels()
     {
-        [ObservableProperty]
-        private string email;
+        RegisterCommand = new AsyncRelayCommand(Register);
+    }
 
-        [ObservableProperty]
-        private string password;
+    public static ObservableCollection<User> User = new();
 
-        public ICommand RegisterCommand { get; }
-
-        public RegistrationViewModels()
+    private async Task Register()
+    {
+        if (string.IsNullOrEmpty(firstName) ||
+            string.IsNullOrEmpty(lastName) ||
+            string.IsNullOrEmpty(email) ||
+            string.IsNullOrEmpty(password) ||
+            string.IsNullOrEmpty(confirmPassword))
         {
-            RegisterCommand = new RelayCommand(Register);
+            await Shell.Current.DisplayAlert("Error", "All fields required", "OK");
+            return;
         }
-        public static ObservableCollection<User> User = new();
 
-
-        private async void Register()
+        if (password != confirmPassword)
         {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "All fields required", "OK");
-                return;
-            }
-
-            LoginViewModels.User.Add(new User
-            {
-                Email = email,
-                Password = password
-            });
-
-            await Application.Current.MainPage.DisplayAlert("Success", "Registered Successfully!", "OK");
-
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Shell.Current.DisplayAlert("Error", "Passwords do not match", "OK");
+            return;
         }
+
+        LoginViewModels.User.Add(new User
+        {
+            FirstName = firstName,
+            LastName = lastName,
+            Email = email,
+            Password = password
+        });
+
+        await Application.Current.MainPage.DisplayAlert("Success", "Registered Successfully!", "OK");
+        await Application.Current.MainPage.Navigation.PushAsync(new POS_OLDWAY_SALOON.MVVM.VIEWS.Login());
     }
 }
