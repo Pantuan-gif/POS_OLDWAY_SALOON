@@ -5,7 +5,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWS;
 
 public partial class FlyoutMenu : ContentPage
 {
-	public FlyoutMenu()
+    public FlyoutMenu()
 	{
 		InitializeComponent();
 		

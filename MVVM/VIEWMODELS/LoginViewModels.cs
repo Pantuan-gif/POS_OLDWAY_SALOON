@@ -35,20 +35,12 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 
         private async void Login()
         {
-            // Check hard-coded admin
-            if (email == "admin" && password == "admind")
-            {
-                await Application.Current.MainPage.DisplayAlert("Success", "Login Successful!", "OK");
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MVVM.VIEWS.Dashboard());
-                return;
-            }
-
             // Check registered users
             var user = User.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user != null)
             {
                 await Application.Current.MainPage.DisplayAlert("Success", $"Welcome {user.FirstName}!", "OK");
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MVVM.VIEWS.Dashboard());
+                await Application.Current.MainPage.Navigation.PushModalAsync(new MVVM.VIEWS.Dashboard(user.Id));
             }
             else
             {

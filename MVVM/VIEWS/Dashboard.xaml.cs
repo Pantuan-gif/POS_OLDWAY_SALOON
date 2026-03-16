@@ -5,8 +5,10 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWS;
 
 public partial class Dashboard : FlyoutPage
 {
-	public Dashboard()
+    int currentID;
+	public Dashboard(int Id)
 	{
+        currentID = Id;
 		InitializeComponent();
         flyoutPage.collectionView.SelectionChanged += OnSelectionChanged;
     }
@@ -16,7 +18,7 @@ public partial class Dashboard : FlyoutPage
         var item = e.CurrentSelection.FirstOrDefault() as FlyoutMenuItem;
         if (item != null)
         {
-            Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetPage));
+            Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetPage,currentID));
             if (!((IFlyoutPageController)this).ShouldShowSplitMode)
                 IsPresented = false;
         }

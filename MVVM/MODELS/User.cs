@@ -9,6 +9,8 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS
     public class User
     {
         public int Id { get; set; }
+
+        public string Role { get; set; }
         public string Password { get; set; }
 
         public string ConfirmPassword { get; set; }
@@ -17,6 +19,8 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string? ImageSource { get; set; }
 
 
     }

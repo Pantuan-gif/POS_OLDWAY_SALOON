@@ -52,9 +52,11 @@ public partial class RegistrationViewModels : ObservableObject
 
         LoginViewModels.User.Add(new User
         {
+            Id = LoginViewModels.User.Count,
             FirstName = firstName,
             LastName = lastName,
             Email = email,
+            Role = "cashier",
             Password = password
         });
 

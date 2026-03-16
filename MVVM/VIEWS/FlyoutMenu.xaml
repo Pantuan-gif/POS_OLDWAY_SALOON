@@ -5,7 +5,10 @@
              xmlns:views ="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWS"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.FlyoutMenu"
              Title="FlyoutMenu">
-
+    <ContentPage.Resources>
+        <x:Int16 x:Key="Id"></x:Int16>
+    </ContentPage.Resources>
+    
     <CollectionView x:Name="collectionView"
                     x:FieldModifier="public"
                     SelectionMode="Single">
@@ -13,7 +16,8 @@
             <x:Array Type="{x:Type model:FlyoutMenuItem}">
                 <model:FlyoutMenuItem Title="Home"
                                       Icon="placeholder.png"
-                                      TargetPage="{x:Type views:Home}"/>
+                                      TargetPage="{x:Type views:Home}"
+                                      />
                 <model:FlyoutMenuItem Title="User Management"
                                       Icon="placeholder.png"
                                       TargetPage="{x:Type views:UserManagement}"/>

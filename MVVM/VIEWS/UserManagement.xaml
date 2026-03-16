@@ -2,7 +2,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.UserManagement"
+             xmlns:ViewModel="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
              Title="UserManagement">
+    <ContentPage.Resources>
+        <x:Int16 x:Name="localID"></x:Int16>
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <ViewModel:UserManagementViewModel Id="{StaticResource localID}"/>
+    </ContentPage.BindingContext>
+
+    
     <Grid RowDefinitions="Auto,Auto,*">
 
         <!-- PROFILE CARD -->
@@ -21,11 +31,13 @@
             <VerticalStackLayout Grid.Column="1"
                                  Spacing="2">
 
-                <Label Text="Hans Landa"
-                       FontSize="18"
-                       FontAttributes="Bold"/>
+                <Label 
+                    x:Name="Fullname"
+                    Text=""
+                    FontSize="18"
+                    FontAttributes="Bold"/>
 
-                <Label Text="Admin"
+                <Label x:Name="Role"
                        FontSize="14"
                        TextColor="Gray"/>
 
