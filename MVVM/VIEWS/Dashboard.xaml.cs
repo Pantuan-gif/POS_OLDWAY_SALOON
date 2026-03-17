@@ -1,24 +1,36 @@
 using POS_OLDWAY_SALOON.MVVM.MODELS;
+using System.Collections.ObjectModel;
 
 
 namespace POS_OLDWAY_SALOON.MVVM.VIEWS;
 
 public partial class Dashboard : FlyoutPage
 {
-    int currentID;
-	public Dashboard(int Id)
+    public int currentID;
+	public Dashboard(int userId)
 	{
-        currentID = Id;
 		InitializeComponent();
         flyoutPage.collectionView.SelectionChanged += OnSelectionChanged;
+        currentID = userId;
     }
 
     void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var item = e.CurrentSelection.FirstOrDefault() as FlyoutMenuItem;
+
         if (item != null)
         {
-            Detail = new NavigationPage((Page)Activator.CreateInstance(item.TargetPage,currentID));
+            var page = (Page)Activator.CreateInstance(item.TargetPage);
+
+            // pass the ID
+            if (page is Home home)
+                home.thisId = currentID;
+
+            if (page is UserManagement user)
+                user.thisId = currentID;
+            
+            Detail = new NavigationPage(page);
+
             if (!((IFlyoutPageController)this).ShouldShowSplitMode)
                 IsPresented = false;
         }

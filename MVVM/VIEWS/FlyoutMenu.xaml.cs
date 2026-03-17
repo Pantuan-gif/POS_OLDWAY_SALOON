@@ -5,9 +5,10 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWS;
 
 public partial class FlyoutMenu : ContentPage
 {
+	public string passId {  get; set; }
     public FlyoutMenu()
 	{
 		InitializeComponent();
-		
+		Resources["Id"]= passId;
     }
 }

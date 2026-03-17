@@ -4,14 +4,6 @@
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.UserManagement"
              xmlns:ViewModel="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
              Title="UserManagement">
-    <ContentPage.Resources>
-        <x:Int16 x:Name="localID"></x:Int16>
-    </ContentPage.Resources>
-
-    <ContentPage.BindingContext>
-        <ViewModel:UserManagementViewModel Id="{StaticResource localID}"/>
-    </ContentPage.BindingContext>
-
     
     <Grid RowDefinitions="Auto,Auto,*">
 
@@ -33,12 +25,13 @@
 
                 <Label 
                     x:Name="Fullname"
-                    Text=""
+                    Text="{Binding FullName}"
                     FontSize="18"
                     FontAttributes="Bold"/>
 
                 <Label x:Name="Role"
                        FontSize="14"
+                       Text="{Binding Role}"
                        TextColor="Gray"/>
 
                 <HorizontalStackLayout Spacing="5">
@@ -85,7 +78,7 @@
         <!-- USER LIST -->
         <CollectionView Grid.Row="2"
                         Margin="10"
-                        ItemsSource="{Binding Users}">
+                        ItemsSource="{Binding User}">
 
             <CollectionView.Header>
                 <Grid Padding="10"
@@ -121,13 +114,13 @@
                         <!-- USER -->
                         <HorizontalStackLayout Spacing="10">
 
-                            <Image Source="{Binding Avatar}"
+                            <Image Source="{Binding ImageSource}"
                                    HeightRequest="40"
                                    WidthRequest="40"
                                    Aspect="AspectFill"
                                    Clip="EllipseGeometry Center=20,20 RadiusX=20 RadiusY=20"/>
 
-                            <Label Text="{Binding Name}"
+                            <Label Text="{Binding FullName}"
                                    VerticalOptions="Center"/>
                         </HorizontalStackLayout>
 
@@ -143,10 +136,10 @@
                                                HorizontalOptions="Center"
                                                Spacing="15">
 
-                            <Image Source="placeholder.png"
+                            <Image Source="edit.png"
                                    HeightRequest="22"/>
 
-                            <Image Source="placeholder.png"
+                            <Image Source="delete.png"
                                    HeightRequest="22"/>
 
                         </HorizontalStackLayout>

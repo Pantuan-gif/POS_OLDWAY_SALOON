@@ -12,7 +12,7 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS
         public string Icon { get; set; }
         public Type TargetPage { get; set; }
 
-        public object Parameter { get; set; }  
+        public string currentId { get; set; }  
     }
 
 }

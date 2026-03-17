@@ -30,8 +30,6 @@ public partial class RegistrationViewModels : ObservableObject
         RegisterCommand = new AsyncRelayCommand(Register);
     }
 
-    public static ObservableCollection<User> User = new();
-
     private async Task Register()
     {
         if (string.IsNullOrEmpty(firstName) ||

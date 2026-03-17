@@ -4,6 +4,8 @@
              xmlns:views="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWS"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.Dashboard"
              Title="Dashboard">
+    
+    
     <FlyoutPage.Flyout>
         <views:FlyoutMenu x:Name="flyoutPage"/>
     </FlyoutPage.Flyout>

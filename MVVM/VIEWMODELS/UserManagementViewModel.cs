@@ -11,23 +11,22 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 {
     public partial class UserManagementViewModel : ObservableObject
     {
+        public int CurrentId;
+
         [ObservableProperty]
-        private int id;
-        
-        private string name;
+        private string fullName;
+        [ObservableProperty]
         private string role;
 
-        public static ObservableCollection<User> User = new();
-
-        public ObservableCollection<User> currentUser { get; set; }
+        public ObservableCollection<User> User => LoginViewModels.User;
 
         public UserManagementViewModel() 
         {
-            var user = User.FirstOrDefault(x => x.Id == id);
+            var user = LoginViewModels.User.FirstOrDefault(x => x.Id == CurrentId);
 
-            if (user == null) 
+            if (user != null) 
             {
-                name = user.FirstName + " " + user.LastName;
+                fullName = user.FirstName + " " + user.LastName;
                 role = user.Role;
             }
         }

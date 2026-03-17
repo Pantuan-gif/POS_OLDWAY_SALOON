@@ -19,7 +19,7 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
+        public string FullName => $"{FirstName} {LastName}"; // computed property
         public string? ImageSource { get; set; }
 
 
