@@ -136,11 +136,15 @@
                                                HorizontalOptions="Center"
                                                Spacing="15">
 
-                            <Image Source="edit.png"
-                                   HeightRequest="22"/>
+                            <ImageButton Source="edit.png"
+                                         HeightRequest="22"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditUserCommand}"
+                                         CommandParameter="{Binding .}" />
 
-                            <Image Source="delete.png"
-                                   HeightRequest="22"/>
+                            <ImageButton Source="delete.png"
+                                         HeightRequest="22"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteUserCommand}"
+                                         CommandParameter="{Binding .}" />
 
                         </HorizontalStackLayout>
 

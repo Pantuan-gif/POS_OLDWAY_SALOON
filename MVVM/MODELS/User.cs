@@ -22,6 +22,8 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS
         public string FullName => $"{FirstName} {LastName}"; // computed property
         public string? ImageSource { get; set; }
 
+        public bool IsActive { get; set; }
+
 
     }
 }

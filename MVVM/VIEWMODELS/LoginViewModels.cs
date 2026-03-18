@@ -26,17 +26,19 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 
         public LoginViewModels()
         {
-            LoginViewModels.User.Add(
-                new User
+            if (User.Count == 0) 
             {
-                Id = LoginViewModels.User.Count,
-                FirstName = "Admin",
-                LastName = "admin",
-                Email = "admin",
-                Role = "Admin",
-                Password = "admin"
-            });
-
+                LoginViewModels.User.Add(new User
+                {
+                    Id = 0,
+                    FirstName = "john",
+                    LastName = "admin",
+                    Email = "admin",
+                    Password = "admin",
+                    Role = "admin",
+                    ImageSource = "default.png"
+                });
+            }
             LoginCommand = new RelayCommand(Login);
             GoToRegisterCommand = new RelayCommand(async () =>
             {

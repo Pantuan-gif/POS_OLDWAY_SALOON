@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.EditUserPage"
+             Title="Edit Profile"
+             BackgroundColor="#F3F3F3">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <!-- PROFILE IMAGE -->
+            <Grid HorizontalOptions="Center">
+
+                <Image Source="{Binding ImageSource}"
+                       HeightRequest="140"
+                       WidthRequest="140"
+                       Aspect="AspectFill">
+                    <Image.Clip>
+                        <EllipseGeometry Center="70,70"
+                                         RadiusX="70"
+                                         RadiusY="70"/>
+                    </Image.Clip>
+                </Image>
+
+                <ImageButton Source="camera.png"
+                             HeightRequest="35"
+                             WidthRequest="35"
+                             BackgroundColor="White"
+                             CornerRadius="20"
+                             HorizontalOptions="End"
+                             VerticalOptions="End"
+                             Command="{Binding ChangePhotoCommand}"/>
+            </Grid>
+
+            <Label Text="{Binding Id}"
+                   HorizontalOptions="Center"
+                   FontSize="18"
+                   FontAttributes="Bold"/>
+
+            <!-- FULL NAME -->
+            <Label Text="Full Name"/>
+            <Entry Text="{Binding FullName}" />
+
+            <!-- EMAIL -->
+            <Label Text="Email Address"/>
+            <Entry Text="{Binding Email}" />
+
+            <!-- ROLE -->
+            <Label Text="Role"/>
+            <Picker ItemsSource="{Binding Roles}"
+                    SelectedItem="{Binding Role}" />
+
+            <!-- USERNAME -->
+            <Label Text="Username"/>
+            <Entry Text="{Binding Username}" />
+
+            <!-- PASSWORD -->
+            <Label Text="Password"/>
+            <Grid ColumnDefinitions="*,Auto">
+                <Entry Grid.Column="0"
+                       Text="{Binding Password}"
+                       IsPassword="{Binding IsPasswordHidden}" />
+
+                <ImageButton Grid.Column="1"
+                             Source="eye.png"
+                             Command="{Binding TogglePasswordCommand}"/>
+            </Grid>
+
+            <!-- STATUS -->
+            <Label Text="Status"/>
+            <HorizontalStackLayout Spacing="20">
+
+                <RadioButton Content="Active"
+                             IsChecked="{Binding IsActive}" />
+
+                <RadioButton Content="Inactive"
+                             IsChecked="{Binding IsInactive}" />
+            </HorizontalStackLayout>
+
+            <!-- SAVE BUTTON -->
+            <Button Text="Save Changes"
+                    BackgroundColor="#5B341C"
+                    TextColor="White"
+                    Command="{Binding SaveCommand}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

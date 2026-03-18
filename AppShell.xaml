@@ -21,5 +21,10 @@
         Title="Register"
         ContentTemplate="{DataTemplate views:Registration}"
         Route="RegisterPage" />
+    <ShellContent
+    Title="Edit User"
+    ContentTemplate="{DataTemplate views:EditUserPage}"
+    Route="RegisterPage" />
+
 
 </Shell>
