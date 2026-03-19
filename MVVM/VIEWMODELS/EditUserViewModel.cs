@@ -10,8 +10,8 @@ public partial class EditUserViewModel : ObservableObject
 {
     private User originalUser;
 
-    [ObservableProperty] private int id;
-    [ObservableProperty] private string fullName;
+    [ObservableProperty] private string firstname;
+    [ObservableProperty] private string lasname;
     [ObservableProperty] private string email;
     [ObservableProperty] private string role;
     [ObservableProperty] private string username;
@@ -32,8 +32,8 @@ public partial class EditUserViewModel : ObservableObject
 
             if (value == null) return;
 
-            Id = value.Id;
-            FullName = value.FirstName + " " + value.LastName;
+            Firstname = value.FirstName;
+            Lasname = value.LastName;
             Email = value.Email;
             Role = value.Role;
             Password = value.Password;
@@ -71,10 +71,9 @@ public partial class EditUserViewModel : ObservableObject
         if (originalUser == null)
             return;
 
-        var nameParts = FullName.Split(' ');
 
-        originalUser.FirstName = nameParts[0];
-        originalUser.LastName = nameParts.Length > 1 ? nameParts[1] : "";
+        originalUser.FirstName = Firstname;
+        originalUser.LastName = Lasname;
         originalUser.Email = Email;
         originalUser.Role = Role;
         originalUser.Password = Password;
@@ -83,6 +82,6 @@ public partial class EditUserViewModel : ObservableObject
 
         await Application.Current.MainPage.DisplayAlert("Success", "User Updated", "OK");
 
-        await Shell.Current.GoToAsync("..");
+        await Application.Current.MainPage.Navigation.PopModalAsync(); ;
     }
 }

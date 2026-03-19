@@ -55,10 +55,11 @@ public partial class RegistrationViewModels : ObservableObject
             LastName = lastName,
             Email = email,
             Role = "cashier",
-            Password = password
+            Password = password,
+            ImageSource = "nullpfp.png"
         });
 
         await Application.Current.MainPage.DisplayAlert("Success", "Registered Successfully!", "OK");
-        await Application.Current.MainPage.Navigation.PushAsync(new POS_OLDWAY_SALOON.MVVM.VIEWS.Login());
+        await Application.Current.MainPage.Navigation.PopModalAsync();
     }
 }

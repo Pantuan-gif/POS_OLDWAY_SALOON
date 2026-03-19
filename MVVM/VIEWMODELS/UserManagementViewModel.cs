@@ -34,6 +34,11 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
                 role = user.Role;
             }
         }
+        [RelayCommand]
+        private async Task AddUser() 
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new Registration("Add User"));
+        }
 
         [RelayCommand]
         private async Task EditUser(User user)
@@ -41,7 +46,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             if (user == null)
                 return;
 
-            await Application.Current.MainPage.Navigation.PushAsync(
+            await Application.Current.MainPage.Navigation.PushModalAsync(
                 new EditUserPage(user));
         }
 

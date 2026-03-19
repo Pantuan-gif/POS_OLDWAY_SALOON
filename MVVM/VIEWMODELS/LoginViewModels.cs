@@ -36,13 +36,13 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
                     Email = "admin",
                     Password = "admin",
                     Role = "admin",
-                    ImageSource = "default.png"
+                    ImageSource = "nullpfp.png"
                 });
             }
             LoginCommand = new RelayCommand(Login);
             GoToRegisterCommand = new RelayCommand(async () =>
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new MVVM.VIEWS.Registration());
+                await Application.Current.MainPage.Navigation.PushAsync(new MVVM.VIEWS.Registration("Register"));
             });
         }
         private async void Login()
@@ -51,8 +51,9 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             var user = User.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user != null)
             {
+                var navi =Application.Current.MainPage.Navigation;
                 await Application.Current.MainPage.DisplayAlert("Success", $"Welcome {user.FirstName}!", "OK");
-                await Application.Current.MainPage.Navigation.PushModalAsync(new MVVM.VIEWS.Dashboard(user.Id));
+                await navi.PushModalAsync(new MVVM.VIEWS.Dashboard(user.Id));
             }
             else
             {

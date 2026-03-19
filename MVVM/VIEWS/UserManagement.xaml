@@ -14,7 +14,7 @@
               RowDefinitions="Auto,Auto,Auto"
               BackgroundColor="White">
 
-            <Image Source="placeholder.png"
+            <Image Source="{Binding ImageSource}"
                    HeightRequest="70"
                    WidthRequest="70"
                    Aspect="AspectFill"
@@ -47,6 +47,7 @@
 
             <Button Grid.Column="2"
                     Text="+ Add User"
+                    Command="{Binding AddUserCommand}"
                     BackgroundColor="#5B341C"
                     TextColor="White"
                     CornerRadius="6"

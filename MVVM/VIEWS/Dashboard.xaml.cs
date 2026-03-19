@@ -13,8 +13,7 @@ public partial class Dashboard : FlyoutPage
         flyoutPage.collectionView.SelectionChanged += OnSelectionChanged;
         currentID = userId;
     }
-
-    void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         var item = e.CurrentSelection.FirstOrDefault() as FlyoutMenuItem;
 
@@ -29,10 +28,10 @@ public partial class Dashboard : FlyoutPage
             if (page is UserManagement user)
                 user.thisId = currentID;
             
-            Detail = new NavigationPage(page);
+            await Application.Current.MainPage.Navigation.PushModalAsync(page);
 
-            if (!((IFlyoutPageController)this).ShouldShowSplitMode)
-                IsPresented = false;
+            //if (!((IFlyoutPageController)this).ShouldShowSplitMode)
+                //IsPresented = false;
         }
     }
 }

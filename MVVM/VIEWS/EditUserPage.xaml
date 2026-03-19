@@ -33,14 +33,11 @@
                              Command="{Binding ChangePhotoCommand}"/>
             </Grid>
 
-            <Label Text="{Binding Id}"
-                   HorizontalOptions="Center"
-                   FontSize="18"
-                   FontAttributes="Bold"/>
-
             <!-- FULL NAME -->
-            <Label Text="Full Name"/>
-            <Entry Text="{Binding FullName}" />
+            <Label Text="First Name"/>
+            <Entry Text="{Binding FirstName}" />
+            <Label Text="Last Name"/>
+            <Entry Text="{Binding LastName}" />
 
             <!-- EMAIL -->
             <Label Text="Email Address"/>
@@ -50,10 +47,6 @@
             <Label Text="Role"/>
             <Picker ItemsSource="{Binding Roles}"
                     SelectedItem="{Binding Role}" />
-
-            <!-- USERNAME -->
-            <Label Text="Username"/>
-            <Entry Text="{Binding Username}" />
 
             <!-- PASSWORD -->
             <Label Text="Password"/>
