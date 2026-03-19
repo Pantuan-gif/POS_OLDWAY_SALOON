@@ -9,6 +9,7 @@ namespace POS_OLDWAY_SALOON
         public MainApplication(IntPtr handle, JniHandleOwnership ownership)
             : base(handle, ownership)
         {
+
         }
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();

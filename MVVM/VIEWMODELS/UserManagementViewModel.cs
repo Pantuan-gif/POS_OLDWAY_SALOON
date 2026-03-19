@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,6 +21,8 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
         [ObservableProperty]
         private string role;
         [ObservableProperty]
+        private string image;
+        [ObservableProperty]
         private User selectedUser;
 
         public ObservableCollection<User> User => LoginViewModels.User;
@@ -31,6 +34,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             if (user != null) 
             {
                 fullName = user.FirstName + " " + user.LastName;
+                image = user.ImageSource;
                 role = user.Role;
             }
         }

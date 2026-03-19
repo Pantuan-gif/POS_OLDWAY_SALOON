@@ -30,7 +30,7 @@
                         <ColumnDefinition Width="30"/>
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Image Source="{Binding IconSource}" />
+                    <Image Source="{Binding Icon}" />
                     <Label Grid.Column="1"
                            Margin="20,0"
                            Text="{Binding Title}"

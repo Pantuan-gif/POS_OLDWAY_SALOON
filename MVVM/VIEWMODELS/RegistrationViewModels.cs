@@ -24,10 +24,15 @@ public partial class RegistrationViewModels : ObservableObject
     private string confirmPassword;
 
     public ICommand RegisterCommand { get; }
+    public ICommand CancelCommand { get; }
 
     public RegistrationViewModels()
     {
         RegisterCommand = new AsyncRelayCommand(Register);
+        CancelCommand = new AsyncRelayCommand(async () => 
+        {
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        });
     }
 
     private async Task Register()
@@ -54,7 +59,7 @@ public partial class RegistrationViewModels : ObservableObject
             FirstName = firstName,
             LastName = lastName,
             Email = email,
-            Role = "cashier",
+            Role = "Cashier",
             Password = password,
             ImageSource = "nullpfp.png"
         });

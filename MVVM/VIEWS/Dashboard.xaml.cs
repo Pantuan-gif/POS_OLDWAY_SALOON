@@ -23,15 +23,20 @@ public partial class Dashboard : FlyoutPage
 
             // pass the ID
             if (page is Home home)
+            {
                 home.thisId = currentID;
+            }
+            
 
             if (page is UserManagement user)
+            {
                 user.thisId = currentID;
-            
-            await Application.Current.MainPage.Navigation.PushModalAsync(page);
 
-            //if (!((IFlyoutPageController)this).ShouldShowSplitMode)
-                //IsPresented = false;
+            }
+            Detail = new NavigationPage(page);
+
+            if (!((IFlyoutPageController)this).ShouldShowSplitMode)
+            IsPresented = false;
         }
     }
 }

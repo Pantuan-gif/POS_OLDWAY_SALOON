@@ -14,7 +14,7 @@
               RowDefinitions="Auto,Auto,Auto"
               BackgroundColor="White">
 
-            <Image Source="{Binding ImageSource}"
+            <Image Source="{Binding Image}"
                    HeightRequest="70"
                    WidthRequest="70"
                    Aspect="AspectFill"
@@ -107,13 +107,13 @@
                 <DataTemplate>
 
                     <Grid Padding="10"
-                          ColumnDefinitions="2*,*,*"
+                          ColumnDefinitions="2*,*,auto"
                           RowDefinitions="Auto"
                           BackgroundColor="White"
                           Margin="0,0,0,2">
 
                         <!-- USER -->
-                        <HorizontalStackLayout Spacing="10">
+                        <HorizontalStackLayout Grid.Column="0" Spacing="10">
 
                             <Image Source="{Binding ImageSource}"
                                    HeightRequest="40"
@@ -138,12 +138,14 @@
                                                Spacing="15">
 
                             <ImageButton Source="edit.png"
-                                         HeightRequest="22"
+                                         HeightRequest="24"
+                                         WidthRequest="24"
                                          Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditUserCommand}"
                                          CommandParameter="{Binding .}" />
 
                             <ImageButton Source="delete.png"
-                                         HeightRequest="22"
+                                         HeightRequest="24"
+                                         WidthRequest="24"
                                          Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteUserCommand}"
                                          CommandParameter="{Binding .}" />
 

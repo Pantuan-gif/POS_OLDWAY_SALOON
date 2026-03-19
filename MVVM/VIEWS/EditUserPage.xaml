@@ -35,31 +35,42 @@
 
             <!-- FULL NAME -->
             <Label Text="First Name"/>
-            <Entry Text="{Binding FirstName}" />
+            <Border Style="{StaticResource EntryBorder}">
+                <Entry Text="{Binding Firstname}" />
+            </Border>
+            
             <Label Text="Last Name"/>
-            <Entry Text="{Binding LastName}" />
+            <Border Style="{StaticResource EntryBorder}">
+                <Entry Text="{Binding Lastname}" />
+            </Border>
 
             <!-- EMAIL -->
             <Label Text="Email Address"/>
+            <Border Style="{StaticResource EntryBorder}">
             <Entry Text="{Binding Email}" />
+            </Border>
 
             <!-- ROLE -->
             <Label Text="Role"/>
-            <Picker ItemsSource="{Binding Roles}"
+            <Border Style="{StaticResource EntryBorder}">
+                <Picker ItemsSource="{Binding Roles}"
                     SelectedItem="{Binding Role}" />
+            </Border>
 
             <!-- PASSWORD -->
             <Label Text="Password"/>
-            <Grid ColumnDefinitions="*,Auto">
-                <Entry Grid.Column="0"
+            <Border Style="{StaticResource EntryBorder}">
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <Entry Grid.Column="0"
                        Text="{Binding Password}"
                        IsPassword="{Binding IsPasswordHidden}" />
 
-                <ImageButton Grid.Column="1"
+                    <ImageButton Grid.Column="1"
                              Source="eye.png"
                              Command="{Binding TogglePasswordCommand}"/>
-            </Grid>
-
+                </Grid>
+            </Border>
             <!-- STATUS -->
             <Label Text="Status"/>
             <HorizontalStackLayout Spacing="20">

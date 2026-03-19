@@ -7,7 +7,9 @@ public partial class EditUserPage : ContentPage
 	public EditUserPage(User user)
 	{
 		InitializeComponent();
-        BindingContext = new EditUserViewModel();
+		var vm = new EditUserViewModel();
+		vm.User = user;
+        BindingContext = vm;
 
     }
 }

@@ -11,7 +11,7 @@ public partial class EditUserViewModel : ObservableObject
     private User originalUser;
 
     [ObservableProperty] private string firstname;
-    [ObservableProperty] private string lasname;
+    [ObservableProperty] private string lastname;
     [ObservableProperty] private string email;
     [ObservableProperty] private string role;
     [ObservableProperty] private string username;
@@ -33,12 +33,11 @@ public partial class EditUserViewModel : ObservableObject
             if (value == null) return;
 
             Firstname = value.FirstName;
-            Lasname = value.LastName;
+            Lastname = value.LastName;
             Email = value.Email;
             Role = value.Role;
             Password = value.Password;
             ImageSource = value.ImageSource;
-
             IsActive = value.IsActive;
             IsInactive = !value.IsActive;
         }
@@ -73,7 +72,7 @@ public partial class EditUserViewModel : ObservableObject
 
 
         originalUser.FirstName = Firstname;
-        originalUser.LastName = Lasname;
+        originalUser.LastName = Lastname;
         originalUser.Email = Email;
         originalUser.Role = Role;
         originalUser.Password = Password;

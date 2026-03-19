@@ -6,7 +6,7 @@
 
     <VerticalStackLayout Padding="30" Spacing="15">
 
-        <Label Text="Create Your Account"
+        <Label Text="Create A Account"
                FontSize="50"
                FontAttributes="Bold"
                HorizontalTextAlignment="Start"
@@ -94,5 +94,12 @@
         <Button Text="Sign Up"
                 Margin="5,0,5,0"
                 Command="{Binding RegisterCommand}" />
+        <Button Text="Cancel"
+                BorderColor="Black"
+                BorderWidth="1"
+                BackgroundColor="White"
+                TextColor="Black"
+                Margin="5,0,5,0"
+                Command="{Binding CancelCommand}" />
     </VerticalStackLayout>
 </ContentPage>
