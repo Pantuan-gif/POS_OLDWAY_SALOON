@@ -64,14 +64,22 @@
               ColumnSpacing="10">
 
             <SearchBar Placeholder="Search"
-                       HeightRequest="40"/>
+                       Text="{Binding SearchText}"
+                       SearchCommand="{Binding SearchCommand}"/>
 
-            <Button Grid.Column="1"
-                    Text="Filter by Role ▼"
-                    BackgroundColor="White"
-                    BorderColor="Black"
-                    BorderWidth="1"
-                    HeightRequest="40"/>
+            <Picker Grid.Column="1"
+        Title="Filter"
+        SelectedItem="{Binding SelectedFilter}">
+
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Name</x:String>
+                        <x:String>Role</x:String>
+                        <x:String>Status</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+
+            </Picker>
 
         </Grid>
 
@@ -79,7 +87,7 @@
         <!-- USER LIST -->
         <CollectionView Grid.Row="2"
                         Margin="10"
-                        ItemsSource="{Binding User}">
+                        ItemsSource="{Binding SearchResults}">
 
             <CollectionView.Header>
                 <Grid Padding="10"

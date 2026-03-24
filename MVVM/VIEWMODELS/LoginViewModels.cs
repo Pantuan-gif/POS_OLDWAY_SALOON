@@ -43,7 +43,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             LoginCommand = new RelayCommand(Login);
             GoToRegisterCommand = new RelayCommand(async () =>
             {
-                await Application.Current.MainPage.Navigation.PushAsync(new Registration("Register"));
+                await Application.Current.MainPage.Navigation.PushModalAsync(new Registration("Register"));
             });
         }
         private async void Login()

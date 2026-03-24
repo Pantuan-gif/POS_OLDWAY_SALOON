@@ -63,9 +63,7 @@ public partial class EditUserViewModel : ObservableObject
             ImageSource = result.FullPath;
         }
     }
-
-    [RelayCommand]
-    private async Task Save()
+    public async void Save()
     {
         if (originalUser == null)
             return;
@@ -80,7 +78,9 @@ public partial class EditUserViewModel : ObservableObject
         originalUser.IsActive = IsActive;
 
         await Application.Current.MainPage.DisplayAlert("Success", "User Updated", "OK");
+        
+        
+       // await Application.Current.MainPage.Navigation.PopModalAsync(); ;
 
-        await Application.Current.MainPage.Navigation.PopModalAsync(); ;
     }
 }

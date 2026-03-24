@@ -26,6 +26,13 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
         private User selectedUser;
 
         public ObservableCollection<User> User => LoginViewModels.User;
+        [ObservableProperty]
+        private string searchText;
+
+        [ObservableProperty]
+        private string selectedFilter; // "Name", "Role", "Status"
+
+        public ObservableCollection<User> SearchResults { get; set; }
 
         public UserManagementViewModel() 
         {
@@ -37,11 +44,65 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
                 image = user.ImageSource;
                 role = user.Role;
             }
+            SearchResults = new ObservableCollection<User>(User);
+
+            var user1 = User.FirstOrDefault(x => x.Id == CurrentId);
+
+            if (user1 != null)
+            {
+                FullName = user1.FirstName + " " + user1.LastName;
+                Image = user1.ImageSource;
+                Role = user1.Role;
+            }
+        }
+
+        [RelayCommand]
+        private void Search()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                SearchResults = new ObservableCollection<User>(User);
+                OnPropertyChanged(nameof(SearchResults));
+                return;
+            }
+
+            var filtered = User.Where(u =>
+            {
+                switch (SelectedFilter)
+                {
+                    case "Role":
+                        return u.Role?.ToLower().Contains(SearchText.ToLower()) == true;
+
+                    case "Status":
+                        return u.IsActive.ToString().ToLower().Contains(SearchText.ToLower());
+
+                    default: // Name
+                        return (u.FirstName + " " + u.LastName)
+                            .ToLower()
+                            .Contains(SearchText.ToLower());
+                }
+            });
+
+            SearchResults = new ObservableCollection<User>(filtered);
+            OnPropertyChanged(nameof(SearchResults));
+        }
+
+        partial void OnSearchTextChanged(string value)
+        {
+            Search();
         }
         [RelayCommand]
         private async Task AddUser() 
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new Registration("Add User"));
+            var page = new Registration("Add user");
+
+            await Application.Current.MainPage.Navigation.PushModalAsync(page);
+
+            // Wait until modal closes
+            await page.WaitForCloseAsync();
+
+            // Refresh search / UI
+            Search();
         }
 
         [RelayCommand]
@@ -50,10 +111,16 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             if (user == null)
                 return;
 
-            await Application.Current.MainPage.Navigation.PushModalAsync(
-                new EditUserPage(user));
-        }
+            var page = new EditUserPage(user);
 
+            await Application.Current.MainPage.Navigation.PushModalAsync(page);
+
+            // Wait until modal closes
+            await page.WaitForCloseAsync();
+
+            // Refresh search / UI
+            Search();
+        }
 
         [RelayCommand]
         private async Task DeleteUser(User user)

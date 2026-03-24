@@ -91,15 +91,15 @@
         </Border>
 
         <!-- Sign Up Button -->
-        <Button Text="Sign Up"
+        <Button Text="Register"
                 Margin="5,0,5,0"
-                Command="{Binding RegisterCommand}" />
+                Clicked="Button_Clicked" />
         <Button Text="Cancel"
                 BorderColor="Black"
                 BorderWidth="1"
                 BackgroundColor="White"
                 TextColor="Black"
                 Margin="5,0,5,0"
-                Command="{Binding CancelCommand}" />
+                Clicked="Button_Clicked" />
     </VerticalStackLayout>
 </ContentPage>

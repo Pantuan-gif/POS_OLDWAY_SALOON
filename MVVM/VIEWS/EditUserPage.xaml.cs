@@ -4,12 +4,23 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWS;
 
 public partial class EditUserPage : ContentPage
 {
-	public EditUserPage(User user)
+    private TaskCompletionSource<bool> _tcs = new();
+
+    public Task WaitForCloseAsync() => _tcs.Task;
+    EditUserViewModel vm = new EditUserViewModel();
+    public EditUserPage(User user)
 	{
 		InitializeComponent();
-		var vm = new EditUserViewModel();
+		
 		vm.User = user;
         BindingContext = vm;
 
+    }
+    private async void OnSaveCommand(object sender, EventArgs e)
+    {
+        // Save logic here (modify the SAME user)
+        _tcs.TrySetResult(true);
+        vm.Save();
+        await Navigation.PopModalAsync();
     }
 }

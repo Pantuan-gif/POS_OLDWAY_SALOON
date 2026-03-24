@@ -23,19 +23,13 @@ public partial class RegistrationViewModels : ObservableObject
     [ObservableProperty]
     private string confirmPassword;
 
-    public ICommand RegisterCommand { get; }
-    public ICommand CancelCommand { get; }
 
     public RegistrationViewModels()
     {
-        RegisterCommand = new AsyncRelayCommand(Register);
-        CancelCommand = new AsyncRelayCommand(async () => 
-        {
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-        });
+       
     }
 
-    private async Task Register()
+    public async void Register()
     {
         if (string.IsNullOrEmpty(firstName) ||
             string.IsNullOrEmpty(lastName) ||
@@ -61,10 +55,9 @@ public partial class RegistrationViewModels : ObservableObject
             Email = email,
             Role = "Cashier",
             Password = password,
-            ImageSource = "nullpfp.png"
+            ImageSource = "nullprofile.png"
         });
 
         await Application.Current.MainPage.DisplayAlert("Success", "Registered Successfully!", "OK");
-        await Application.Current.MainPage.Navigation.PopModalAsync();
     }
 }

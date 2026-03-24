@@ -23,7 +23,7 @@
                     </Image.Clip>
                 </Image>
 
-                <ImageButton Source="camera.png"
+                <ImageButton Source="edit.png"
                              HeightRequest="35"
                              WidthRequest="35"
                              BackgroundColor="White"
@@ -86,7 +86,7 @@
             <Button Text="Save Changes"
                     BackgroundColor="#5B341C"
                     TextColor="White"
-                    Command="{Binding SaveCommand}" />
+                    Clicked="OnSaveCommand" />
 
         </VerticalStackLayout>
     </ScrollView>

@@ -8,6 +8,7 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS
 {
     public class User
     {
+
         public int Id { get; set; }
 
         public string Role { get; set; }
