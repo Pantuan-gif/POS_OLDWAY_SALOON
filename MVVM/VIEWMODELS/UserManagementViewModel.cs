@@ -34,11 +34,11 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 
         public ObservableCollection<User> SearchResults { get; set; }
 
-        public UserManagementViewModel() 
+        public UserManagementViewModel()
         {
             var user = LoginViewModels.User.FirstOrDefault(x => x.Id == CurrentId);
 
-            if (user != null) 
+            if (user != null)
             {
                 fullName = user.FirstName + " " + user.LastName;
                 image = user.ImageSource;
@@ -92,7 +92,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             Search();
         }
         [RelayCommand]
-        private async Task AddUser() 
+        private async Task AddUser()
         {
             var page = new Registration("Add user");
 

@@ -9,11 +9,36 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using POS_OLDWAY_SALOON.MVVM.MODELS;
 using POS_OLDWAY_SALOON.MVVM.VIEWS;
+using POS_OLDWAY_SALOON.Services;
 
 namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 {
     public partial class LoginViewModels : ObservableObject
     {
+        //APISERVICES api = new APISERVICES();
+
+        //public string Email { get; set; }
+        //public string Password { get; set; }
+        //public Command LoginCommand { get; set; }
+
+        //public LoginViewModels()
+        //{
+        //    LoginCommand = new Command(Login);
+        //}
+
+        //private async void Login(object obj)
+        //{
+        //    var user = await api.Login(Email, Password);
+
+        //    if (user != null)
+        //    {
+        //        Application.Current.MainPage = new FlyoutMenu();
+        //    }
+        //    else
+        //    {
+        //        await Application.Current.MainPage.DisplayAlert("Error", "Invalid Credentials", "Okay");
+        //    }
+        //}
         [ObservableProperty]
         private string email;
 
@@ -27,7 +52,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 
         public LoginViewModels()
         {
-            if (User.Count == 0) 
+            if (User.Count == 0)
             {
                 LoginViewModels.User.Add(new User
                 {
