@@ -13,7 +13,7 @@
             <x:Array Type="{x:Type model:FlyoutMenuItem}">
                 <model:FlyoutMenuItem Title="Home"
                                       Icon="placeholder.png"
-                                      TargetPage="{x:Type views:Home}"
+                                      TargetPage="{x:Type views:DashboardView}"
                             
                                       />
                 <model:FlyoutMenuItem Title="User Management"

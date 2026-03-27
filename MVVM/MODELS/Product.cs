@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+namespace POS_OLDWAY_SALOON.MVVM.MODELS;
 
-namespace POS_OLDWAY_SALOON.MVVM.MODELS
+public class Product
 {
-    internal class Product
-    {
-        public int Id { get; set; }
+    public int ProductId { get; set; }
+    public string ProductName { get; set; } = string.Empty;
+    public string CategoryName { get; set; } = string.Empty;
+    public double SizeMl { get; set; }
+    public decimal Price { get; set; }
+    public int Quantity { get; set; }
+    public string PhotoPath { get; set; } = string.Empty;
 
-        public string Name { get; set; }
-
-        public double Price { get; set; }
-
-        public string Description { get;set; }
-
-        public string ImageSrc { get; set; }
-    }
+    public string PriceDisplay => $"${Price:F2}";
+    public string SizeDisplay => $"Size: {SizeMl}ml";
+    public string StockDisplay => $"Stock: {Quantity}";
 }

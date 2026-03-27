@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
+             xmlns:models="clr-namespace:POS_OLDWAY_SALOON.MVVM.MODELS"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.DashboardView"
+             x:DataType="vm:DashboardViewModel"
+             BackgroundColor="#FFFFFF"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <vm:DashboardViewModel />
+    </ContentPage.BindingContext>
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- ── Transaction Row DataTemplate ── -->
+            <DataTemplate x:Key="TransactionTemplate" x:DataType="models:Transaction">
+                <VerticalStackLayout Spacing="0">
+                    <Grid Padding="14,14"
+                          ColumnDefinitions="56,*,Auto"
+                          ColumnSpacing="10">
+
+                        <!-- Product Image -->
+                        <Frame Grid.Column="0"
+                               Padding="4"
+                               CornerRadius="8"
+                               HasShadow="False"
+                               BorderColor="{StaticResource DividerColor}"
+                               BackgroundColor="{StaticResource TextWhite}"
+                               HeightRequest="52"
+                               WidthRequest="52"
+                               IsClippedToBounds="True"
+                               VerticalOptions="Center">
+                            <Image Source="{Binding ImageSource}"
+                                   Aspect="AspectFit"
+                                   HeightRequest="44"
+                                   WidthRequest="44" />
+                        </Frame>
+
+                        <!-- Product Info -->
+                        <VerticalStackLayout Grid.Column="1"
+                                             Spacing="2"
+                                             VerticalOptions="Center">
+                            <Label Text="{Binding ProductName}"
+                                   FontSize="15"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource BrandDark}" />
+                            <Label Text="{Binding DateCategoryDisplay}"
+                                   FontSize="12"
+                                   TextColor="{StaticResource TextGray}" />
+                        </VerticalStackLayout>
+
+                        <!-- Amount & Quantity -->
+                        <VerticalStackLayout Grid.Column="2"
+                                             Spacing="2"
+                                             VerticalOptions="Center"
+                                             HorizontalOptions="End">
+                            <Label Text="{Binding AmountDisplay}"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AccentGreen}"
+                                   HorizontalOptions="End" />
+                            <Label Text="{Binding QuantityDisplay}"
+                                   FontSize="12"
+                                   TextColor="{StaticResource BrandGold}"
+                                   HorizontalOptions="End" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Row Divider -->
+                    <BoxView HeightRequest="1"
+                             Color="{StaticResource DividerColor}"
+                             Margin="14,0" />
+                </VerticalStackLayout>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <!--  ROOT                                                                -->
+    <!-- ════════════════════════════════════════════════════════════════════ -->
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- ── HEADER ── -->
+            <Grid Padding="16,14"
+                  BackgroundColor="{StaticResource TextWhite}"
+                  ColumnDefinitions="Auto,*,Auto">
+
+                <ImageButton Grid.Column="0"
+                             Source="menu_icon.png"
+                             HeightRequest="22"
+                             WidthRequest="22"
+                             Padding="0"
+                             BackgroundColor="Transparent"
+                             VerticalOptions="Center" />
+
+                <Label Grid.Column="1"
+                       Text="OLDWAY SALOON"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource BrandGold}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       CharacterSpacing="2" />
+
+                <BoxView Grid.Column="2" WidthRequest="22" Color="Transparent" />
+            </Grid>
+
+            <!-- Divider -->
+            <BoxView HeightRequest="1" Color="{StaticResource DividerColor}" />
+
+            <!-- ── NAV TABS ── -->
+            <HorizontalStackLayout Padding="12,10"
+                                   Spacing="8"
+                                   BackgroundColor="{StaticResource TextWhite}">
+                <Button Text="Products"
+                        Style="{StaticResource NavButtonStyle}"
+                        Command="{Binding GoToProductsCommand}" />
+                <Button Text="Inventory"
+                        Style="{StaticResource NavButtonStyle}"
+                        Command="{Binding GoToInventoryCommand}" />
+                <Button Text="Reports"
+                        Style="{StaticResource NavButtonStyle}"
+                        Command="{Binding GoToReportsCommand}" />
+            </HorizontalStackLayout>
+
+            <!-- ── BODY ── -->
+            <VerticalStackLayout Padding="12,4,12,20" Spacing="0">
+
+                <!-- Dashboard Title -->
+                <Label Text="Dashboard"
+                       Style="{StaticResource SectionHeaderStyle}"
+                       Margin="4,8,0,10" />
+
+                <!-- ── STAT CARDS ── -->
+                <Grid ColumnDefinitions="*,*"
+                      RowDefinitions="Auto,Auto"
+                      ColumnSpacing="0"
+                      RowSpacing="0">
+
+                    <!-- Cashier -->
+                    <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource StatCardStyle}">
+                        <VerticalStackLayout Spacing="2">
+                            <HorizontalStackLayout Spacing="6">
+                                <Label Text="🧾" FontSize="16" VerticalOptions="Center" />
+                                <Label Text="Cashier" Style="{StaticResource CardTitleStyle}" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding CashierCount}" Style="{StaticResource CardValueStyle}" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Inventory -->
+                    <Frame Grid.Row="0" Grid.Column="1" Style="{StaticResource StatCardStyle}">
+                        <VerticalStackLayout Spacing="2">
+                            <HorizontalStackLayout Spacing="6">
+                                <Label Text="📋" FontSize="16" VerticalOptions="Center" />
+                                <Label Text="Inventory" Style="{StaticResource CardTitleStyle}" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding InventoryCount}" Style="{StaticResource CardValueStyle}" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Today's Sale -->
+                    <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource StatCardStyle}">
+                        <VerticalStackLayout Spacing="2">
+                            <HorizontalStackLayout Spacing="6">
+                                <Label Text="📊" FontSize="16" VerticalOptions="Center" />
+                                <Label Text="Today's Sale" Style="{StaticResource CardTitleStyle}" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding TodaysSaleDisplay}"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource AccentGreen}"
+                                   Margin="0,4,0,0" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- Transactions -->
+                    <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource StatCardStyle}">
+                        <VerticalStackLayout Spacing="2">
+                            <HorizontalStackLayout Spacing="6">
+                                <Label Text="⇄"
+                                       FontSize="16"
+                                       TextColor="{StaticResource TextWhite}"
+                                       VerticalOptions="Center" />
+                                <Label Text="Transactions" Style="{StaticResource CardTitleStyle}" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding TransactionsCount}" Style="{StaticResource CardValueStyle}" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                </Grid>
+
+                <!-- ── RECENT TRANSACTIONS ── -->
+                <Label Text="Recent Transactions"
+                       Style="{StaticResource SectionHeaderStyle}"
+                       Margin="4,16,0,6" />
+
+                <Frame Padding="0"
+                       CornerRadius="12"
+                       HasShadow="False"
+                       BorderColor="{StaticResource DividerColor}"
+                       BackgroundColor="{StaticResource TextWhite}"
+                       IsClippedToBounds="True">
+                    <VerticalStackLayout Spacing="0"
+                                         BindableLayout.ItemsSource="{Binding RecentTransactions}"
+                                         BindableLayout.ItemTemplate="{StaticResource TransactionTemplate}" />
+                </Frame>
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

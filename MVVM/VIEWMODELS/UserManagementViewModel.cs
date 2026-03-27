@@ -138,6 +138,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
                 return;
 
             User.Remove(user);
+            Search();
 
             // Optional: clear profile card if deleted user was selected
             FullName = string.Empty;

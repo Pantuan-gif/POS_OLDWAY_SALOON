@@ -13,7 +13,7 @@
     <FlyoutPage.Detail>
         <NavigationPage>
             <x:Arguments>
-                <views:Home/>
+                <views:DashboardView/>
             </x:Arguments>
         </NavigationPage>
     </FlyoutPage.Detail>

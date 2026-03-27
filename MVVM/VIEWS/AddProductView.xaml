@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.AddProductView"
+             x:DataType="vm:AddProductViewModel"
+             BackgroundColor="#FFFFFF"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <vm:AddProductViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FieldLabelStyle" TargetType="Label">
+                <Setter Property="FontSize"       Value="14" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor"      Value="#1A1005" />
+                <Setter Property="Margin"         Value="0,12,0,4" />
+            </Style>
+
+            <Style x:Key="EntryFrameStyle" TargetType="Frame">
+                <Setter Property="Padding"         Value="10,0" />
+                <Setter Property="CornerRadius"    Value="6" />
+                <Setter Property="BorderColor"     Value="#CCCCCC" />
+                <Setter Property="HasShadow"       Value="False" />
+                <Setter Property="BackgroundColor" Value="#FFFFFF" />
+                <Setter Property="HeightRequest"   Value="44" />
+            </Style>
+
+            <Style x:Key="FieldEntryStyle" TargetType="Entry">
+                <Setter Property="FontSize"        Value="14" />
+                <Setter Property="BackgroundColor" Value="#FFFFFF" />
+                <Setter Property="TextColor"       Value="#1A1005" />
+                <Setter Property="HeightRequest"   Value="44" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Spacing="0">
+
+        <!-- ── HEADER ── -->
+        <Grid Padding="12,14"
+              BackgroundColor="#FFFFFF"
+              ColumnDefinitions="Auto,*">
+
+            <Frame Grid.Column="0"
+                   Padding="6,6"
+                   CornerRadius="8"
+                   BackgroundColor="#4A2C0A"
+                   BorderColor="Transparent"
+                   HasShadow="False"
+                   HeightRequest="36"
+                   WidthRequest="36"
+                   VerticalOptions="Center">
+                <Label Text="←"
+                       FontSize="16"
+                       TextColor="#FFFFFF"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoBackCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Frame>
+
+            <Label Grid.Column="1"
+                   Text="Add Product"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#1A1005"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- Divider -->
+        <BoxView HeightRequest="1.5" Color="#4A2C0A" />
+
+        <!-- ── FORM ── -->
+        <ScrollView>
+            <VerticalStackLayout Padding="20,8,20,20" Spacing="0">
+
+                <!-- Product Id -->
+                <Label Text="Product Id" Style="{StaticResource FieldLabelStyle}" />
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding ProductId}"
+                           Keyboard="Numeric"
+                           Style="{StaticResource FieldEntryStyle}" />
+                </Frame>
+
+                <!-- Product Name -->
+                <Label Text="Product Name" Style="{StaticResource FieldLabelStyle}" />
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding ProductName}"
+                           Style="{StaticResource FieldEntryStyle}" />
+                </Frame>
+
+                <!-- Size (ml) -->
+                <Label Text="Size (ml)" Style="{StaticResource FieldLabelStyle}" />
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding SizeMl}"
+                           Keyboard="Numeric"
+                           Style="{StaticResource FieldEntryStyle}" />
+                </Frame>
+
+                <!-- Prize (Price) -->
+                <Label Text="Prize" Style="{StaticResource FieldLabelStyle}" />
+                <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding Price}"
+                           Keyboard="Numeric"
+                           Style="{StaticResource FieldEntryStyle}" />
+                </Frame>
+
+                <!-- Quantity -->
+                <Label Text="Quantity" Style="{StaticResource FieldLabelStyle}" />
+                <Frame Padding="0"
+                       CornerRadius="6"
+                       BorderColor="#CCCCCC"
+                       HasShadow="False"
+                       BackgroundColor="#FFFFFF"
+                       HeightRequest="44">
+                    <Grid ColumnDefinitions="*,44,44">
+                        <Entry Grid.Column="0"
+                               Text="{Binding Quantity}"
+                               Keyboard="Numeric"
+                               Margin="10,0,0,0"
+                               BackgroundColor="Transparent"
+                               TextColor="#1A1005"
+                               FontSize="14"
+                               VerticalOptions="Center" />
+                        <Button Grid.Column="1"
+                                Text="+"
+                                BackgroundColor="#1A1005"
+                                TextColor="#FFFFFF"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                CornerRadius="0"
+                                Padding="0"
+                                Command="{Binding IncrementQuantityCommand}" />
+                        <Button Grid.Column="2"
+                                Text="−"
+                                BackgroundColor="#1A1005"
+                                TextColor="#FFFFFF"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                CornerRadius="0"
+                                Padding="0"
+                                Command="{Binding DecrementQuantityCommand}" />
+                    </Grid>
+                </Frame>
+
+                <!-- Photo -->
+                <Label Text="Photo" Style="{StaticResource FieldLabelStyle}" />
+                <Frame Padding="0"
+                       CornerRadius="6"
+                       BorderColor="#CCCCCC"
+                       HasShadow="False"
+                       BackgroundColor="#FFFFFF"
+                       HeightRequest="44">
+                    <Grid ColumnDefinitions="Auto,*">
+                        <Button Grid.Column="0"
+                                Text="Choose File"
+                                BackgroundColor="#DDDDDD"
+                                TextColor="#1A1005"
+                                FontSize="13"
+                                CornerRadius="0"
+                                Padding="10,0"
+                                HeightRequest="44"
+                                Command="{Binding PickPhotoCommand}" />
+                        <Label Grid.Column="1"
+                               Text="{Binding PhotoFileName}"
+                               FontSize="13"
+                               TextColor="#888888"
+                               VerticalOptions="Center"
+                               Margin="10,0" />
+                    </Grid>
+                </Frame>
+
+                <!-- Add Button -->
+                <Button Text="Add"
+                        BackgroundColor="#4A2C0A"
+                        TextColor="#FFFFFF"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="8"
+                        HeightRequest="50"
+                        Margin="0,24,0,0"
+                        Command="{Binding AddCommand}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </VerticalStackLayout>
+</ContentPage>
