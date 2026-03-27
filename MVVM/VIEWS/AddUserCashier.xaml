@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.AddUserCashier"
+             Title="AddUserCashier">
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <!-- Title -->
+            <Label Text="Add User" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center"/>
+
+            <!-- Employee Id -->
+            <Label Text="Employee Id" FontAttributes="Bold"/>
+            <Entry Text="{Binding EmployeeId}" Placeholder="Enter employee id"/>
+
+            <!-- Full Name -->
+            <Label Text="Full Name" FontAttributes="Bold"/>
+            <Entry Text="{Binding FullName}" Placeholder="Enter full name"/>
+
+            <!-- Email Address -->
+            <Label Text="Email Address" FontAttributes="Bold"/>
+            <Entry Text="{Binding Email}" Placeholder="Enter email" Keyboard="Email"/>
+
+            <!-- Role (Fixed to Cashier) -->
+            <Label Text="Role" FontAttributes="Bold"/>
+            <Entry Text="Cashier" IsEnabled="False"/>
+
+            <!-- Username -->
+            <Label Text="Username" FontAttributes="Bold"/>
+            <Entry Text="{Binding Username}" Placeholder="Enter username"/>
+
+            <!-- Password -->
+            <Label Text="Password" FontAttributes="Bold"/>
+            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="Enter password"/>
+
+            <!-- Confirm Password -->
+            <Label Text="Confirm Password" FontAttributes="Bold"/>
+            <Entry Text="{Binding ConfirmPassword}" IsPassword="True" Placeholder="Confirm password"/>
+
+            <!-- Photo Upload -->
+            <Label Text="Photo" FontAttributes="Bold"/>
+            <Button Text="Choose File" Command="{Binding ChoosePhotoCommand}"/>
+
+            <!-- Create Button -->
+            <Button Text="Create"
+                Command="{Binding CreateCommand}"
+                BackgroundColor="#8B4513"
+                TextColor="White"
+                CornerRadius="5"/>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

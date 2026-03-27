@@ -53,7 +53,7 @@ public partial class RegistrationViewModels : ObservableObject
             FirstName = firstName,
             LastName = lastName,
             Email = email,
-            Role = "Cashier",
+            Role = "Customer",
             Password = password,
             ImageSource = "nullprofile.png"
         });

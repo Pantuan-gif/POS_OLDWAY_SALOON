@@ -94,7 +94,8 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
         [RelayCommand]
         private async Task AddUser()
         {
-            var page = new Registration("Add user");
+            // Navigate to AddUserCashierView instead of Registration
+            var page = new AddUserCashier();
 
             await Application.Current.MainPage.Navigation.PushModalAsync(page);
 
