@@ -26,10 +26,10 @@ public partial class ProductManagementViewModel : ObservableObject
 
     private readonly ObservableCollection<Product> _allProducts = new()
     {
-        new Product { ProductId = 1, ProductName = "Jack Daniels",  CategoryName = "Whisky", SizeMl = 750, Price = 15.98m, Quantity = 78,  PhotoPath = "jack_daniels.png"  },
-        new Product { ProductId = 2, ProductName = "Black Label",   CategoryName = "Whisky", SizeMl = 500, Price = 13.00m, Quantity = 89,  PhotoPath = "black_label.png"   },
-        new Product { ProductId = 3, ProductName = "Chivas Regal",  CategoryName = "Whisky", SizeMl = 750, Price = 17.88m, Quantity = 50,  PhotoPath = "chivas_regal.png"  },
-        new Product { ProductId = 4, ProductName = "The Macallan",  CategoryName = "Whisky", SizeMl = 500, Price = 12.08m, Quantity = 23,  PhotoPath = "the_macallan.png"  },
+        new Product { ProductId = 1, ProductName = "Jack Daniels",  CategoryId = 1, SizeMl = 750, Price = 15.98m, Quantity = 78,  PhotoPath = "jack_daniels.png"  },
+        new Product { ProductId = 2, ProductName = "Black Label",   CategoryId = 2, SizeMl = 500, Price = 13.00m, Quantity = 89,  PhotoPath = "black_label.png"   },
+        new Product { ProductId = 3, ProductName = "Chivas Regal",  CategoryId = 3, SizeMl = 750, Price = 17.88m, Quantity = 50,  PhotoPath = "chivas_regal.png"  },
+        new Product { ProductId = 4, ProductName = "The Macallan",  CategoryId = 4, SizeMl = 500, Price = 12.08m, Quantity = 23,  PhotoPath = "the_macallan.png"  },
     };
 
     public ObservableCollection<Product> FilteredProducts { get; } = new();
