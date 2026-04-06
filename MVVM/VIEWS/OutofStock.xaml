@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.OutofStock"
+             Title="OutofStock"
+             BackgroundColor="#F5F5F5">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <!-- Header -->
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <Button Text="←"
+                    Command="{Binding BackCommand}"
+                    BackgroundColor="#5C2E0C"
+                    TextColor="White"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    CornerRadius="8"/>
+
+            <Label Text="Out of Stock Items"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Grid.Column="1"/>
+
+            <BoxView Grid.Column="2" WidthRequest="40"/>
+        </Grid>
+
+        <!-- Search -->
+        <SearchBar Placeholder="Search Product"
+                   Text="{Binding SearchText}"
+                   SearchCommand="{Binding SearchCommand}"/>
+
+        <!-- List -->
+        <CollectionView ItemsSource="{Binding Products}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Frame CornerRadius="12"
+                           Padding="12"
+                           Margin="0,5"
+                           BorderColor="#CCCCCC"
+                           BackgroundColor="White">
+
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+
+                            <!-- Warning Icon -->
+                            <Frame BackgroundColor="Red"
+                                   WidthRequest="30"
+                                   HeightRequest="30"
+                                   CornerRadius="15"
+                                   Padding="0"
+                                   VerticalOptions="Center">
+
+                                <Label Text="!"
+                                       TextColor="White"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       FontAttributes="Bold"/>
+                            </Frame>
+
+                            <!-- Product Info -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+
+                                <Label Text="{Binding Name}"
+                                       FontAttributes="Bold"
+                                       FontSize="14"/>
+
+                                <Label Text="OUT OF STOCK!"
+                                       TextColor="Red"
+                                       FontSize="12"
+                                       FontAttributes="Bold"/>
+
+                            </VerticalStackLayout>
+
+                            <!-- Details -->
+                            <VerticalStackLayout Grid.Column="2"
+                                                 HorizontalOptions="End"
+                                                 Spacing="2">
+
+                                <Label Text="{Binding Category, StringFormat='Category: {0}'}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+
+                                <Label Text="{Binding Size, StringFormat='Size: {0}'}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+
+                            </VerticalStackLayout>
+
+                        </Grid>
+
+                    </Frame>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

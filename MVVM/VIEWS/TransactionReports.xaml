@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.TransactionReports"
+             Title="TransactionReports"
+             BackgroundColor="#F5F5F5">
+
+    <Grid RowDefinitions="Auto, Auto, *">
+
+        <!-- Header with Back Button -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="Auto, *"
+              Padding="10">
+            <ImageButton Source="back_icon.png"
+                         Command="{Binding BackCommand}"
+                         Grid.Column="0"
+                         WidthRequest="30"
+                         HeightRequest="30"/>
+            <Label Text="Transaction History"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   Grid.Column="1"/>
+        </Grid>
+
+        <!-- Search Bar -->
+        <SearchBar Placeholder="Search transactions..."
+                   Grid.Row="1"
+                   Margin="10"
+                   Text="{Binding SearchText}"
+                   SearchCommand="{Binding SearchCommand}" />
+
+        <!-- Transaction List -->
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Transactions}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray"
+                           Margin="8"
+                           Padding="10"
+                           CornerRadius="8">
+                        <StackLayout Spacing="5">
+                            <Label Text="{Binding TransactionNumber, StringFormat='#{0}'}"
+                                   FontAttributes="Bold"/>
+                            <Label Text="{Binding CustomerName}"
+                                   FontSize="14"/>
+                            <Label Text="{Binding PaymentMethod}"
+                                   FontSize="12"
+                                   TextColor="Gray"/>
+                            <Label Text="{Binding Time}"
+                                   FontSize="12"
+                                   TextColor="Gray"/>
+                            <Label Text="{Binding ItemCount, StringFormat='{0} items'}"
+                                   FontSize="12"/>
+                            <Label Text="{Binding TotalAmount, StringFormat='${0:F2}'}"
+                                   TextColor="Green"
+                                   FontAttributes="Bold"/>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
