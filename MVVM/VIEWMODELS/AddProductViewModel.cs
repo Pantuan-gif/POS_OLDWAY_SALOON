@@ -45,7 +45,7 @@ public partial class AddProductViewModel : ObservableObject
     public void LoadProduct(Product product)
     {
         ProductId    = product.ProductId;
-        CategoryName = product.CategoryName;
+        CategoryId   = product.CategoryId;
         ProductName  = product.ProductName;
         SizeMl       = product.SizeMl;
         Price        = product.Price;
@@ -92,7 +92,7 @@ public partial class AddProductViewModel : ObservableObject
         {
             ProductId    = ProductId,
             ProductName  = ProductName,
-            CategoryName = CategoryName,
+            CategoryId = CategoryId,
             SizeMl       = SizeMl,
             Price        = Price,
             Quantity     = Quantity,

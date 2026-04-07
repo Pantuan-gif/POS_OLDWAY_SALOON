@@ -19,16 +19,6 @@ namespace POS_OLDWAY_SALOON.Services
             Client.BaseAddress = new Uri("https://69c4da218a5b6e2dec2b3d33.mockapi.io/");
         }
 
-        //Get all
-        public async Task<User> Login(string email, string password)
-        {
-            var response = await Client.GetAsync("oldsaloon");
-
-            if (!response.IsSuccessStatusCode) return null;
-
-            var users = await response.Content.ReadFromJsonAsync<List<User>>();
-
-            return users.FirstOrDefault(u => u.Email == email && u.Password == password);
-        }
+       
     }
 }

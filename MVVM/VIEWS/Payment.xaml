@@ -30,8 +30,7 @@
         <Label Text="OLDWAY SALOON"
                HorizontalOptions="Center"
                FontAttributes="Bold"
-               FontSize="16"
-               LetterSpacing="2"/>
+               FontSize="16"/>
 
         <!-- Items Section -->
         <Label Text="Items"
@@ -88,8 +87,7 @@
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <RadioButton IsChecked="True"
                                  GroupName="Payment"
-                                 Command="{Binding SelectPaymentCommand}"
-                                 CommandParameter="Cash"/>
+                                 x:Name="Cash"/>
 
                     <Label Text="Cash"
                            VerticalOptions="Center"
@@ -105,8 +103,7 @@
             <Frame BorderColor="#CCCCCC" CornerRadius="10" Padding="10">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <RadioButton GroupName="Payment"
-                                 Command="{Binding SelectPaymentCommand}"
-                                 CommandParameter="GCash"/>
+                                 x:Name="GCash"/>
 
                     <Label Text="GCash"
                            VerticalOptions="Center"
@@ -122,8 +119,7 @@
             <Frame BorderColor="#CCCCCC" CornerRadius="10" Padding="10">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <RadioButton GroupName="Payment"
-                                 Command="{Binding SelectPaymentCommand}"
-                                 CommandParameter="PayMaya"/>
+                                 x:Name="PayMaya"/>
 
                     <Label Text="PayMaya"
                            VerticalOptions="Center"
