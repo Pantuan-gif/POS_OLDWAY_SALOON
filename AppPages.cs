@@ -17,11 +17,9 @@ public static class AppPages
 
     // ── Push Pages (fresh each time — they are form/detail pages) ───────────
     // These are intentionally NOT cached because they need clean state on every open.
-    public static AddCategoryView      NewAddCategoryView()      => new AddCategoryView();
+    public static AddCategoryView       NewAddCategoryView()       => new AddCategoryView();
     public static ProductManagementView NewProductManagementView() => new ProductManagementView();
-    public static AddProductView       NewAddProductView()        => new AddProductView();
-    public static AddProductView NewAddProductView(int categoryId)
-    {
-        return new AddProductView(categoryId);
-    }
+    public static AddProductView        NewAddProductView()        => new AddProductView();
+    public static EditProductPage       NewEditProductPage()       => new EditProductPage();
+    public static OrderingManagement NewOrderingManagementView() => new OrderingManagement();
 }

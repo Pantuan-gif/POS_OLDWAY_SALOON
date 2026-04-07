@@ -19,5 +19,5 @@ public partial class ProductManagementView : ContentPage
 
     // Called by AddProductViewModel after a product is saved
     public void ReceiveNewProduct(Product product)
-        => vm.AddProduct(product);
+        => vm.AddProduct();
 }

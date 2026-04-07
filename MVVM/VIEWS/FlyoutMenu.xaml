@@ -6,40 +6,39 @@
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.FlyoutMenu"
              Title="FlyoutMenu">
 
-    <CollectionView x:Name="collectionView"
-                    x:FieldModifier="public"
-                    SelectionMode="Single">
-        <CollectionView.ItemsSource>
-            <x:Array Type="{x:Type model:FlyoutMenuItem}">
-                <model:FlyoutMenuItem Title="Home"
-                                      Icon="placeholder.png"
-                                      TargetPage="{x:Type views:DashboardView}"
-                            
-                                      />
-                <model:FlyoutMenuItem Title="User Management"
-                                      Icon="placeholder.png"
-                                      TargetPage="{x:Type views:UserManagement}"
-                                      />
-            </x:Array>
-        </CollectionView.ItemsSource>
-        
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="model:FlyoutMenuItem">
-                <Grid Padding="5,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Image Source="{Binding Icon}" />
-                    <Label Grid.Column="1"
-                           Margin="20,0"
-                           Text="{Binding Title}"
-                           FontSize="20"
-                           FontAttributes="Bold"
-                           VerticalOptions="Center" />
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+    <Grid RowDefinitions="*,Auto">
+        <CollectionView x:Name="collectionView"
+                        x:FieldModifier="public"
+                        SelectionMode="Single"
+                        Grid.Row="0">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:FlyoutMenuItem">
+                    <Grid Padding="5,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding Icon}" />
+                        <Label Grid.Column="1"
+                               Margin="20,0"
+                               Text="{Binding Title}"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Logout button pinned to bottom -->
+        <Button Grid.Row="2"
+                Text="Log out"
+                BackgroundColor="#FFFFFF"
+                TextColor="#5B341C"
+                Margin="12"
+                HorizontalOptions="Fill"
+                Clicked="OnLogoutClicked" />
+    </Grid>
                     
 </ContentPage>

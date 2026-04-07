@@ -12,6 +12,14 @@ public partial class Dashboard : FlyoutPage
 		InitializeComponent();
         flyoutPage.collectionView.SelectionChanged += OnSelectionChanged;
         currentID = userId;
+        // Inform flyout about current user so it can filter menu items
+        flyoutPage.SetCurrentUser(userId);
+
+        // If the current user is a cashier, show the ordering page as the initial detail
+        if (Services.AuthService.IsInRole("Cashier"))
+        {
+            Detail = new NavigationPage(AppPages.NewOrderingManagementView());
+        }
     }
     async void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -32,6 +40,11 @@ public partial class Dashboard : FlyoutPage
             {
                 user.thisId = currentID;
 
+            }
+            // If Inventory was selected but current user is a cashier, show the Ordering page instead
+            if (page is InventoryManagementView && Services.AuthService.IsInRole("Cashier"))
+            {
+                page = new OrderingManagement();
             }
             Detail = new NavigationPage(page);
 

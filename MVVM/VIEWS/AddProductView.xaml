@@ -96,6 +96,12 @@
                     <Entry Text="{Binding ProductName}"
                            Style="{StaticResource FieldEntryStyle}" />
                 </Frame>
+                    <Label Text="Category" Style="{StaticResource FieldLabelStyle}" />
+                    <Frame Style="{StaticResource EntryFrameStyle}">
+                    <Entry Text="{Binding CategoryName}"
+                           Style="{StaticResource FieldEntryStyle}" 
+                           IsEnabled="False"/>
+                </Frame>
 
                 <!-- Size (ml) -->
                 <Label Text="Size (ml)" Style="{StaticResource FieldLabelStyle}" />

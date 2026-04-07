@@ -33,6 +33,27 @@
                        IsClippedToBounds="True">
                     <VerticalStackLayout Spacing="0">
 
+        <!-- ── HEADER / BACK ── -->
+        <Grid Padding="12,14" BackgroundColor="#FFFFFF" ColumnDefinitions="Auto,*">
+            <Button Grid.Column="0"
+                    Text="←"
+                    FontSize="16"
+                    BackgroundColor="#4A2C0A"
+                    TextColor="White"
+                    WidthRequest="36"
+                    HeightRequest="36"
+                    CornerRadius="8"
+                    Command="{Binding GoBackToDashboardCommand}" />
+
+            <Label Grid.Column="1"
+                   Text="Inventory Management"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="#1A1005"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+        </Grid>
+
                         <!-- Category Name + Stock -->
                         <Grid Padding="10,8,10,4"
                               ColumnDefinitions="*,Auto">

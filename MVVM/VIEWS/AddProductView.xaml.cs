@@ -21,6 +21,7 @@ public partial class AddProductView : ContentPage
         _vm.OnSaved = (product) => OnProductSaved?.Invoke(product);
     }
 
+    public void setCategory(int i, string s) => _vm.SetCategory(i, s);
     // Called by ProductManagementViewModel for edit mode
     public void LoadProduct(Product product) => _vm.LoadProduct(product);
 }

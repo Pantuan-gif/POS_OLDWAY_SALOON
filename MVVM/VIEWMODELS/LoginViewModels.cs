@@ -36,7 +36,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
         //    if (user != null)
         //    {
         //        var navi = Application.Current.MainPage.Navigation;
-        //        //await Application.Current.MainPage.DisplayAlert("Success", $"Welcome {user.FirstName}!", "OK");
+        //        //await Application.Current.MainPage.DisplayAlert("Success", $"Welcome {user.FirstName}!, "OK");
         //        //await navi.PushModalAsync(new MVVM.VIEWS.Dashboard(user.Id));
         //        Application.Current.MainPage = new Dashboard(user.Id);
         //    }
@@ -70,6 +70,18 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
                     Role = "Admin",
                     ImageSource = "nullprofile.png"
                 });
+
+                // Add a default cashier for testing role-specific flows
+                LoginViewModels.User.Add(new User
+                {
+                    Id = 1,
+                    FirstName = "alex",
+                    LastName = "cashier",
+                    Email = "cashier",
+                    Password = "cashier",
+                    Role = "Cashier",
+                    ImageSource = "nullprofile.png"
+                });
             }
             LoginCommand = new RelayCommand(Login);
             GoToRegisterCommand = new RelayCommand(async () =>
@@ -83,8 +95,11 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             var user = User.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user != null)
             {
+                // set centralized current user
+                AuthService.CurrentUser = user;
+
                 var navi = Application.Current.MainPage.Navigation;
-                //await Application.Current.MainPage.DisplayAlert("Success", $"Welcome {user.FirstName}!", "OK");
+                //await Application.Current.MainPage.DisplayAlert("Success", $"Welcome {user.FirstName}!, "OK");
                 //await navi.PushModalAsync(new MVVM.VIEWS.Dashboard(user.Id));
                 Application.Current.MainPage = new Dashboard(user.Id);
             }

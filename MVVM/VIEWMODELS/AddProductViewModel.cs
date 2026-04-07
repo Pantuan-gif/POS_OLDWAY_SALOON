@@ -78,7 +78,11 @@ public partial class AddProductViewModel : ObservableObject
         PhotoPath     = result.FullPath;
         PhotoFileName = result.FileName;
     }
-
+    public void SetCategory(int cId,string cN)
+    {
+        CategoryId = cId;
+        CategoryName = cN;
+    }
     [RelayCommand]
     private async Task Add()
     {

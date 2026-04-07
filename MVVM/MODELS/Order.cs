@@ -1,0 +1,15 @@
+using System;
+using System.Collections.Generic;
+
+namespace POS_OLDWAY_SALOON.MVVM.MODELS;
+
+public class Order
+{
+    public string ReferenceNumber { get; set; } = Guid.NewGuid().ToString("N").ToUpper();
+    public DateTime Date { get; set; } = DateTime.Now;
+    public string PaymentMethod { get; set; } = "Cash";
+    public List<CartItem> Items { get; set; } = new List<CartItem>();
+
+    public int ItemCount => Items?.Count ?? 0;
+    public decimal Total => Items?.Sum(i => i.TotalPrice) ?? 0m;
+}

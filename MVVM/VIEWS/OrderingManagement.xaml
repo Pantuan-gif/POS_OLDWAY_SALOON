@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
+             xmlns:models="clr-namespace:POS_OLDWAY_SALOON.MVVM.MODELS"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagement"
-             Title="OrderingManagement"
+             x:DataType="vm:OrderingManagementViewModel"
+             Title="Ordering"
              BackgroundColor="#F5F5F5">
 
-    <Grid RowDefinitions="Auto, Auto, *, Auto">
+    <ContentPage.BindingContext>
+        <vm:OrderingManagementViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
         <!-- Header -->
         <Label Text="OLDWAY SALOON"
@@ -14,73 +27,68 @@
                Margin="0,10"
                Grid.Row="0" />
 
-        <!-- Search and Categories -->
+        <!-- Search and Categories (placeholders) -->
         <StackLayout Orientation="Horizontal"
                      Padding="10"
                      Spacing="10"
                      Grid.Row="1">
             <SearchBar Placeholder="Search"
-                       HorizontalOptions="FillAndExpand"/>
+                       HorizontalOptions="FillAndExpand"
+                       SearchCommand="{Binding LoadProductsAsyncCommand}" />
             <Picker Title="Categories"
-                    WidthRequest="150"/>
+                    WidthRequest="150" />
         </StackLayout>
 
-        <!-- Product List -->
+        <!-- Product Grid -->
         <CollectionView Grid.Row="2"
-                        ItemsSource="{Binding Products}">
+                        ItemsSource="{Binding Products}"
+                        SelectionMode="None">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="8" VerticalItemSpacing="8" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <Label Text="No products" HorizontalOptions="Center" VerticalOptions="Center" />
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BorderColor="LightGray"
-                           Margin="5"
-                           Padding="10">
-                        <Grid ColumnDefinitions="Auto, *, Auto">
-                            <!-- Product Image -->
-                            <Image Source="{Binding Image}"
-                                   WidthRequest="60"
-                                   HeightRequest="60"
-                                   Grid.Column="0"/>
+                <DataTemplate x:DataType="models:ProductSelection">
+                    <Frame BorderColor="#DDD" BackgroundColor="White" Margin="6" Padding="8" CornerRadius="6" HasShadow="False">
+                        <VerticalStackLayout Spacing="8">
+                            <Image Source="{Binding Product.PhotoPath}" HeightRequest="120" Aspect="AspectFit" HorizontalOptions="Center" />
+                            <Label Text="{Binding Product.ProductName}" FontAttributes="Bold" />
+                            <Label Text="{Binding Product.PriceDisplay}" TextColor="#1A8F4B" />
+                            <Label Text="{Binding Product.SizeDisplay}" FontSize="12" TextColor="#888" />
 
-                            <!-- Product Info -->
-                            <StackLayout Grid.Column="1"
-                                         Padding="10,0">
-                                <Label Text="{Binding Name}"
-                                       FontAttributes="Bold"/>
-                                <Label Text="{Binding Volume}"
-                                       FontSize="12"
-                                       TextColor="Gray"/>
-                                <Label Text="{Binding Price, StringFormat='${0:F2}'}"
-                                       TextColor="Green"/>
-                            </StackLayout>
+                            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="End">
+                                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                    <Button Text="-" WidthRequest="32" HeightRequest="32"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DecrementQuantityCommand}"
+                                            CommandParameter="{Binding .}" />
+                                    <Label Text="{Binding SelectedQuantity}" VerticalOptions="Center" />
+                                    <Button Text="+" WidthRequest="32" HeightRequest="32"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IncrementQuantityCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </HorizontalStackLayout>
 
-                            <!-- Add to Cart -->
-                            <StackLayout Grid.Column="2"
-                                         VerticalOptions="Center">
-                                <Button Text="Add to cart"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddToCartCommand}"
-                                        CommandParameter="{Binding}" />
-                            </StackLayout>
-                        </Grid>
+                                <Button Grid.Column="2" Text="Add to cart" BackgroundColor="#5C2E0C" TextColor="White" CornerRadius="6"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddSelectedToCartCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                        </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
         <!-- Bottom Summary Bar -->
-        <Grid Grid.Row="3"
-              BackgroundColor="#EEE"
-              Padding="10"
-              ColumnDefinitions="*, Auto">
-            <StackLayout Orientation="Vertical"
-                         Grid.Column="0">
-                <Label Text="{Binding TotalItems, StringFormat='Total Item: {0}'}"/>
-                <Label Text="{Binding TotalPrice, StringFormat='${0:F2}'}"
-                       FontAttributes="Bold"/>
-            </StackLayout>
-            <Button Text="PROCEED"
-                    Grid.Column="1"
-                    BackgroundColor="Green"
-                    TextColor="White"
-                    Command="{Binding ProceedCommand}"/>
-        </Grid>
+        <Frame Grid.Row="3" Padding="12" BackgroundColor="#5C2E0C" CornerRadius="8" Margin="6">
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="End">
+                <VerticalStackLayout>
+                    <Label Text="{Binding CartSummaryTotalItems}" TextColor="White" />
+                    <Label Text="{Binding CartSummaryTotalPrice}" TextColor="#8CFFB4" FontAttributes="Bold" />
+                </VerticalStackLayout>
+
+                <Button Text="PROCEED" BackgroundColor="White" TextColor="#5C2E0C" WidthRequest="140" HeightRequest="44" Command="{Binding ProceedCommand}" HorizontalOptions="End" />
+            </Grid>
+        </Frame>
     </Grid>
 </ContentPage>

@@ -112,7 +112,7 @@
 
             <!-- Back Button -->
             <Button Text="← Back To PRODUCTS"
-                    Command="{Binding BackCommand}"
+                    Clicked="OnBackClicked"
                     BackgroundColor="Transparent"
                     TextColor="#5C2E0C"
                     FontAttributes="Bold"/>

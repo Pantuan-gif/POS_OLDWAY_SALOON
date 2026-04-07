@@ -15,5 +15,5 @@ public partial class InventoryManagementView : ContentPage
 
     // Called by AddCategoryViewModel after a new category is created
     public void ReceiveNewCategory(Category category)
-        => vm.AddCategory(category);
+        => vm.AddCategory();
 }

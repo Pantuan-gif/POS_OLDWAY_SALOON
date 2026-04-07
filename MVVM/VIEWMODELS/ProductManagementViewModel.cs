@@ -1,13 +1,16 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using POS_OLDWAY_SALOON.MVVM.MODELS;
+using POS_OLDWAY_SALOON.Services;
 using System.Collections.ObjectModel;
 
 namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS;
 
 public partial class ProductManagementViewModel : ObservableObject
 {
-    // ── Query Params ────────────────────────────────────────────────────────
+    private readonly APISERVICES _api = new();
+
+    // ── Query Params ─────────────────────────────────────────────────────────
 
     [ObservableProperty]
     private int _categoryId;
@@ -15,61 +18,81 @@ public partial class ProductManagementViewModel : ObservableObject
     [ObservableProperty]
     private string _categoryName = string.Empty;
 
-    // ── Search ──────────────────────────────────────────────────────────────
+    // ── Search ───────────────────────────────────────────────────────────────
 
     [ObservableProperty]
     private string _searchText = string.Empty;
 
     partial void OnSearchTextChanged(string value) => FilterProducts();
 
-    // ── Products ────────────────────────────────────────────────────────────
+    // ── Loading / Error state ────────────────────────────────────────────────
 
-    private readonly ObservableCollection<Product> _allProducts = new()
-    {
-        new Product { ProductId = 1, ProductName = "Jack Daniels",  CategoryId = 1, SizeMl = 750, Price = 15.98m, Quantity = 78,  PhotoPath = "jack_daniels.png"  },
-        new Product { ProductId = 2, ProductName = "Black Label",   CategoryId = 2, SizeMl = 500, Price = 13.00m, Quantity = 89,  PhotoPath = "black_label.png"   },
-        new Product { ProductId = 3, ProductName = "Chivas Regal",  CategoryId = 3, SizeMl = 750, Price = 17.88m, Quantity = 50,  PhotoPath = "chivas_regal.png"  },
-        new Product { ProductId = 4, ProductName = "The Macallan",  CategoryId = 4, SizeMl = 500, Price = 12.08m, Quantity = 23,  PhotoPath = "the_macallan.png"  },
-    };
+    [ObservableProperty]
+    private bool _isBusy;
+
+    [ObservableProperty]
+    private string _errorMessage = string.Empty;
+
+    // ── Products ─────────────────────────────────────────────────────────────
+
+    private readonly ObservableCollection<Product> _allProducts = new();
 
     public ObservableCollection<Product> FilteredProducts { get; } = new();
 
-    // ── Constructor ─────────────────────────────────────────────────────────
+    // ── Constructor ───────────────────────────────────────────────────────────
 
-    public ProductManagementViewModel()
-    {
-        FilterProducts();
-    }
+    public ProductManagementViewModel() { }
 
     // Called from ProductManagementView when a Category is passed in
     public void SetCategory(Category category)
     {
         CategoryId   = category.CategoryId;
         CategoryName = category.CategoryName;
-        FilterProducts();
+        _ = LoadProductsAsync();
     }
 
-    // ── Filter Logic ────────────────────────────────────────────────────────
+    // ── API: Load ─────────────────────────────────────────────────────────────
+
+    [RelayCommand]
+    private async Task LoadProductsAsync()
+    {
+        IsBusy = true;
+        ErrorMessage = string.Empty;
+        try
+        {
+            var products = await _api.GetProductsByCategoryAsync(CategoryId);
+            _allProducts.Clear();
+            foreach (var p in products)
+                _allProducts.Add(p);
+            FilterProducts();
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Failed to load products: {ex.Message}";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    // ── Filter Logic ──────────────────────────────────────────────────────────
 
     private void FilterProducts()
     {
-            FilteredProducts.Clear();
+        FilteredProducts.Clear();
 
-    var query = _allProducts
-        .Where(p => p.CategoryId == CategoryId); // always filter by category first
+        var query = _allProducts.Where(p => p.CategoryId == CategoryId);
 
-    if (!string.IsNullOrWhiteSpace(SearchText))
-    {
-        query = query.Where(p =>
-            p.ProductName.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+        if (!string.IsNullOrWhiteSpace(SearchText))
+            query = query.Where(p =>
+                p.ProductName.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+        foreach (var p in query)
+            FilteredProducts.Add(p);
     }
 
-    foreach (var p in query)
-        FilteredProducts.Add(p);
-
-    }
-
-    // ── Navigation helper ───────────────────────────────────────────────────
+    // ── Navigation helpers ────────────────────────────────────────────────────
 
     private static async Task PushAsync(Page page)
     {
@@ -85,25 +108,50 @@ public partial class ProductManagementViewModel : ObservableObject
             await nav.PopAsync();
     }
 
-    // ── Commands ────────────────────────────────────────────────────────────
+    // ── Commands ──────────────────────────────────────────────────────────────
 
     [RelayCommand]
-    private async Task AddProduct()
+    public async Task AddProduct()
     {
         var page = AppPages.NewAddProductView();
-        page.OnProductSaved = (product) => AddProduct(product);
+        page.setCategory(CategoryId, CategoryName);
+        page.OnProductSaved = async (product) =>
+        {
+            IsBusy = true;
+            ErrorMessage = string.Empty;
+            try
+            {
+                var saved = await _api.AddProductAsync(product);
+                if (saved is not null)
+                {
+                    _allProducts.Add(saved);
+                    FilterProducts();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = $"Failed to add product: {ex.Message}";
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        };
         await PushAsync(page);
     }
 
     [RelayCommand]
     private async Task EditProduct(Product product)
     {
-        var page = AppPages.NewAddProductView();
+        var page = AppPages.NewEditProductPage();
         page.LoadProduct(product);
-        page.OnProductSaved = (updated) =>
+        page.SetCategory(CategoryId, CategoryName);
+        // The EditProductPageViewModel calls the API internally;
+        // we only need to refresh the local list on success.
+        page.OnProductSaved = (saved) =>
         {
             var index = _allProducts.IndexOf(product);
-            if (index >= 0) _allProducts[index] = updated;
+            if (index >= 0) _allProducts[index] = saved;
             FilterProducts();
         };
         await PushAsync(page);
@@ -113,18 +161,34 @@ public partial class ProductManagementViewModel : ObservableObject
     private async Task DeleteProduct(Product product)
     {
         bool confirm = await Application.Current!.MainPage!.DisplayAlert(
-            "Delete", $"Delete {product.ProductName}?", "Yes", "No");
+            "Delete", $"Delete \"{product.ProductName}\"?", "Yes", "No");
         if (!confirm) return;
-        _allProducts.Remove(product);
-        FilterProducts();
+
+        IsBusy = true;
+        ErrorMessage = string.Empty;
+        try
+        {
+            bool ok = await _api.DeleteProductAsync(product.ProductId);
+            if (ok)
+            {
+                _allProducts.Remove(product);
+                FilterProducts();
+            }
+            else
+            {
+                ErrorMessage = "Delete failed. Please try again.";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Failed to delete product: {ex.Message}";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
     private async Task GoBack() => await PopAsync();
-
-    public void AddProduct(Product product)
-    {
-        _allProducts.Add(product);
-        FilterProducts();
-    }
 }

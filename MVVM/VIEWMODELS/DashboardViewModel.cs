@@ -63,7 +63,43 @@ public partial class DashboardViewModel : ObservableObject
     {
         if (Application.Current?.MainPage is FlyoutPage flyout)
         {
-            flyout.Detail      = new NavigationPage(page);
+            flyout.Detail = new NavigationPage(page);
+
+            // Also update the flyout selection if possible (keeps UI in sync when navigation
+            // is triggered from other pages such as the Dashboard)
+            try
+            {
+                if (flyout.Flyout is MVVM.VIEWS.FlyoutMenu menu && menu.collectionView != null)
+                {
+                    var items = menu.collectionView.ItemsSource as System.Collections.IEnumerable;
+                    if (items != null)
+                    {
+                        foreach (var obj in items)
+                        {
+                            if (obj is MVVM.MODELS.FlyoutMenuItem item)
+                            {
+                                if (item.TargetPage == page.GetType() || string.Equals(item.Title, page.Title, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    menu.collectionView.SelectedItem = item;
+                                    break;
+                                }
+                                // If a cashier was redirected to Inventory, prefer selecting Orders in the flyout
+                                if (POS_OLDWAY_SALOON.Services.AuthService.IsInRole("Cashier")
+                                    && page.GetType() == typeof(POS_OLDWAY_SALOON.MVVM.VIEWS.InventoryManagementView))
+                                {
+                                    var orders = items.Cast<object?>().FirstOrDefault(o => o is MVVM.MODELS.FlyoutMenuItem f && f.TargetPage == typeof(POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagementView));
+                                    if (orders is MVVM.MODELS.FlyoutMenuItem ordersItem)
+                                    {
+                                        menu.collectionView.SelectedItem = ordersItem;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch { /* silently ignore if flyout/menu not present */ }
         }
     }
 
@@ -73,7 +109,13 @@ public partial class DashboardViewModel : ObservableObject
 
     [RelayCommand]
     private void GoToInventory()
-        => NavigateTo(AppPages.Inventory);
+    {
+        // If current user is a cashier, redirect to ordering management
+        if (POS_OLDWAY_SALOON.Services.AuthService.IsInRole("Manager"))
+            NavigateTo(AppPages.NewOrderingManagementView());
+        else
+            NavigateTo(AppPages.Inventory);
+    }
 
     [RelayCommand]
     private void GoToReports()

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
+             xmlns:models="clr-namespace:POS_OLDWAY_SALOON.MVVM.MODELS"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagementView"
+             x:DataType="vm:OrderingManagementViewModel"
+             Title="Ordering"
+             BackgroundColor="#FFFFFF">
+
+    <ContentPage.BindingContext>
+        <vm:OrderingManagementViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="12" Spacing="10">
+        <Label Text="Ordering"
+               FontSize="20"
+               FontAttributes="Bold" />
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+        <Label Text="{Binding ErrorMessage}" TextColor="#CC0000" IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToBool}}" />
+
+        <CollectionView ItemsSource="{Binding Products}">
+            <CollectionView.EmptyView>
+                <Label Text="No products available" HorizontalOptions="Center" VerticalOptions="Center" TextColor="#888888" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Product">
+                    <Grid Padding="8" ColumnDefinitions="Auto,*,Auto">
+                        <Image Source="{Binding PhotoPath}" HeightRequest="56" WidthRequest="56" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="{Binding ProductName}" FontAttributes="Bold" />
+                            <Label Text="{Binding SizeDisplay}" FontSize="12" TextColor="#888" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
+                            <Label Text="{Binding PriceDisplay}" FontAttributes="Bold" HorizontalOptions="End" />
+                            <Label Text="{Binding StockDisplay}" FontSize="12" TextColor="#888" HorizontalOptions="End" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
