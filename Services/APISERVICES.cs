@@ -1,5 +1,6 @@
 using POS_OLDWAY_SALOON.MVVM.MODELS;
 using System.Net.Http.Json;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 
@@ -36,10 +37,17 @@ namespace POS_OLDWAY_SALOON.Services
         }
 
         /// <summary>Get a single category by ID.</summary>
-        public async Task<Category?> GetCategoryAsync(int id)
+        // Server uses string ids; accept string id
+        public async Task<Category?> GetCategoryAsync(string id)
         {
-            var response = await _client.GetAsync($"categories/{id}");
-            if (!response.IsSuccessStatusCode) return null;
+            var path = $"categories/{id}";
+            var response = await _client.GetAsync(path);
+            if (response.StatusCode == HttpStatusCode.NotFound) return null;
+            if (!response.IsSuccessStatusCode)
+            {
+                var body = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"GET {new Uri(_client.BaseAddress!, path)} returned {(int)response.StatusCode} {response.ReasonPhrase}: {body}");
+            }
             return await response.Content.ReadFromJsonAsync<Category>(_jsonOptions);
         }
 
@@ -51,7 +59,8 @@ namespace POS_OLDWAY_SALOON.Services
 
             var response = await _client.PostAsync("categories", content);
             response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<Category>(_jsonOptions);
+            var saved = await response.Content.ReadFromJsonAsync<Category>(_jsonOptions);
+            return saved;
         }
 
         /// <summary>Update an existing category. Returns the updated category.</summary>
@@ -60,13 +69,15 @@ namespace POS_OLDWAY_SALOON.Services
             var json    = JsonSerializer.Serialize(category);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync($"categories/{category.CategoryId}", content);
+            // Use server string id if present
+            var idPath = category.Id ?? category.CategoryId.ToString();
+            var response = await _client.PutAsync($"categories/{idPath}", content);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<Category>(_jsonOptions);
         }
 
         /// <summary>Delete a category by ID. Returns true on success.</summary>
-        public async Task<bool> DeleteCategoryAsync(int id)
+        public async Task<bool> DeleteCategoryAsync(string id)
         {
             var response = await _client.DeleteAsync($"categories/{id}");
             return response.IsSuccessStatusCode;
@@ -93,10 +104,18 @@ namespace POS_OLDWAY_SALOON.Services
         }
 
         /// <summary>Get a single product by ID.</summary>
-        public async Task<Product?> GetProductAsync(int id)
+        // Get single product by server string id
+        public async Task<Product?> GetProductAsync(string id)
         {
-            var response = await _client.GetAsync($"products/{id}");
-            if (!response.IsSuccessStatusCode) return null;
+            var path = $"products/{id}";
+            var response = await _client.GetAsync(path);
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                return null;
+            if (!response.IsSuccessStatusCode)
+            {
+                var body = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"GET {new Uri(_client.BaseAddress!, path)} returned {(int)response.StatusCode} {response.ReasonPhrase}: {body}");
+            }
             return await response.Content.ReadFromJsonAsync<Product>(_jsonOptions);
         }
 
@@ -117,16 +136,23 @@ namespace POS_OLDWAY_SALOON.Services
             var json    = JsonSerializer.Serialize(product);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PutAsync($"products/{product.ProductId}", content);
+            var idPath = product.Id ?? product.ProductId.ToString();
+            var response = await _client.PutAsync($"products/{idPath}", content);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<Product>(_jsonOptions);
         }
 
         /// <summary>Delete a product by ID. Returns true on success.</summary>
-        public async Task<bool> DeleteProductAsync(int id)
+        public async Task<bool> DeleteProductAsync(string id)
         {
-            var response = await _client.DeleteAsync($"products/{id}");
-            return response.IsSuccessStatusCode;
+            var path = $"products/{id}";
+            var response = await _client.DeleteAsync(path);
+            if (response.IsSuccessStatusCode)
+                return true;
+
+            // Read response body for diagnostics and throw a descriptive error
+            var body = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"DELETE {new Uri(_client.BaseAddress!, path)} returned {(int)response.StatusCode} {response.ReasonPhrase}: {body}");
         }
     }
 }

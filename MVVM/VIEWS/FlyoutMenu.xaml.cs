@@ -43,9 +43,9 @@ public partial class FlyoutMenu : ContentPage
 				var inv = menu.FirstOrDefault(m => m.TargetPage == typeof(InventoryManagementView));
 				if (inv != null) menu.Remove(inv);
 
-				// Replace the Home target with Ordering so "Home" opens Orders for cashiers
+				// Remove the Home item so cashiers don't see the dashboard
 				var home = menu.FirstOrDefault(m => m.Title == "Home");
-				if (home != null) home.TargetPage = typeof(POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagement);
+				if (home != null) menu.Remove(home);
 			}
 		}
 

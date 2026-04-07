@@ -166,7 +166,8 @@ public partial class InventoryManagementViewModel : ObservableObject
         ErrorMessage = string.Empty;
         try
         {
-            bool ok = await _api.DeleteCategoryAsync(category.CategoryId);
+            var serverId = category.Id ?? category.CategoryId.ToString();
+            bool ok = await _api.DeleteCategoryAsync(serverId);
             if (ok)
             {
                 _allCategories.Remove(category);

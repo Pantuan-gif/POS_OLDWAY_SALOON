@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using POS_OLDWAY_SALOON.MVVM.MODELS;
+using System.Linq;
 using POS_OLDWAY_SALOON.Services;
 using System.Collections.ObjectModel;
 
@@ -140,6 +141,14 @@ public partial class ProductManagementViewModel : ObservableObject
         await PushAsync(page);
     }
 
+    // Called by external pages when a product has been saved and should be added to the list
+    public void AddProduct(Product product)
+    {
+        if (product == null) return;
+        _allProducts.Add(product);
+        FilterProducts();
+    }
+
     [RelayCommand]
     private async Task EditProduct(Product product)
     {
@@ -168,20 +177,27 @@ public partial class ProductManagementViewModel : ObservableObject
         ErrorMessage = string.Empty;
         try
         {
-            bool ok = await _api.DeleteProductAsync(product.ProductId);
+            // Use server id when available (mockapi uses string ids)
+            var serverId = product.Id ?? product.ProductId.ToString();
+            bool ok = await _api.DeleteProductAsync(serverId);
             if (ok)
             {
-                _allProducts.Remove(product);
+                // Remove from master list first
+                var original = _allProducts.FirstOrDefault(p => p.ProductId == product.ProductId);
+                if (original != null)
+                    _allProducts.Remove(original);
+
+                // Recompute filtered list to reflect deletion
                 FilterProducts();
-            }
-            else
-            {
-                ErrorMessage = "Delete failed. Please try again.";
+
+                await Application.Current.MainPage.DisplayAlert("Deleted", $"{product.ProductName} has been deleted.", "OK");
             }
         }
         catch (Exception ex)
         {
+            // Show error details returned by API or transport
             ErrorMessage = $"Failed to delete product: {ex.Message}";
+            await Application.Current.MainPage.DisplayAlert("Error", ErrorMessage, "OK");
         }
         finally
         {
