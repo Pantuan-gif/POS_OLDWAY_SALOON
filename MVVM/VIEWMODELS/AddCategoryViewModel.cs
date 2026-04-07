@@ -1,31 +1,21 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using POS_OLDWAY_SALOON.MVVM.MODELS;
+using POS_OLDWAY_SALOON.Services;
 
 namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS;
 
 public partial class AddCategoryViewModel : ObservableObject
 {
-    // Set by AddCategoryView after instantiation
+    private readonly APISERVICES _api = new APISERVICES();
+
     public Action<Category>? OnSaved { get; set; }
-    // ── Fields ───────────────────────────────────────────────────────────────
 
-    [ObservableProperty]
-    private int _categoryId;
-
-    [ObservableProperty]
-    private string _categoryName = string.Empty;
-
-    [ObservableProperty]
-    private int _noStocks;
-
-    [ObservableProperty]
-    private string _photoPath = string.Empty;
-
-    [ObservableProperty]
-    private string _photoFileName = "No file chosen";
-
-    // ── Stepper Commands ────────────────────────────────────────────────────
+    [ObservableProperty] private int categoryId;
+    [ObservableProperty] private string categoryName = string.Empty;
+    [ObservableProperty] private int noStocks;
+    [ObservableProperty] private string photoPath = string.Empty;
+    [ObservableProperty] private string photoFileName = "No file chosen";
 
     [RelayCommand]
     private void IncrementStocks() => NoStocks++;
@@ -35,8 +25,6 @@ public partial class AddCategoryViewModel : ObservableObject
     {
         if (NoStocks > 0) NoStocks--;
     }
-
-    // ── Photo Picker ────────────────────────────────────────────────────────
 
     [RelayCommand]
     private async Task PickPhotoAsync()
@@ -58,26 +46,28 @@ public partial class AddCategoryViewModel : ObservableObject
 
         var newCategory = new Category
         {
-            CategoryId   = CategoryId,
             CategoryName = CategoryName,
-            NoStocks     = NoStocks,
-            PhotoPath    = PhotoPath
+            NoStocks = NoStocks,
+            PhotoPath = PhotoPath
         };
 
-        // Fire callback so the caller (InventoryManagementView) receives the result
-        OnSaved?.Invoke(newCategory);
+        bool success = await _api.AddCategoryAsync(newCategory);
 
-        // Pop back
-        if (Application.Current?.MainPage is FlyoutPage flyout
-            && flyout.Detail is NavigationPage nav)
-            await nav.PopAsync();
+        if (success)
+        {
+            OnSaved?.Invoke(newCategory);
+            await GoBack();
+        }
+        else
+        {
+            await Application.Current!.MainPage!.DisplayAlert("Error", "Failed to save category.", "OK");
+        }
     }
 
     [RelayCommand]
     private async Task GoBack()
     {
-        if (Application.Current?.MainPage is FlyoutPage flyout
-            && flyout.Detail is NavigationPage nav)
+        if (Application.Current?.MainPage is FlyoutPage flyout && flyout.Detail is NavigationPage nav)
             await nav.PopAsync();
     }
 }

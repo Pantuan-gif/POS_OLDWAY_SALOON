@@ -20,14 +20,13 @@
                      Spacing="10"
                      Grid.Row="1">
             <SearchBar Placeholder="Search"
+                       Text="{Binding SearchText}"
                        HorizontalOptions="FillAndExpand"/>
-            <Picker Title="Categories"
-                    WidthRequest="150"/>
         </StackLayout>
 
         <!-- Product List -->
         <CollectionView Grid.Row="2"
-                        ItemsSource="{Binding Products}">
+                        ItemsSource="{Binding FilteredProducts}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BorderColor="LightGray"
@@ -35,7 +34,7 @@
                            Padding="10">
                         <Grid ColumnDefinitions="Auto, *, Auto">
                             <!-- Product Image -->
-                            <Image Source="{Binding Image}"
+                            <Image Source="{Binding PhotoPath}"
                                    WidthRequest="60"
                                    HeightRequest="60"
                                    Grid.Column="0"/>
@@ -43,12 +42,12 @@
                             <!-- Product Info -->
                             <StackLayout Grid.Column="1"
                                          Padding="10,0">
-                                <Label Text="{Binding Name}"
+                                <Label Text="{Binding ProductName}"
                                        FontAttributes="Bold"/>
-                                <Label Text="{Binding Volume}"
+                                <Label Text="{Binding SizeDisplay}"
                                        FontSize="12"
                                        TextColor="Gray"/>
-                                <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                                <Label Text="{Binding PriceDisplay}"
                                        TextColor="Green"/>
                             </StackLayout>
 
