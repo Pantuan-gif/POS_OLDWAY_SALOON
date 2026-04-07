@@ -20,4 +20,8 @@ public static class AppPages
     public static AddCategoryView      NewAddCategoryView()      => new AddCategoryView();
     public static ProductManagementView NewProductManagementView() => new ProductManagementView();
     public static AddProductView       NewAddProductView()        => new AddProductView();
+    public static AddProductView NewAddProductView(int categoryId)
+    {
+        return new AddProductView(categoryId);
+    }
 }

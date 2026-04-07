@@ -46,20 +46,27 @@ public partial class ProductManagementViewModel : ObservableObject
     {
         CategoryId   = category.CategoryId;
         CategoryName = category.CategoryName;
+        FilterProducts();
     }
 
     // ── Filter Logic ────────────────────────────────────────────────────────
 
     private void FilterProducts()
     {
-        FilteredProducts.Clear();
-        var query = string.IsNullOrWhiteSpace(SearchText)
-            ? _allProducts
-            : _allProducts.Where(p =>
-                p.ProductName.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+            FilteredProducts.Clear();
 
-        foreach (var p in query)
-            FilteredProducts.Add(p);
+    var query = _allProducts
+        .Where(p => p.CategoryId == CategoryId); // always filter by category first
+
+    if (!string.IsNullOrWhiteSpace(SearchText))
+    {
+        query = query.Where(p =>
+            p.ProductName.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+    }
+
+    foreach (var p in query)
+        FilteredProducts.Add(p);
+
     }
 
     // ── Navigation helper ───────────────────────────────────────────────────

@@ -3,38 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.DashboardPage"
              BackgroundColor="#FFFFFF"
-             Title="Dashboard">
+             Title="OLDWAY SALOON">
 
     <ScrollView>
         <VerticalStackLayout Spacing="0">
-
-            <!-- ═══ TOP HEADER ═══ -->
-            <Grid Padding="16,14"
-                  BackgroundColor="{StaticResource TextWhite}"
-                  ColumnDefinitions="Auto,*,Auto">
-
-                <!-- Hamburger Menu -->
-                <ImageButton Grid.Column="0"
-                             Source="menu_icon.png"
-                             HeightRequest="22"
-                             WidthRequest="22"
-                             Padding="0"
-                             BackgroundColor="Transparent"
-                             VerticalOptions="Center" />
-
-                <!-- Brand Name -->
-                <Label Grid.Column="1"
-                       Text="OLDWAY SALOON"
-                       FontSize="18"
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource BrandGold}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       CharacterSpacing="2" />
-
-                <!-- Placeholder right -->
-                <BoxView Grid.Column="2" WidthRequest="22" Color="Transparent" />
-            </Grid>
 
             <!-- Divider -->
             <BoxView HeightRequest="1" Color="{StaticResource DividerColor}" />

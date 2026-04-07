@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:POS_OLDWAY_SALOON.MVVM.MODELS"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.ProductManagementView"
              x:DataType="vm:ProductManagementViewModel"
+             Title="Product Management"
              BackgroundColor="#FFFFFF"
              Shell.NavBarIsVisible="False">
 
@@ -13,24 +14,6 @@
     </ContentPage.BindingContext>
 
     <VerticalStackLayout Spacing="0">
-
-        <!-- ── HEADER ── -->
-        <Grid Padding="16,14"
-              BackgroundColor="#FFFFFF"
-              ColumnDefinitions="Auto,*">
-            <Label Grid.Column="0"
-                   Text="≡"
-                   FontSize="24"
-                   TextColor="#1A1005"
-                   VerticalOptions="Center"
-                   Margin="0,0,10,0" />
-            <Label Grid.Column="1"
-                   Text="Product Management"
-                   FontSize="18"
-                   FontAttributes="Bold"
-                   TextColor="#1A1005"
-                   VerticalOptions="Center" />
-        </Grid>
 
         <!-- Divider -->
         <BoxView HeightRequest="1" Color="#E0E0E0" />

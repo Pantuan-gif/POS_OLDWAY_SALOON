@@ -6,7 +6,8 @@
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.DashboardView"
              x:DataType="vm:DashboardViewModel"
              BackgroundColor="#FFFFFF"
-             Shell.NavBarIsVisible="False">
+             Title="OLDWAY SALOON"
+             Shell.NavBarIsVisible="True">
 
     <ContentPage.BindingContext>
         <vm:DashboardViewModel />
@@ -85,30 +86,6 @@
     <ScrollView>
         <VerticalStackLayout Spacing="0">
 
-            <!-- ── HEADER ── -->
-            <Grid Padding="16,14"
-                  BackgroundColor="{StaticResource TextWhite}"
-                  ColumnDefinitions="Auto,*,Auto">
-
-                <ImageButton Grid.Column="0"
-                             Source="menu_icon.png"
-                             HeightRequest="22"
-                             WidthRequest="22"
-                             Padding="0"
-                             BackgroundColor="Transparent"
-                             VerticalOptions="Center" />
-
-                <Label Grid.Column="1"
-                       Text="OLDWAY SALOON"
-                       FontSize="18"
-                       FontAttributes="Bold"
-                       TextColor="{StaticResource BrandGold}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       CharacterSpacing="2" />
-
-                <BoxView Grid.Column="2" WidthRequest="22" Color="Transparent" />
-            </Grid>
 
             <!-- Divider -->
             <BoxView HeightRequest="1" Color="{StaticResource DividerColor}" />

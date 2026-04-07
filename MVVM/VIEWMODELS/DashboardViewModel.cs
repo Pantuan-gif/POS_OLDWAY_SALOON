@@ -64,7 +64,6 @@ public partial class DashboardViewModel : ObservableObject
         if (Application.Current?.MainPage is FlyoutPage flyout)
         {
             flyout.Detail      = new NavigationPage(page);
-            flyout.IsPresented = false;
         }
     }
 

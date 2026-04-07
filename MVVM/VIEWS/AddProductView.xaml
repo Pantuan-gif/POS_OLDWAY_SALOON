@@ -5,7 +5,8 @@
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.AddProductView"
              x:DataType="vm:AddProductViewModel"
              BackgroundColor="#FFFFFF"
-             Shell.NavBarIsVisible="False">
+             Title="Add Product"
+             Shell.NavBarIsVisible="True">
 
     <ContentPage.BindingContext>
         <vm:AddProductViewModel />
