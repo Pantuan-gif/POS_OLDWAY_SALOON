@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.InventoryReport"
+             Title="InventoryReport"
+             BackgroundColor="#F5F5F5">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <!-- Search Bar -->
+        <SearchBar Placeholder="Search Product"
+                   Grid.Row="0"
+                   Margin="10"
+                   HorizontalOptions="FillAndExpand"
+                   Text="{Binding SearchText}"
+                   SearchCommand="{Binding SearchCommand}" />
+
+        <!-- Product List -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Products}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray"
+                           Margin="8"
+                           Padding="10"
+                           CornerRadius="8">
+                        <Grid ColumnDefinitions="Auto, *"
+                              RowDefinitions="Auto, Auto, Auto, Auto">
+                            <!-- Product Image -->
+                            <Image Source="{Binding Image}"
+                                   WidthRequest="60"
+                                   HeightRequest="60"
+                                   Grid.RowSpan="4"
+                                   Grid.Column="0"
+                                   VerticalOptions="Center"/>
+
+                            <!-- Product Name -->
+                            <Label Text="{Binding Name}"
+                                   FontAttributes="Bold"
+                                   Grid.Row="0"
+                                   Grid.Column="1"/>
+
+                            <!-- Type and Volume -->
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="10"
+                                         Grid.Row="1"
+                                         Grid.Column="1">
+                                <Label Text="{Binding Type}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+                                <Label Text="{Binding Volume}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+                            </StackLayout>
+
+                            <!-- Price -->
+                            <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                                   TextColor="Green"
+                                   Grid.Row="2"
+                                   Grid.Column="1"/>
+
+                            <!-- Sales and Stock -->
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="20"
+                                         Grid.Row="3"
+                                         Grid.Column="1">
+                                <Label Text="{Binding SoldToday, StringFormat='Sold today: {0}'}"
+                                       FontSize="12"/>
+                                <Label Text="{Binding StocksLeft, StringFormat='Stocks left: {0}'}"
+                                       FontSize="12"/>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagement"
+             Title="OrderingManagement"
+             BackgroundColor="#F5F5F5">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
+
+        <!-- Header -->
+        <Label Text="OLDWAY SALOON"
+               FontSize="24"
+               HorizontalOptions="Center"
+               Margin="0,10"
+               Grid.Row="0" />
+
+        <!-- Search and Categories -->
+        <StackLayout Orientation="Horizontal"
+                     Padding="10"
+                     Spacing="10"
+                     Grid.Row="1">
+            <SearchBar Placeholder="Search"
+                       HorizontalOptions="FillAndExpand"/>
+            <Picker Title="Categories"
+                    WidthRequest="150"/>
+        </StackLayout>
+
+        <!-- Product List -->
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Products}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray"
+                           Margin="5"
+                           Padding="10">
+                        <Grid ColumnDefinitions="Auto, *, Auto">
+                            <!-- Product Image -->
+                            <Image Source="{Binding Image}"
+                                   WidthRequest="60"
+                                   HeightRequest="60"
+                                   Grid.Column="0"/>
+
+                            <!-- Product Info -->
+                            <StackLayout Grid.Column="1"
+                                         Padding="10,0">
+                                <Label Text="{Binding Name}"
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding Volume}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+                                <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                                       TextColor="Green"/>
+                            </StackLayout>
+
+                            <!-- Add to Cart -->
+                            <StackLayout Grid.Column="2"
+                                         VerticalOptions="Center">
+                                <Button Text="Add to cart"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddToCartCommand}"
+                                        CommandParameter="{Binding}" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Bottom Summary Bar -->
+        <Grid Grid.Row="3"
+              BackgroundColor="#EEE"
+              Padding="10"
+              ColumnDefinitions="*, Auto">
+            <StackLayout Orientation="Vertical"
+                         Grid.Column="0">
+                <Label Text="{Binding TotalItems, StringFormat='Total Item: {0}'}"/>
+                <Label Text="{Binding TotalPrice, StringFormat='${0:F2}'}"
+                       FontAttributes="Bold"/>
+            </StackLayout>
+            <Button Text="PROCEED"
+                    Grid.Column="1"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    Command="{Binding ProceedCommand}"/>
+        </Grid>
+    </Grid>
+</ContentPage>

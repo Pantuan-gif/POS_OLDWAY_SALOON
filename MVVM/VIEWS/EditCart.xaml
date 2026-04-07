@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.EditCart"
+             Title="EditCart"
+             BackgroundColor="#F5F5F5">
+
+
+
+    <Grid RowDefinitions="*, Auto">
+
+        <!-- Editable Cart Items -->
+        <CollectionView Grid.Row="0"
+                        ItemsSource="{Binding CartItems}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray"
+                           Margin="8"
+                           Padding="10"
+                           CornerRadius="8">
+                        <Grid ColumnDefinitions="Auto, *, Auto"
+                              RowDefinitions="Auto, Auto, Auto">
+                            <!-- Checkbox -->
+                            <CheckBox Grid.RowSpan="3"
+                                      Grid.Column="0"
+                                      VerticalOptions="Center"
+                                      IsChecked="{Binding IsSelected}"/>
+
+                            <!-- Product Info -->
+                            <StackLayout Grid.Column="1"
+                                         Grid.RowSpan="3"
+                                         Padding="10,0">
+                                <Label Text="{Binding Name}"
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding Type}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+                                <Label Text="{Binding Volume}"
+                                       FontSize="12"
+                                       TextColor="Gray"/>
+
+                                <!-- Editable Quantity -->
+                                <StackLayout Orientation="Horizontal"
+                                             Spacing="10"
+                                             VerticalOptions="Center">
+                                    <Button Text="-"
+                                            Command="{Binding DecreaseQuantityCommand}"
+                                            CommandParameter="{Binding}" />
+                                    <Entry Text="{Binding Quantity}"
+                                           WidthRequest="50"
+                                           Keyboard="Numeric"
+                                           HorizontalTextAlignment="Center"/>
+                                    <Button Text="+"
+                                            Command="{Binding IncreaseQuantityCommand}"
+                                            CommandParameter="{Binding}" />
+                                </StackLayout>
+
+                                <!-- Price -->
+                                <Label Text="{Binding Price, StringFormat='${0:F2}'}"
+                                       TextColor="Green"
+                                       FontAttributes="Bold"/>
+                            </StackLayout>
+
+                            <!-- Update/Delete Icons -->
+                            <StackLayout Grid.Column="2"
+                                         Grid.RowSpan="3"
+                                         Orientation="Horizontal"
+                                         Spacing="10"
+                                         VerticalOptions="Center">
+                                <ImageButton Source="update_icon.png"
+                                             Command="{Binding UpdateCommand}"
+                                             CommandParameter="{Binding}" />
+                                <ImageButton Source="delete_icon.png"
+                                             Command="{Binding DeleteCommand}"
+                                             CommandParameter="{Binding}" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Bottom Summary Bar -->
+        <Grid Grid.Row="1"
+              BackgroundColor="#EEE"
+              Padding="10"
+              ColumnDefinitions="*, Auto">
+            <Label Text="{Binding TotalPrice, StringFormat='${0:F2}'}"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   Grid.Column="0"/>
+            <Button Text="UPDATE CART"
+                    Grid.Column="1"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    Command="{Binding UpdateCartCommand}"/>
+        </Grid>
+    </Grid>
+</ContentPage>
