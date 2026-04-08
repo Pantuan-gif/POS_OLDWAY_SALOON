@@ -2,9 +2,8 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWS;
 
 public partial class Reports : ContentPage
 {
-	public Reports()
-	{
-		InitializeComponent();
-		BindingContext = new MVVM.VIEWMODELS.DashboardViewModel();
-	}
+    public Reports()
+    {
+        InitializeComponent();
+    } 
 }

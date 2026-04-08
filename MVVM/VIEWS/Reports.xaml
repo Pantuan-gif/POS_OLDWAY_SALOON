@@ -7,96 +7,132 @@
 
     <Grid RowDefinitions="Auto, *">
 
-        <!-- Header with Hamburger Menu -->
+        <!-- Header -->
         <Grid Grid.Row="0"
               ColumnDefinitions="Auto, *"
-              Padding="10">
+              Padding="10"
+              BackgroundColor="White">
             <ImageButton Source="menu_icon.png"
                          Command="{Binding MenuCommand}"
                          Grid.Column="0"
                          WidthRequest="30"
-                         HeightRequest="30"/>
+                         HeightRequest="30"
+                         VerticalOptions="Center"/>
             <Label Text="Reports"
                    FontSize="20"
                    FontAttributes="Bold"
                    VerticalOptions="Center"
+                   Margin="10,0,0,0"
                    Grid.Column="1"/>
         </Grid>
 
-        <!-- Reports Options -->
-        <StackLayout Grid.Row="1"
-                     Padding="20"
-                     Spacing="15">
+        <!-- Report Options -->
+        <ScrollView Grid.Row="1">
+            <StackLayout Padding="20" Spacing="15">
 
-            <!-- Transaction History -->
-            <Frame BorderColor="LightGray"
-                   CornerRadius="8"
-                   Padding="15">
-                <Grid ColumnDefinitions="Auto, *, Auto">
-                    <Image Source="transaction_icon.png"
-                           WidthRequest="40"
-                           HeightRequest="40"
-                           Grid.Column="0"/>
-                    <StackLayout Grid.Column="1"
-                                 Padding="10,0">
-                        <Label Text="Transaction History"
-                               FontAttributes="Bold"/>
-                        <Label Text="List of all transactions"
-                               FontSize="12"
-                               TextColor="Gray"/>
-                    </StackLayout>
-                    <ImageButton Source="arrow_icon.png"
-                                 Grid.Column="2"
-                                 Command="{Binding NavigateTransactionHistoryCommand}"/>
-                </Grid>
-            </Frame>
+                <!-- Transaction History -->
+                <Frame BorderColor="LightGray"
+                       CornerRadius="10"
+                       Padding="15"
+                       HasShadow="True">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateTransactionHistoryCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#E8F4FD"
+                               CornerRadius="8"
+                               Padding="8"
+                               HasShadow="False">
+                            <Image Source="transaction_icon.png"
+                                   WidthRequest="28"
+                                   HeightRequest="28"/>
+                        </Frame>
+                        <StackLayout Grid.Column="1" Padding="12,0" VerticalOptions="Center">
+                            <Label Text="Transaction History"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+                            <Label Text="View all completed orders"
+                                   FontSize="12"
+                                   TextColor="Gray"/>
+                        </StackLayout>
+                        <Label Text="›"
+                               Grid.Column="2"
+                               FontSize="24"
+                               TextColor="Gray"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
 
-            <!-- Inventory Report -->
-            <Frame BorderColor="LightGray"
-                   CornerRadius="8"
-                   Padding="15">
-                <Grid ColumnDefinitions="Auto, *, Auto">
-                    <Image Source="inventory_icon.png"
-                           WidthRequest="40"
-                           HeightRequest="40"
-                           Grid.Column="0"/>
-                    <StackLayout Grid.Column="1"
-                                 Padding="10,0">
-                        <Label Text="Inventory Report"
-                               FontAttributes="Bold"/>
-                        <Label Text="Check total products in stock"
-                               FontSize="12"
-                               TextColor="Gray"/>
-                    </StackLayout>
-                    <ImageButton Source="arrow_icon.png"
-                                 Grid.Column="2"
-                                 Command="{Binding NavigateInventoryReportCommand}"/>
-                </Grid>
-            </Frame>
+                <!-- Inventory Report -->
+                <Frame BorderColor="LightGray"
+                       CornerRadius="10"
+                       Padding="15"
+                       HasShadow="True">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateInventoryReportCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#E8F8F0"
+                               CornerRadius="8"
+                               Padding="8"
+                               HasShadow="False">
+                            <Image Source="inventory_icon.png"
+                                   WidthRequest="28"
+                                   HeightRequest="28"/>
+                        </Frame>
+                        <StackLayout Grid.Column="1" Padding="12,0" VerticalOptions="Center">
+                            <Label Text="Inventory Report"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+                            <Label Text="Stock levels and daily sales per product"
+                                   FontSize="12"
+                                   TextColor="Gray"/>
+                        </StackLayout>
+                        <Label Text="›"
+                               Grid.Column="2"
+                               FontSize="24"
+                               TextColor="Gray"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
 
-            <!-- Out of Stock Items -->
-            <Frame BorderColor="LightGray"
-                   CornerRadius="8"
-                   Padding="15">
-                <Grid ColumnDefinitions="Auto, *, Auto">
-                    <Image Source="outofstock_icon.png"
-                           WidthRequest="40"
-                           HeightRequest="40"
-                           Grid.Column="0"/>
-                    <StackLayout Grid.Column="1"
-                                 Padding="10,0">
-                        <Label Text="Out of Stock Items"
-                               FontAttributes="Bold"/>
-                        <Label Text="View out of stock products"
-                               FontSize="12"
-                               TextColor="Gray"/>
-                    </StackLayout>
-                    <ImageButton Source="arrow_icon.png"
-                                 Grid.Column="2"
-                                 Command="{Binding NavigateOutOfStockCommand}"/>
-                </Grid>
-            </Frame>
+                <!-- Out of Stock -->
+                <Frame BorderColor="LightGray"
+                       CornerRadius="10"
+                       Padding="15"
+                       HasShadow="True">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigateOutOfStockCommand}"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                        <Frame Grid.Column="0"
+                               BackgroundColor="#FEF0E7"
+                               CornerRadius="8"
+                               Padding="8"
+                               HasShadow="False">
+                            <Image Source="outofstock_icon.png"
+                                   WidthRequest="28"
+                                   HeightRequest="28"/>
+                        </Frame>
+                        <StackLayout Grid.Column="1" Padding="12,0" VerticalOptions="Center">
+                            <Label Text="Out of Stock Items"
+                                   FontAttributes="Bold"
+                                   FontSize="15"/>
+                            <Label Text="Products that need restocking"
+                                   FontSize="12"
+                                   TextColor="Gray"/>
+                        </StackLayout>
+                        <Label Text="›"
+                               Grid.Column="2"
+                               FontSize="24"
+                               TextColor="Gray"
+                               VerticalOptions="Center"/>
+                    </Grid>
+                </Frame>
 
-        </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </Grid>
 </ContentPage>
