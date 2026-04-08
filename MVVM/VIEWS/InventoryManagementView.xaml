@@ -140,8 +140,11 @@
 
         <!-- ── CATEGORY GRID ── -->
         <ScrollView>
-            <CollectionView ItemsSource="{Binding FilteredCategories}"
-                            Margin="8,4,8,16">
+            <CollectionView
+                HeightRequest="670"
+                ItemsSource="{Binding FilteredCategories}"
+                            
+                            Margin="8,9,8,16">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
                                      Span="2"

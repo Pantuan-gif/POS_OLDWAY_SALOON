@@ -5,6 +5,7 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS;
 
 public class Order
 {
+    //Order models for Ordering
     public string ReferenceNumber { get; set; } = Guid.NewGuid().ToString("N").ToUpper();
     public DateTime Date { get; set; } = DateTime.Now;
     public string PaymentMethod { get; set; } = "Cash";

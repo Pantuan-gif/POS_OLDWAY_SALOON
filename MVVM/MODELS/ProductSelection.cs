@@ -5,6 +5,7 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS;
 
 public class ProductSelection : ObservableObject
 {
+    //model for selection of a product
     public Product Product { get; }
 
     private int _selectedQuantity;
