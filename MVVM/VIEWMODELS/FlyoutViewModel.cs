@@ -23,7 +23,7 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
             new FlyoutMenuItem
             {
                 Title = "Home",
-                Icon = "Home.svg",
+                Icon = "placeholder.png",
                 TargetPage = typeof(Home)
             },
         };

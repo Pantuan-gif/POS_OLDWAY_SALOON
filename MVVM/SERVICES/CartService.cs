@@ -8,7 +8,7 @@ public static class CartService
 {
     private static readonly ObservableCollection<CartItem> _items = new();
     public static ReadOnlyObservableCollection<CartItem> Items { get; } = new ReadOnlyObservableCollection<CartItem>(_items);
-    //Cart logic for ordering management
+
     public static void AddToCart(Product p, int quantity = 1)
     {
         var existing = _items.FirstOrDefault(i => i.ProductId == p.ProductId);
