@@ -11,7 +11,7 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS
 
         public int Id { get; set; }
 
-        public string Role { get; set; }
+        public string Role { get; set; } //For system restriction
         public string Password { get; set; }
 
         public string Username { get; set; }
@@ -23,7 +23,7 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS
 
         public string LastName { get; set; }
         public string FullName => $"{FirstName} {LastName}"; // computed property
-        public string? ImageSource { get; set; }
+        public string? ImageSource { get; set; } // for profile picture
 
         public bool IsActive { get; set; }
 
