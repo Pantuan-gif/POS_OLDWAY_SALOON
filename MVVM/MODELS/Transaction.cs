@@ -2,6 +2,7 @@ namespace POS_OLDWAY_SALOON.MVVM.MODELS;
 
 public class Transaction
 {
+    //Transaction Model
     public string ProductName { get; set; } = string.Empty;
     public string ImageSource { get; set; } = string.Empty;
     public string DateTime { get; set; } = string.Empty;

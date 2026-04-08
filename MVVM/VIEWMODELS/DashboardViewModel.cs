@@ -105,7 +105,7 @@ public partial class DashboardViewModel : ObservableObject
 
     [RelayCommand]
     private void GoToProducts()
-        => NavigateTo(AppPages.NewProductManagementView());
+        => NavigateTo(AppPages.NewOrderingManagementView());
 
     [RelayCommand]
     private void GoToInventory()
