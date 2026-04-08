@@ -119,5 +119,5 @@ public partial class DashboardViewModel : ObservableObject
 
     [RelayCommand]
     private void GoToReports()
-        => NavigateTo(AppPages.NewAddProductView()); // replace with AppPages.Reports when ready
+        => NavigateTo(AppPages.Reports);
 }

@@ -11,9 +11,11 @@ public static class AppPages
     // ── Main Pages (cached — never re-created) ───────────────────────────────
     private static DashboardView?            _dashboard;
     private static InventoryManagementView?  _inventory;
+    private static MVVM.VIEWS.Reports?       _reports;
 
     public static DashboardView           Dashboard  => _dashboard  ??= new DashboardView();
     public static InventoryManagementView Inventory  => _inventory  ??= new InventoryManagementView();
+    public static MVVM.VIEWS.Reports       Reports    => _reports    ??= new MVVM.VIEWS.Reports();
 
     // ── Push Pages (fresh each time — they are form/detail pages) ───────────
     // These are intentionally NOT cached because they need clean state on every open.

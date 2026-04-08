@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace POS_OLDWAY_SALOON.MVVM.MODELS;
 
@@ -13,4 +14,8 @@ public class Order
 
     public int ItemCount => Items?.Count ?? 0;
     public decimal Total => Items?.Sum(i => i.TotalPrice) ?? 0m;
+
+    // Helper properties used by receipt and reports
+    public string Time => Date.ToString("hh:mm tt");
+    public string TotalPayment => Total.ToString("C2");
 }

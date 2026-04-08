@@ -32,7 +32,9 @@
 
         <!-- Transaction List -->
         <CollectionView Grid.Row="2"
-                        ItemsSource="{Binding Transactions}">
+                        ItemsSource="{Binding Transactions}"
+                        SelectionMode="Single"
+                        SelectionChangedCommand="{Binding ItemSelectedCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame BorderColor="LightGray"

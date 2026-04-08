@@ -32,6 +32,16 @@ public partial class PaymentViewModel : ObservableObject
             }).ToList()
         };
 
+        // Persist order to local JSON store so TransactionReports can read it
+        try
+        {
+            await MVVM.SERVICES.TransactionService.AppendAsync(order);
+        }
+        catch
+        {
+            // ignore persistence failure for now
+        }
+
         CartService.Clear();
 
         if (Application.Current?.MainPage is FlyoutPage flyout && flyout.Detail is NavigationPage nav)

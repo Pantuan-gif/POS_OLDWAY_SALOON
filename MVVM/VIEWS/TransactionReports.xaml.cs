@@ -5,5 +5,6 @@ public partial class TransactionReports : ContentPage
 	public TransactionReports()
 	{
 		InitializeComponent();
+		BindingContext = new MVVM.VIEWMODELS.TransactionReportsViewModel();
 	}
 }
