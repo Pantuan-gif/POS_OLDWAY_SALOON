@@ -21,9 +21,9 @@ public partial class FlyoutMenu : ContentPage
 
         var menu = new ObservableCollection<FlyoutMenuItem>
 		{
-            new FlyoutMenuItem { Title = "Home", Icon = "home.svg", TargetPage = typeof(DashboardView) },
-			new FlyoutMenuItem { Title = "Inventory", Icon = "inventory.svg", TargetPage = typeof(InventoryManagementView) },
-			new FlyoutMenuItem { Title = "Orders", Icon = "order.svg", TargetPage = typeof(POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagement) }
+            new FlyoutMenuItem { Title = "Home", Icon = "placeholder.png", TargetPage = typeof(DashboardView) },
+			new FlyoutMenuItem { Title = "Inventory", Icon = "placeholder.png", TargetPage = typeof(InventoryManagementView) },
+			new FlyoutMenuItem { Title = "Orders", Icon = "placeholder.png", TargetPage = typeof(POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagement) }
 		};
 
 		// Find user and add User Management only for Admin
@@ -33,7 +33,7 @@ public partial class FlyoutMenu : ContentPage
 			// Admin gets User Management
 			if (string.Equals(user.Role, "Admin", StringComparison.OrdinalIgnoreCase))
 			{
-				menu.Add(new FlyoutMenuItem { Title = "User Management", Icon = "usermngt.svg", TargetPage = typeof(UserManagement) });
+				menu.Add(new FlyoutMenuItem { Title = "User Management", Icon = "placeholder.png", TargetPage = typeof(UserManagement) });
 			}
 
             // If the user is a Cashier, prefer Orders over Inventory in the menu
