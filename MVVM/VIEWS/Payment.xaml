@@ -92,7 +92,8 @@
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <RadioButton IsChecked="True"
                                  GroupName="Payment"
-                                 x:Name="Cash"/>
+                                 x:Name="Cash"
+                                 CheckedChanged="OnPaymentMethodChanged" />
 
                     <Label Text="Cash"
                            VerticalOptions="Center"
@@ -104,11 +105,20 @@
                 </Grid>
             </Frame>
 
+            <!-- Cash tender input -->
+            <VerticalStackLayout Padding="6">
+                <Label Text="Enter Cash Tendered" FontAttributes="Bold" />
+                <Entry Keyboard="Numeric" Text="{Binding TenderedAmount, Mode=TwoWay}" Placeholder="0.00" />
+                <Label Text="Change:" FontAttributes="Bold" />
+                <Label Text="{Binding ChangeAmount, StringFormat='₱{0:F2}'}" TextColor="#1A8F4B" />
+            </VerticalStackLayout>
+
             <!-- GCash -->
             <Frame BorderColor="#CCCCCC" CornerRadius="10" Padding="10">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <RadioButton GroupName="Payment"
-                                 x:Name="GCash"/>
+                                 x:Name="GCash"
+                                 CheckedChanged="OnPaymentMethodChanged" />
 
                     <Label Text="GCash"
                            VerticalOptions="Center"
@@ -124,7 +134,8 @@
             <Frame BorderColor="#CCCCCC" CornerRadius="10" Padding="10">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <RadioButton GroupName="Payment"
-                                 x:Name="PayMaya"/>
+                                 x:Name="PayMaya"
+                                 CheckedChanged="OnPaymentMethodChanged" />
 
                     <Label Text="PayMaya"
                            VerticalOptions="Center"

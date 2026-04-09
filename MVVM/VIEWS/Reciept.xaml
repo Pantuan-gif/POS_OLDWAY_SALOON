@@ -6,116 +6,100 @@
              BackgroundColor="#F5F5F5">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Padding="16" Spacing="12">
 
             <!-- Header -->
             <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
-                <Label Text="☰"
-                       FontSize="24"
-                       VerticalOptions="Center"/>
-
-                <Label Text="E-Receipt"
-                       FontSize="20"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center"
-                       Grid.Column="1"/>
-
-                <BoxView WidthRequest="24" Grid.Column="2"/>
+                <Button Text="←" Command="{Binding BackCommand}" BackgroundColor="Transparent" TextColor="#5C2E0C" />
+                <Label Text="E-Receipt" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" Grid.Column="1" />
+                <BoxView WidthRequest="24" Grid.Column="2" />
             </Grid>
 
-            <!-- Receipt Card -->
-            <Frame CornerRadius="20"
-                   BackgroundColor="#5C2E0C"
-                   Padding="20"
-                   HasShadow="True">
+            <!-- Receipt Card (responsive) -->
+            <Frame CornerRadius="14" BackgroundColor="#5C2E0C" Padding="16" HasShadow="True" HorizontalOptions="FillAndExpand">
+                <VerticalStackLayout Spacing="10">
 
-                <VerticalStackLayout Spacing="15">
+                    <!-- Icon + Store -->
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="6">
+                        <Frame BackgroundColor="#1A8F4B" CornerRadius="28" WidthRequest="56" HeightRequest="56" Padding="0">
+                            <Label Text="✔" FontSize="28" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Frame>
+                        <Label Text="OLDWAY SALOON" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="Liquor Store" FontSize="12" TextColor="#DDDDDD" />
+                        <Label Text="46551 140th Street East, Lancaster, California" FontSize="12" TextColor="#DDDDDD" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
 
-                    <!-- Check Icon -->
-                    <Frame BackgroundColor="Green"
-                           CornerRadius="40"
-                           WidthRequest="60"
-                           HeightRequest="60"
-                           HorizontalOptions="Center"
-                           Padding="0">
-                        <Label Text="✔"
-                               FontSize="28"
-                               TextColor="White"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"/>
-                    </Frame>
-
-                    <!-- Store Info -->
-                    <Label Text="OLDWAY SALOON"
-                           FontAttributes="Bold"
-                           FontSize="18"
-                           TextColor="White"
-                           HorizontalOptions="Center"/>
-
-                    <Label Text="Liquor Store"
-                           FontSize="12"
-                           TextColor="#DDDDDD"
-                           HorizontalOptions="Center"/>
-
-                    <Label Text="46551 140th Street East, Lancaster, California"
-                           FontSize="12"
-                           TextColor="#DDDDDD"
-                           HorizontalTextAlignment="Center"/>
+                    <!-- Items -->
+                    <CollectionView ItemsSource="{Binding Items}" SelectionMode="None" BackgroundColor="Transparent">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <!-- Use two-row layout so long texts don't overlap -->
+                                <Grid Padding="6" ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="8">
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding ProductName}" TextColor="White" LineBreakMode="TailTruncation" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding Quantity, StringFormat='x{0}'}" TextColor="#DDDDDD" HorizontalOptions="End" />
+                                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding TotalPrice, StringFormat='₱{0:F2}'}" TextColor="#DDDDDD" HorizontalOptions="End" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.EmptyView>
+                            <Label Text="(No items)" TextColor="#DDDDDD" HorizontalOptions="Center" />
+                        </CollectionView.EmptyView>
+                    </CollectionView>
 
                     <!-- Details -->
-                    <Grid ColumnDefinitions="*,Auto" RowSpacing="8">
+                    <VerticalStackLayout Spacing="6">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Reference" TextColor="#DDDDDD" />
+                            <Label Text="{Binding ReferenceNumber}" TextColor="#FFFFFF" LineBreakMode="WordWrap" MaxLines="3" HorizontalOptions="EndAndExpand" />
+                        </Grid>
 
-                        <Label Text="Reference Number" TextColor="White"/>
-                        <Label Text="{Binding ReferenceNumber}" Grid.Column="1" TextColor="White"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Date" TextColor="#DDDDDD" />
+                            <Label Text="{Binding Date}" TextColor="#FFFFFF" HorizontalOptions="End" />
+                        </Grid>
 
-                        <Label Text="Date" Grid.Row="1" TextColor="White"/>
-                        <Label Text="{Binding Date}" Grid.Row="1" Grid.Column="1" TextColor="White"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Time" TextColor="#DDDDDD" />
+                            <Label Text="{Binding Time}" TextColor="#FFFFFF" HorizontalOptions="End" />
+                        </Grid>
 
-                        <Label Text="Time" Grid.Row="2" TextColor="White"/>
-                        <Label Text="{Binding Time}" Grid.Row="2" Grid.Column="1" TextColor="White"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Operator" TextColor="#DDDDDD" />
+                            <Label Text="{Binding OperatorName}" TextColor="#FFFFFF" HorizontalOptions="End" />
+                        </Grid>
 
-                        <Label Text="Payment Method" Grid.Row="3" TextColor="White"/>
-                        <Label Text="{Binding PaymentMethod}" Grid.Row="3" Grid.Column="1" TextColor="White"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Payment" TextColor="#DDDDDD" />
+                            <Label Text="{Binding PaymentMethod}" TextColor="#FFFFFF" HorizontalOptions="End" />
+                        </Grid>
 
-                        <Label Text="No. Items" Grid.Row="4" TextColor="White"/>
-                        <Label Text="{Binding ItemCount}" Grid.Row="4" Grid.Column="1" TextColor="White"/>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Tendered" TextColor="#DDDDDD" />
+                            <Label Text="{Binding TenderedAmount, StringFormat='₱{0:F2}'}" TextColor="#FFFFFF" HorizontalOptions="End" />
+                        </Grid>
 
-                    </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Change" TextColor="#DDDDDD" />
+                            <Label Text="{Binding Change, StringFormat='₱{0:F2}'}" TextColor="#FFFFFF" HorizontalOptions="End" />
+                        </Grid>
+                    </VerticalStackLayout>
 
                     <!-- Divider -->
-                    <BoxView HeightRequest="1" BackgroundColor="#AAAAAA"/>
+                    <BoxView HeightRequest="1" BackgroundColor="#AA9A8A" />
 
                     <!-- Total -->
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Total Payment"
-                               FontAttributes="Bold"
-                               TextColor="White"/>
-
-                        <Label Text="{Binding TotalPayment}"
-                               Grid.Column="1"
-                               FontAttributes="Bold"
-                               TextColor="#00FF7F"/>
+                        <Label Text="Total Payment" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="{Binding TotalPayment}" Grid.Column="1" FontAttributes="Bold" TextColor="#8CFFB4" />
                     </Grid>
 
-                    <!-- Note -->
-                    <Label Text="Note: Please show this receipt and pay to the cashier"
-                           FontSize="11"
-                           TextColor="#DDDDDD"/>
-
-                    <Label Text="Thank you!"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           TextColor="White"/>
-
+                    <Label Text="Note: Please show this receipt and pay to the cashier" FontSize="11" TextColor="#DDDDDD" />
+                    <Label Text="Thank you!" FontAttributes="Bold" HorizontalOptions="Center" TextColor="White" />
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Back Button -->
-            <Button Text="← Back To PRODUCTS"
-                    Clicked="OnBackClicked"
-                    BackgroundColor="Transparent"
-                    TextColor="#5C2E0C"
-                    FontAttributes="Bold"/>
+            <Button Text="← Back To Orders" Clicked="OnBackClicked" BackgroundColor="Transparent" TextColor="#5C2E0C" FontAttributes="Bold"/>
 
         </VerticalStackLayout>
     </ScrollView>

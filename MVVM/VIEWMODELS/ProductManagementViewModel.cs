@@ -83,11 +83,13 @@ public partial class ProductManagementViewModel : ObservableObject
     {
         FilteredProducts.Clear();
 
-        var query = _allProducts.Where(p => p.CategoryId == CategoryId);
+        // If CategoryId is 0 (not set) treat as all categories
+        IEnumerable<Product> query = (CategoryId == 0)
+            ? _allProducts
+            : _allProducts.Where(p => p.CategoryId == CategoryId);
 
         if (!string.IsNullOrWhiteSpace(SearchText))
-            query = query.Where(p =>
-                p.ProductName.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(p => p.ProductName.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
         foreach (var p in query)
             FilteredProducts.Add(p);

@@ -37,7 +37,7 @@
                            FontSize="14"
                            VerticalOptions="Center" />
                     <Entry Grid.Column="1"
-                           Text="{Binding SearchText}"
+                           Text="{Binding SearchText, Mode=TwoWay}"
                            Placeholder="Search"
                            PlaceholderColor="#AAAAAA"
                            FontSize="14"

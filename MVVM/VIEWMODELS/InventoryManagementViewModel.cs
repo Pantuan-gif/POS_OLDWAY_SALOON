@@ -18,6 +18,12 @@ public partial class InventoryManagementViewModel : ObservableObject
 
     partial void OnSearchTextChanged(string value) => FilterCategories();
 
+    [RelayCommand]
+    private void SearchCategories()
+    {
+        FilterCategories();
+    }
+
     // ── Loading / Error state ───────────────────────────────────────────────
 
     [ObservableProperty]

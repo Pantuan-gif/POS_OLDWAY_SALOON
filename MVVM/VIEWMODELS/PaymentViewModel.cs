@@ -8,6 +8,31 @@ public partial class PaymentViewModel : ObservableObject
 {
     public decimal TotalAmount => CartService.TotalPrice;
 
+    [ObservableProperty]
+    private decimal _tenderedAmount;
+
+    [ObservableProperty]
+    private decimal _changeAmount;
+
+    partial void OnTenderedAmountChanged(decimal value)
+    {
+        // compute change live when tendered amount changes
+        var change = Math.Max(0, value - TotalAmount);
+        ChangeAmount = change;
+    }
+
+    partial void OnPaymentMethodChanged(string value)
+    {
+        // if non-cash payment, clear tendered/change
+        if (!string.Equals(value, "Cash", StringComparison.OrdinalIgnoreCase))
+        {
+            TenderedAmount = 0m;
+            ChangeAmount = 0m;
+        }
+    }
+    [ObservableProperty]
+    private string _paymentMethod = "Cash";
+
     [RelayCommand]
     private async Task Back()
     {
@@ -31,6 +56,15 @@ public partial class PaymentViewModel : ObservableObject
                 PhotoPath = i.PhotoPath
             }).ToList()
         };
+
+        // If paying by cash, compute change
+        order.TenderedAmount = TenderedAmount;
+        order.Change = Math.Max(0, TenderedAmount - order.Total);
+        // Set operator (current user)
+        order.OperatorName = Services.AuthService.CurrentUser?.FirstName + " " + Services.AuthService.CurrentUser?.LastName;
+
+        // update local properties so UI can show change
+        ChangeAmount = order.Change;
 
         // Persist order to local JSON store so TransactionReports can read it
         try

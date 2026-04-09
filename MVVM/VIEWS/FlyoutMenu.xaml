@@ -6,11 +6,22 @@
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.FlyoutMenu"
              Title="FlyoutMenu">
 
-    <Grid RowDefinitions="*,Auto">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Profile header -->
+        <Grid Grid.Row="0" Padding="12" ColumnDefinitions="60,*">
+            <Frame BackgroundColor="Transparent" Padding="0" HasShadow="False" CornerRadius="30" HeightRequest="56" WidthRequest="56">
+                <Image x:Name="ProfileImage" Source="nullprofile.png" Aspect="AspectFill" HeightRequest="56" WidthRequest="56" />
+            </Frame>
+            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2" Padding="10,0,0,0">
+                <Label x:Name="ProfileName" Text="Guest" FontAttributes="Bold" FontSize="16" TextColor="#1A1005" />
+                <Label x:Name="ProfileRole" Text="" FontSize="12" TextColor="#888888" />
+            </VerticalStackLayout>
+        </Grid>
+
         <CollectionView x:Name="collectionView"
                         x:FieldModifier="public"
                         SelectionMode="Single"
-                        Grid.Row="0">
+                        Grid.Row="1">
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:FlyoutMenuItem">

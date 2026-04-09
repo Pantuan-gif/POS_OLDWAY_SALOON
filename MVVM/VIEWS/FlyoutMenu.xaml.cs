@@ -50,6 +50,16 @@ public partial class FlyoutMenu : ContentPage
 		}
 
 		collectionView.ItemsSource = menu;
+
+		// Update profile header
+		var active = Services.AuthService.CurrentUser ?? LoginViewModels.User.FirstOrDefault(u => u.Id == userId);
+		if (active != null)
+		{
+			ProfileName.Text = $"{active.FirstName} {active.LastName}";
+			ProfileRole.Text = active.Role;
+			if (!string.IsNullOrWhiteSpace(active.ImageSource))
+				ProfileImage.Source = active.ImageSource;
+		}
 	}
 
 	private async void OnLogoutClicked(object sender, EventArgs e)

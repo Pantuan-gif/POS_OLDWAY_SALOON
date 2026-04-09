@@ -28,51 +28,56 @@
                Grid.Row="0" />
 
         <!-- Search and Categories (placeholders) -->
-        <StackLayout Orientation="Horizontal"
-                     Padding="10"
-                     Spacing="10"
-                     Grid.Row="1">
+        <Grid Grid.Row="1" Padding="8" ColumnDefinitions="*,150">
             <SearchBar Placeholder="Search"
                        HorizontalOptions="FillAndExpand"
-                       SearchCommand="{Binding LoadProductsAsyncCommand}" />
-            <Picker Title="Categories"
+                       Text="{Binding SearchText, Mode=TwoWay}" />
+            <Picker Grid.Column="1"
+                    ItemsSource="{Binding Categories}"
+                    ItemDisplayBinding="{Binding CategoryName}"
+                    SelectedItem="{Binding SelectedCategory}"
                     WidthRequest="150" />
-        </StackLayout>
+        </Grid>
 
-        <!-- Product Grid -->
+        <!-- Product List (single-column mobile-friendly cards) -->
         <CollectionView Grid.Row="2"
                         ItemsSource="{Binding Products}"
-                        SelectionMode="None">
+                        SelectionMode="None"
+                        Margin="8,0">
             <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="8" VerticalItemSpacing="8" />
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
             </CollectionView.ItemsLayout>
             <CollectionView.EmptyView>
                 <Label Text="No products" HorizontalOptions="Center" VerticalOptions="Center" />
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ProductSelection">
-                    <Frame BorderColor="#DDD" BackgroundColor="White" Margin="6" Padding="8" CornerRadius="6" HasShadow="False">
-                        <VerticalStackLayout Spacing="8">
-                            <Image Source="{Binding Product.PhotoPath}" HeightRequest="120" Aspect="AspectFit" HorizontalOptions="Center" />
-                            <Label Text="{Binding Product.ProductName}" FontAttributes="Bold" />
-                            <Label Text="{Binding Product.PriceDisplay}" TextColor="#1A8F4B" />
-                            <Label Text="{Binding Product.SizeDisplay}" FontSize="12" TextColor="#888" />
+                    <Frame BorderColor="#E6D7C9" BackgroundColor="White" Margin="0" Padding="12" CornerRadius="10" HasShadow="True">
+                        <VerticalStackLayout Spacing="10">
+                            <HorizontalStackLayout Spacing="12">
+                                <Image Source="{Binding Product.PhotoPath}" HeightRequest="92" WidthRequest="92" Aspect="AspectFill" />
+                                <VerticalStackLayout VerticalOptions="Center" Spacing="4" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding Product.ProductName}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                    <Label Text="{Binding Product.SizeDisplay}" FontSize="12" TextColor="#666" />
+                                    <Label Text="{Binding Product.PriceDisplay}" FontAttributes="Bold" TextColor="#1A8F4B" />
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
 
-                            <Grid ColumnDefinitions="0.5*,0.5*,Auto" VerticalOptions="End">
-                                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
-                                    <Button Text="-" WidthRequest="32" HeightRequest="32"
+                            <HorizontalStackLayout Spacing="10" HorizontalOptions="FillAndExpand">
+                                <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                    <Button Text="-" WidthRequest="36" HeightRequest="36"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DecrementQuantityCommand}"
                                             CommandParameter="{Binding .}" />
                                     <Label Text="{Binding SelectedQuantity}" VerticalOptions="Center" />
-                                    <Button Text="+" WidthRequest="32" HeightRequest="32"
+                                    <Button Text="+" WidthRequest="36" HeightRequest="36"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.IncrementQuantityCommand}"
                                             CommandParameter="{Binding .}" />
                                 </HorizontalStackLayout>
 
-                                <Button Grid.Column="1" WidthRequest="2" Margin="35,0,0,0" Text="🛒" BackgroundColor="#5C2E0C" TextColor="White" CornerRadius="6"
+                                <Button Text="Add to cart" BackgroundColor="#5C2E0C" TextColor="White" CornerRadius="8" HorizontalOptions="EndAndExpand"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.AddSelectedToCartCommand}"
                                         CommandParameter="{Binding .}" />
-                            </Grid>
+                            </HorizontalStackLayout>
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
@@ -80,15 +85,17 @@
         </CollectionView>
 
         <!-- Bottom Summary Bar -->
-        <Frame Grid.Row="3" Padding="12" BackgroundColor="#5C2E0C" CornerRadius="8" Margin="6">
-            <Grid ColumnDefinitions="*,Auto" VerticalOptions="End">
-                <VerticalStackLayout>
-                    <Label Text="{Binding CartSummaryTotalItems}" TextColor="White" />
-                    <Label Text="{Binding CartSummaryTotalPrice}" TextColor="#8CFFB4" FontAttributes="Bold" />
-                </VerticalStackLayout>
+        <Grid Grid.Row="3" Padding="8">
+            <Frame BackgroundColor="#5C2E0C" CornerRadius="10" Padding="12">
+                <Grid ColumnDefinitions="*,Auto" VerticalOptions="End">
+                    <VerticalStackLayout>
+                        <Label Text="{Binding CartSummaryTotalItems}" TextColor="White" />
+                        <Label Text="{Binding CartSummaryTotalPrice}" TextColor="#8CFFB4" FontAttributes="Bold" />
+                    </VerticalStackLayout>
 
-                <Button Text="PROCEED" BackgroundColor="White" TextColor="#5C2E0C" WidthRequest="140" HeightRequest="44" Command="{Binding ProceedCommand}" HorizontalOptions="End" />
-            </Grid>
-        </Frame>
+                    <Button Text="PROCEED" BackgroundColor="White" TextColor="#5C2E0C" WidthRequest="120" HeightRequest="44" Command="{Binding ProceedCommand}" HorizontalOptions="End" />
+                </Grid>
+            </Frame>
+        </Grid>
     </Grid>
 </ContentPage>

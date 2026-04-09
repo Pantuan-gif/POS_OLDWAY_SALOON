@@ -16,12 +16,27 @@ public partial class OrderingManagementViewModel : ObservableObject
     [ObservableProperty]
     private string _errorMessage = string.Empty;
 
+    // Search / Category filtering
+    [ObservableProperty]
+    private string _searchText = string.Empty;
+
+    partial void OnSearchTextChanged(string value) => FilterProducts();
+
+    private readonly ObservableCollection<Category> _allCategories = new();
+    public ObservableCollection<Category> Categories { get; } = new();
+
+    [ObservableProperty]
+    private Category _selectedCategory;
+
+    partial void OnSelectedCategoryChanged(Category value) => FilterProducts();
+
     private readonly ObservableCollection<Product> _allProducts = new();
     public ObservableCollection<ProductSelection> Products { get; } = new();
 
     public OrderingManagementViewModel()
     {
         _ = LoadProductsAsync();
+        _ = LoadCategoriesAsync();
     }
 
     public string CartSummaryTotalItems => $"Total Item: {MVVM.SERVICES.CartService.TotalItems}";
@@ -70,13 +85,10 @@ public partial class OrderingManagementViewModel : ObservableObject
         {
             var products = await _api.GetProductsAsync();
             _allProducts.Clear();
-            Products.Clear();
             foreach (var p in products)
                 _allProducts.Add(p);
 
-            Products.Clear();
-            foreach (var p in _allProducts)
-                Products.Add(new ProductSelection(p));
+            FilterProducts();
         }
         catch (Exception ex)
         {
@@ -87,6 +99,45 @@ public partial class OrderingManagementViewModel : ObservableObject
             IsBusy = false;
         }
 
+    }
+
+    [RelayCommand]
+    private async Task LoadCategoriesAsync()
+    {
+        try
+        {
+            var cats = await _api.GetCategoriesAsync();
+            _allCategories.Clear();
+            Categories.Clear();
+            foreach (var c in cats)
+                _allCategories.Add(c);
+            // Add an "All" pseudo-category so users can view every product
+            var allCat = new Category { CategoryId = 0, CategoryName = "All", Id = "0", PhotoPath = string.Empty };
+            Categories.Add(allCat);
+
+            foreach (var c in _allCategories)
+                Categories.Add(c);
+
+            // Select "All" by default
+            SelectedCategory = allCat;
+        }
+        catch { /* ignore */ }
+    }
+
+    private void FilterProducts()
+    {
+        Products.Clear();
+
+        var query = _allProducts.AsEnumerable();
+
+        if (SelectedCategory is not null && SelectedCategory.CategoryId != 0)
+            query = query.Where(p => p.CategoryId == SelectedCategory.CategoryId);
+
+        if (!string.IsNullOrWhiteSpace(SearchText))
+            query = query.Where(p => p.ProductName.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+        foreach (var p in query)
+            Products.Add(new ProductSelection(p));
     }
 
     // Public wrapper so views can explicitly request a refresh without depending
