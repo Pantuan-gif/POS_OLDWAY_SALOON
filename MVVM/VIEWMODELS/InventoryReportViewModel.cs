@@ -12,6 +12,8 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS;
 /// </summary>
 public class InventoryReportItem
 {
+    // link back to product id
+    public int ProductId { get; init; }
     // ── Product fields ──────────────────────────────────────────────────────
     public string Image   { get; init; } = string.Empty;
     public string Name    { get; init; } = string.Empty;
@@ -32,6 +34,16 @@ public class InventoryReportItem
 public partial class InventoryReportViewModel : ObservableObject
 {
     private readonly APISERVICES _api = new();
+
+    // low stock threshold (configurable)
+    [ObservableProperty]
+    private int _lowStockThreshold = 5;
+
+    [ObservableProperty]
+    private string _viewMode = "All"; // All | LowStock | OutOfStock
+
+    public ObservableCollection<InventoryReportItem> LowStockItems { get; } = new();
+    public ObservableCollection<InventoryReportItem> OutOfStockItems { get; } = new();
 
     // ── State ────────────────────────────────────────────────────────────────
 
@@ -68,6 +80,13 @@ public partial class InventoryReportViewModel : ObservableObject
     public InventoryReportViewModel()
     {
         _ = LoadAsync();
+    }
+
+    [RelayCommand]
+    private void SetViewMode(string mode)
+    {
+        ViewMode = mode;
+        ApplyFilter();
     }
 
     // ── Commands ─────────────────────────────────────────────────────────────
@@ -128,6 +147,7 @@ public partial class InventoryReportViewModel : ObservableObject
 
                 _allItems.Add(new InventoryReportItem
                 {
+                    ProductId  = p.ProductId,
                     Image      = p.PhotoPath,
                     Name       = p.ProductName,
                     Type       = catName ?? "—",
@@ -136,6 +156,15 @@ public partial class InventoryReportViewModel : ObservableObject
                     StocksLeft = p.Quantity,
                     SoldToday  = soldToday
                 });
+            }
+
+            // Build low-stock and out-of-stock lists
+            LowStockItems.Clear();
+            OutOfStockItems.Clear();
+            foreach (var it in _allItems)
+            {
+                if (it.StocksLeft == 0) OutOfStockItems.Add(it);
+                else if (it.StocksLeft <= LowStockThreshold) LowStockItems.Add(it);
             }
 
             ApplyFilter();
@@ -157,11 +186,16 @@ public partial class InventoryReportViewModel : ObservableObject
     {
         var q = SearchText?.Trim() ?? string.Empty;
 
-        var filtered = string.IsNullOrEmpty(q)
-            ? _allItems
-            : _allItems.Where(i =>
-                i.Name.Contains(q, StringComparison.OrdinalIgnoreCase)
-                || i.Type.Contains(q, StringComparison.OrdinalIgnoreCase));
+        IEnumerable<InventoryReportItem> filtered = _allItems;
+
+        if (!string.IsNullOrEmpty(q))
+            filtered = filtered.Where(i => i.Name.Contains(q, StringComparison.OrdinalIgnoreCase) || i.Type.Contains(q, StringComparison.OrdinalIgnoreCase));
+
+        // apply view mode filters
+        if (string.Equals(ViewMode, "LowStock", StringComparison.OrdinalIgnoreCase))
+            filtered = filtered.Where(i => i.StocksLeft > 0 && i.StocksLeft <= LowStockThreshold);
+        else if (string.Equals(ViewMode, "OutOfStock", StringComparison.OrdinalIgnoreCase))
+            filtered = filtered.Where(i => i.StocksLeft == 0);
 
         Products.Clear();
         foreach (var item in filtered)

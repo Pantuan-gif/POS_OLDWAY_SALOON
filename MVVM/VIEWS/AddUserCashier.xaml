@@ -42,9 +42,9 @@
             <Label Text="Photo" FontAttributes="Bold"/>
             <Button Text="Choose File" Command="{Binding ChoosePhotoCommand}"/>
 
-            <!-- Create Button -->
+            <!-- Create Button (reuse registration) -->
             <Button Text="Create"
-                Command="{Binding CreateCommand}"
+                Clicked="OnCreateClicked"
                 BackgroundColor="#8B4513"
                 TextColor="White"
                 CornerRadius="5"/>

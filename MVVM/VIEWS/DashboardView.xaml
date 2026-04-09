@@ -19,6 +19,10 @@
             <!-- ── Transaction Row DataTemplate ── -->
             <DataTemplate x:Key="TransactionTemplate" x:DataType="models:Transaction">
                 <VerticalStackLayout Spacing="0">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ItemSelectedCommand}"
+                                            CommandParameter="{Binding .}" />
+                    </VerticalStackLayout.GestureRecognizers>
                     <Grid Padding="14,14"
                           ColumnDefinitions="56,*,Auto"
                           ColumnSpacing="10">

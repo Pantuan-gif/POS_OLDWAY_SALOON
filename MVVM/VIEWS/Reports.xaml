@@ -1,30 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.Reports"
              Title="Reports"
              BackgroundColor="#F3F3F3">
 
-    <Grid RowDefinitions="Auto, *">
+    <ContentPage.BindingContext>
+        <vm:ReportsViewModel />
+    </ContentPage.BindingContext>
 
-        <!-- Header -->
-        <Grid Grid.Row="0"
-              ColumnDefinitions="Auto, *"
-              Padding="10"
-              BackgroundColor="White">
-            <ImageButton Source="menu_icon.png"
-                         Command="{Binding MenuCommand}"
-                         Grid.Column="0"
-                         WidthRequest="30"
-                         HeightRequest="30"
-                         VerticalOptions="Center"/>
-            <Label Text="Reports"
-                   FontSize="20"
-                   FontAttributes="Bold"
-                   VerticalOptions="Center"
-                   Margin="10,0,0,0"
-                   Grid.Column="1"/>
-        </Grid>
+    <Grid RowDefinitions="Auto, *">
 
         <!-- Report Options -->
         <ScrollView Grid.Row="1">
@@ -44,7 +30,7 @@
                                CornerRadius="8"
                                Padding="8"
                                HasShadow="False">
-                            <Image Source="transaction_icon.png"
+                            <Image Source="order.svg"
                                    WidthRequest="28"
                                    HeightRequest="28"/>
                         </Frame>
@@ -78,7 +64,7 @@
                                CornerRadius="8"
                                Padding="8"
                                HasShadow="False">
-                            <Image Source="inventory_icon.png"
+                            <Image Source="inventory.png"
                                    WidthRequest="28"
                                    HeightRequest="28"/>
                         </Frame>
@@ -98,39 +84,6 @@
                     </Grid>
                 </Frame>
 
-                <!-- Out of Stock -->
-                <Frame BorderColor="LightGray"
-                       CornerRadius="10"
-                       Padding="15"
-                       HasShadow="True">
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding NavigateOutOfStockCommand}"/>
-                    </Frame.GestureRecognizers>
-                    <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
-                        <Frame Grid.Column="0"
-                               BackgroundColor="#FEF0E7"
-                               CornerRadius="8"
-                               Padding="8"
-                               HasShadow="False">
-                            <Image Source="outofstock_icon.png"
-                                   WidthRequest="28"
-                                   HeightRequest="28"/>
-                        </Frame>
-                        <StackLayout Grid.Column="1" Padding="12,0" VerticalOptions="Center">
-                            <Label Text="Out of Stock Items"
-                                   FontAttributes="Bold"
-                                   FontSize="15"/>
-                            <Label Text="Products that need restocking"
-                                   FontSize="12"
-                                   TextColor="Gray"/>
-                        </StackLayout>
-                        <Label Text="›"
-                               Grid.Column="2"
-                               FontSize="24"
-                               TextColor="Gray"
-                               VerticalOptions="Center"/>
-                    </Grid>
-                </Frame>
 
             </StackLayout>
         </ScrollView>

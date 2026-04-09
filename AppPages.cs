@@ -12,10 +12,12 @@ public static class AppPages
     private static DashboardView?            _dashboard;
     private static InventoryManagementView?  _inventory;
     private static MVVM.VIEWS.Reports?       _reports;
+    private static POS_OLDWAY_SALOON.MVVM.VIEWS.TransactionReports? _transactionReports;
 
     public static DashboardView           Dashboard  => _dashboard  ??= new DashboardView();
     public static InventoryManagementView Inventory  => _inventory  ??= new InventoryManagementView();
     public static MVVM.VIEWS.Reports       Reports    => _reports    ??= new MVVM.VIEWS.Reports();
+    public static POS_OLDWAY_SALOON.MVVM.VIEWS.TransactionReports TransactionReports => _transactionReports ??= new POS_OLDWAY_SALOON.MVVM.VIEWS.TransactionReports();
 
     // ── Push Pages (fresh each time — they are form/detail pages) ───────────
     // These are intentionally NOT cached because they need clean state on every open.

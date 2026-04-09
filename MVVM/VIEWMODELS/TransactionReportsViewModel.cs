@@ -56,8 +56,18 @@ public partial class TransactionReportsViewModel : ObservableObject
 
     public TransactionReportsViewModel()
     {
+        // Default to showing all transactions
+        IsDateFilterActive = false;
+        FilterDate = DateTime.Today;
+        FilterLabel = "All transactions";
         _ = LoadAsync();
     }
+
+    [ObservableProperty]
+    private int _loadedTransactionsCount;
+
+    [ObservableProperty]
+    private int _displayedTransactionsCount;
 
     // ── Commands ──────────────────────────────────────────────────────────────
 
@@ -91,19 +101,61 @@ public partial class TransactionReportsViewModel : ObservableObject
     [RelayCommand]
     private async Task ItemSelected(object args)
     {
+        // Show modal details dialog instead of navigating to a page
         try
         {
-            var selected = (args as Microsoft.Maui.Controls.SelectionChangedEventArgs)
-                               ?.CurrentSelection?.FirstOrDefault() as Order;
+            Order selected = null;
+            if (args is Microsoft.Maui.Controls.SelectionChangedEventArgs sce)
+                selected = sce.CurrentSelection?.FirstOrDefault() as Order;
+            else if (args is Order o)
+                selected = o;
+
             if (selected is null) return;
 
-            if (Application.Current?.MainPage is FlyoutPage flyout
-                && flyout.Detail is NavigationPage nav)
+            // Build a simple modal page to display receipt-like details
+            var page = new ContentPage
             {
-                await nav.PushAsync(new MVVM.VIEWS.Reciept { BindingContext = selected });
+                Title = "Transaction",
+                Content = new ScrollView
+                {
+                    Content = new VerticalStackLayout
+                    {
+                        Padding = 16,
+                        Spacing = 10,
+                        Children =
+                        {
+                            new Label { Text = $"Ref: {selected.ReferenceNumber}", FontAttributes = FontAttributes.Bold },
+                            new Label { Text = $"Date: {selected.Date:g}" },
+                            new Label { Text = $"Operator: {selected.OperatorName}" },
+                            new Label { Text = $"Payment: {selected.PaymentMethod}" },
+                            new BoxView { HeightRequest = 1, Color = Colors.LightGray },
+                        }
+                    }
+                }
+            };
+
+            // Add items list
+            var itemsLayout = new VerticalStackLayout { Spacing = 6 };
+            foreach (var it in selected.Items)
+            {
+                itemsLayout.Children.Add(new Grid
+                {
+                    ColumnDefinitions = new ColumnDefinitionCollection { new ColumnDefinition { Width = GridLength.Star }, new ColumnDefinition { Width = new GridLength(80) } },
+                    Children =
+                    {
+                        new Label { Text = it.ProductName },
+                        new Label { Text = $"x{it.Quantity} @ ₱{it.UnitPrice:F2}", HorizontalTextAlignment = TextAlignment.End }
+                    }
+                });
             }
+
+            ((page.Content as ScrollView).Content as VerticalStackLayout).Children.Add(itemsLayout);
+            ((page.Content as ScrollView).Content as VerticalStackLayout).Children.Add(new BoxView { HeightRequest = 1, Color = Colors.LightGray });
+            ((page.Content as ScrollView).Content as VerticalStackLayout).Children.Add(new Label { Text = $"Total: ₱{selected.Total:F2}", FontAttributes = FontAttributes.Bold });
+
+            await Application.Current!.MainPage!.Navigation.PushModalAsync(new NavigationPage(page));
         }
-        catch { /* ignore navigation errors */ }
+        catch { /* ignore modal errors */ }
     }
 
     // ── Data loading ──────────────────────────────────────────────────────────
@@ -116,6 +168,36 @@ public partial class TransactionReportsViewModel : ObservableObject
         try
         {
             var list = await TransactionService.GetAllAsync();
+            if (list == null || list.Count == 0)
+            {
+#if DEBUG
+                // For developer convenience: seed a small sample transaction when none exist on device
+                var sample = new List<Order>
+                {
+                    new Order
+                    {
+                        Date = DateTime.Now,
+                        PaymentMethod = "Cash",
+                        OperatorName = "Debug User",
+                        TenderedAmount = 1000m,
+                        Items = new List<CartItem>
+                        {
+                            new CartItem { ProductId = 1, ProductName = "Jack Daniels", Quantity = 1, UnitPrice = 1800m, PhotoPath = "jack_daniels.png" }
+                        }
+                    }
+                };
+                await TransactionService.SaveAsync(sample);
+                list = await TransactionService.GetAllAsync();
+#else
+                // no transactions found
+                _all.Clear();
+                Transactions.Clear();
+                TotalTransactions = 0;
+                TotalRevenue = 0m;
+                TotalItemsSold = 0;
+                return;
+#endif
+            }
 
             _all.Clear();
             foreach (var o in list.OrderByDescending(x => x.Date))
@@ -160,10 +242,34 @@ public partial class TransactionReportsViewModel : ObservableObject
         foreach (var o in filtered)
             Transactions.Add(o);
 
+        // counts
+        LoadedTransactionsCount = _all.Count;
+        DisplayedTransactionsCount = filtered.Count;
+
         // KPIs
         TotalTransactions = filtered.Count;
         TotalRevenue      = filtered.Sum(o => o.Total);
         TotalItemsSold    = filtered.Sum(o => o.ItemCount);
         OnPropertyChanged(nameof(TotalRevenueDisplay));
+
+        // Update filter label for UI
+        if (IsDateFilterActive)
+        {
+            if (FilterDate.Date == DateTime.Today)
+                FilterLabel = "Today's transactions";
+            else
+                FilterLabel = $"Specified date: {FilterDate:MMM dd, yyyy}";
+        }
+        else if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            FilterLabel = $"Search: {SearchText}";
+        }
+        else
+        {
+            FilterLabel = "All transactions";
+        }
     }
+
+    [ObservableProperty]
+    private string _filterLabel = string.Empty;
 }

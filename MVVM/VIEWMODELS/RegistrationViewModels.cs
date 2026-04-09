@@ -23,10 +23,37 @@ public partial class RegistrationViewModels : ObservableObject
     [ObservableProperty]
     private string confirmPassword;
 
+    [ObservableProperty]
+    private string role = "Cashier";
+
+    [ObservableProperty]
+    private bool _isRoleSelectable;
+
 
     public RegistrationViewModels()
     {
-       
+        // When used as Add User from User Management, callers will set Role = "Cashier"
+        // Default for regular registration is Cashier but role is not selectable via UI.
+        IsRoleSelectable = false;
+    }
+
+    // Roles removed from UI; default role will be "Cashier" when called from AddUser flow.
+    [ObservableProperty]
+    private bool _isPasswordHidden = true;
+
+    [ObservableProperty]
+    private bool _isConfirmPasswordHidden = true;
+
+    [RelayCommand]
+    private void TogglePassword()
+    {
+        IsPasswordHidden = !IsPasswordHidden;
+    }
+
+    [RelayCommand]
+    private void ToggleConfirmPassword()
+    {
+        IsConfirmPasswordHidden = !IsConfirmPasswordHidden;
     }
 
     public async void Register()
@@ -53,7 +80,7 @@ public partial class RegistrationViewModels : ObservableObject
             FirstName = firstName,
             LastName = lastName,
             Email = email,
-            Role = "Customer",
+            Role = role ?? "Cashier",
             Password = password,
             ImageSource = "nullprofile.png"
         });

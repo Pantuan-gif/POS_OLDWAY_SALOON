@@ -94,13 +94,16 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
         [RelayCommand]
         private async Task AddUser()
         {
-            // Navigate to AddUserCashierView instead of Registration
-            var page = new AddUserCashier();
-
+            // Reuse the Registration page for adding a new user (pre-fill role if needed)
+            // Open registration in Add User mode and set initial role to Cashier
+            var page = new Registration("Add User", "Cashier");
             await Application.Current.MainPage.Navigation.PushModalAsync(page);
 
             // Wait until modal closes
             await page.WaitForCloseAsync();
+
+            // Persist users
+            await MVVM.SERVICES.UserService.SaveAsync(LoginViewModels.User.ToList());
 
             // Refresh search / UI
             Search();
@@ -121,6 +124,9 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 
             // Refresh search / UI
             Search();
+
+            // persist users
+            await MVVM.SERVICES.UserService.SaveAsync(User.ToList());
         }
 
         [RelayCommand]
@@ -140,6 +146,9 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 
             User.Remove(user);
             Search();
+
+            // persist users
+            await MVVM.SERVICES.UserService.SaveAsync(User.ToList());
 
             // Optional: clear profile card if deleted user was selected
             FullName = string.Empty;

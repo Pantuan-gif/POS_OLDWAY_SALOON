@@ -81,13 +81,19 @@
             </StackLayout>
         </Grid>
 
-        <!-- Search Bar -->
-        <SearchBar Placeholder="Search product or category…"
-                   Grid.Row="2"
-                   Margin="10,6"
-                   HorizontalOptions="FillAndExpand"
-                   Text="{Binding SearchText}"
-                   SearchCommand="{Binding SearchCommand}"/>
+        <!-- Search Bar + Mode Buttons -->
+        <StackLayout Grid.Row="2" Orientation="Vertical" Padding="10,6">
+            <SearchBar Placeholder="Search product or category…"
+                       Text="{Binding SearchText}"
+                       SearchCommand="{Binding SearchCommand}"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+
+            <HorizontalStackLayout Spacing="8" Margin="0,8,0,0">
+                <Button Text="All" Command="{Binding SetViewModeCommand}" CommandParameter="All" BackgroundColor="Transparent" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+                <Button Text="Low stock" Command="{Binding SetViewModeCommand}" CommandParameter="LowStock" BackgroundColor="Transparent" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+                <Button Text="Out of stock" Command="{Binding SetViewModeCommand}" CommandParameter="OutOfStock" BackgroundColor="Transparent" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" />
+            </HorizontalStackLayout>
+        </StackLayout>
 
         <!-- Loading indicator -->
         <ActivityIndicator Grid.Row="3"
@@ -109,7 +115,7 @@
         <!-- Product List -->
         <CollectionView Grid.Row="3"
                         ItemsSource="{Binding Products}"
-                        IsVisible="{Binding IsBusy, Converter={x:StaticResource InvertedBoolConverter}}">
+                        IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}">
 
             <!-- Empty state -->
             <CollectionView.EmptyView>

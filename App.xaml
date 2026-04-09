@@ -14,6 +14,7 @@
 
             <!-- Converters -->
             <converters:StringNotEmptyToBoolConverter x:Key="StringNotEmptyToBool" />
+            <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         </ResourceDictionary>
     </Application.Resources>
 

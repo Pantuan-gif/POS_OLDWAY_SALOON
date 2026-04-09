@@ -51,6 +51,15 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
         [ObservableProperty]
         private string password;
 
+        [ObservableProperty]
+        private bool _isPasswordHidden = true;
+
+        [RelayCommand]
+        private void TogglePassword()
+        {
+            IsPasswordHidden = !IsPasswordHidden;
+        }
+
         public ICommand LoginCommand { get; }
         public ICommand GoToRegisterCommand { get; }
 
@@ -58,36 +67,58 @@ namespace POS_OLDWAY_SALOON.MVVM.VIEWMODELS
 
         public LoginViewModels()
         {
-            if (User.Count == 0)
-            {
-                LoginViewModels.User.Add(new User
-                {
-                    Id = 0,
-                    FirstName = "john",
-                    LastName = "admin",
-                    Email = "admin",
-                    Password = "admin",
-                    Role = "Admin",
-                    ImageSource = "nullprofile.png"
-                });
-
-                // Add a default cashier for testing role-specific flows
-                LoginViewModels.User.Add(new User
-                {
-                    Id = 1,
-                    FirstName = "alex",
-                    LastName = "cashier",
-                    Email = "cashier",
-                    Password = "cashier",
-                    Role = "Cashier",
-                    ImageSource = "nullprofile.png"
-                });
-            }
+            // Load persisted users from local JSON (if any); otherwise fall back to seeded defaults
+            _ = LoadUsersAsync();
             LoginCommand = new RelayCommand(Login);
             GoToRegisterCommand = new RelayCommand(async () =>
             {
                 await Application.Current.MainPage.Navigation.PushModalAsync(new Registration("Register"));
             });
+        }
+
+        private async Task LoadUsersAsync()
+        {
+            try
+            {
+                var list = await MVVM.SERVICES.UserService.GetAllAsync();
+                if (list != null && list.Count > 0)
+                {
+                    User.Clear();
+                    foreach (var u in list)
+                        User.Add(u);
+                }
+                else
+                {
+                    // seed defaults if no persisted users
+                    if (User.Count == 0)
+                    {
+                        User.Add(new User
+                        {
+                            Id = 0,
+                            FirstName = "john",
+                            LastName = "admin",
+                            Email = "admin",
+                            Password = "admin",
+                            Role = "Admin",
+                            ImageSource = "nullprofile.png",
+                            IsActive = true
+                        });
+
+                        User.Add(new User
+                        {
+                            Id = 1,
+                            FirstName = "alex",
+                            LastName = "cashier",
+                            Email = "cashier",
+                            Password = "cashier",
+                            Role = "Cashier",
+                            ImageSource = "nullprofile.png",
+                            IsActive = true
+                        });
+                    }
+                }
+            }
+            catch { /* ignore load errors */ }
         }
         private async void Login()
         {

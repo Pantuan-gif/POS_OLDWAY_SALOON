@@ -7,12 +7,18 @@ public partial class Registration : ContentPage
     private TaskCompletionSource<bool> _tcs = new();
     RegistrationViewModels vm = new RegistrationViewModels();
     public Task WaitForCloseAsync() => _tcs.Task;
-    public Registration(string mode)
-	{
-		InitializeComponent();
-		BindingContext = vm;
-		Title = mode;
-	}
+    // mode: "Register" or "Add User"; initialRole sets the role when used from User Management
+    public Registration(string mode, string initialRole = null)
+    {
+        InitializeComponent();
+        if (!string.IsNullOrEmpty(initialRole))
+        {
+            vm.Role = initialRole;
+            vm.IsRoleSelectable = false;
+        }
+        BindingContext = vm;
+        Title = mode;
+    }
 
 	public async void Button_Clicked(object sender,EventArgs e)
 	{
@@ -21,59 +27,99 @@ public partial class Registration : ContentPage
         switch (btn.Text)
         {
             case "Register":
-                // Validate All
-                if (string.IsNullOrWhiteSpace(vm.FirstName) ||
-                    string.IsNullOrWhiteSpace(vm.LastName) ||
-                    string.IsNullOrWhiteSpace(vm.Email) ||
-                    string.IsNullOrWhiteSpace(vm.Password) ||
-                    string.IsNullOrWhiteSpace(vm.ConfirmPassword))
+                // Common validation for registration
+                if (string.IsNullOrWhiteSpace(vm.FirstName)
+                    || string.IsNullOrWhiteSpace(vm.LastName)
+                    || string.IsNullOrWhiteSpace(vm.Email)
+                    || string.IsNullOrWhiteSpace(vm.Password)
+                    || string.IsNullOrWhiteSpace(vm.ConfirmPassword))
                 {
-                    await DisplayAlert("Error", "All fields required", "OK");
-                    return;
-                }
-                // Validate First Name
-                if (string.IsNullOrWhiteSpace(vm.FirstName))
-                {
-                    await DisplayAlert("Validation Error", "First Name is required.", "OK");
+                    await DisplayAlert("Error", "All fields are required.", "OK");
                     return;
                 }
 
-                // Validate Last Name
-                if (string.IsNullOrWhiteSpace(vm.LastName))
+                // Email format
+                var emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                if (!System.Text.RegularExpressions.Regex.IsMatch(vm.Email.Trim(), emailPattern))
                 {
-                    await DisplayAlert("Validation Error", "Last Name is required.", "OK");
+                    await DisplayAlert("Validation Error", "Please enter a valid email address.", "OK");
                     return;
                 }
 
-                // Validate Email
-                if (string.IsNullOrWhiteSpace(vm.Email) || !vm.Email.Contains("@"))
+                // Duplicate email
+                if (LoginViewModels.User.Any(u => string.Equals(u.Email, vm.Email, StringComparison.OrdinalIgnoreCase)))
                 {
-                    await DisplayAlert("Validation Error", "A valid Email is required.", "OK");
+                    await DisplayAlert("Validation Error", "An account with this email already exists.", "OK");
                     return;
                 }
 
-                // Validate Password
-                if (string.IsNullOrWhiteSpace(vm.Password))
+                // Password strength
+                if (vm.Password.Length < 6
+                    || !System.Text.RegularExpressions.Regex.IsMatch(vm.Password, "[A-Z]")
+                    || !System.Text.RegularExpressions.Regex.IsMatch(vm.Password, "[a-z]")
+                    || !System.Text.RegularExpressions.Regex.IsMatch(vm.Password, "[0-9]"))
                 {
-                    await DisplayAlert("Validation Error", "Password is required.", "OK");
+                    await DisplayAlert("Validation Error", "Password must be at least 6 characters and include upper-case, lower-case letters and a digit.", "OK");
                     return;
                 }
 
-                if (vm.Password.Length < 6)
-                {
-                    await DisplayAlert("Validation Error", "Password must be at least 6 characters.", "OK");
-                    return;
-                }
-
-                // Confirm Password
                 if (vm.Password != vm.ConfirmPassword)
                 {
                     await DisplayAlert("Validation Error", "Passwords do not match.", "OK");
                     return;
                 }
 
-                // If all validations pass
+                // All validations passed — register
                 vm.Register();
+                _tcs.TrySetResult(true);
+                await Navigation.PopModalAsync();
+                break;
+
+            case "Add User":
+                // When used as Add User modal, ensure role is set to Cashier then reuse validations
+                vm.Role = vm.Role ?? "Cashier";
+
+                // run the same validation as Register
+                if (string.IsNullOrWhiteSpace(vm.FirstName)
+                    || string.IsNullOrWhiteSpace(vm.LastName)
+                    || string.IsNullOrWhiteSpace(vm.Email)
+                    || string.IsNullOrWhiteSpace(vm.Password)
+                    || string.IsNullOrWhiteSpace(vm.ConfirmPassword))
+                {
+                    await DisplayAlert("Error", "All fields are required.", "OK");
+                    return;
+                }
+
+                var emailPattern2 = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                if (!System.Text.RegularExpressions.Regex.IsMatch(vm.Email.Trim(), emailPattern2))
+                {
+                    await DisplayAlert("Validation Error", "Please enter a valid email address.", "OK");
+                    return;
+                }
+
+                if (LoginViewModels.User.Any(u => string.Equals(u.Email, vm.Email, StringComparison.OrdinalIgnoreCase)))
+                {
+                    await DisplayAlert("Validation Error", "An account with this email already exists.", "OK");
+                    return;
+                }
+
+                if (vm.Password.Length < 6
+                    || !System.Text.RegularExpressions.Regex.IsMatch(vm.Password, "[A-Z]")
+                    || !System.Text.RegularExpressions.Regex.IsMatch(vm.Password, "[a-z]")
+                    || !System.Text.RegularExpressions.Regex.IsMatch(vm.Password, "[0-9]"))
+                {
+                    await DisplayAlert("Validation Error", "Password must be at least 6 characters and include upper-case, lower-case letters and a digit.", "OK");
+                    return;
+                }
+
+                if (vm.Password != vm.ConfirmPassword)
+                {
+                    await DisplayAlert("Validation Error", "Passwords do not match.", "OK");
+                    return;
+                }
+
+                vm.Register();
+                await MVVM.SERVICES.UserService.SaveAsync(LoginViewModels.User.ToList());
                 _tcs.TrySetResult(true);
                 await Navigation.PopModalAsync();
                 break;

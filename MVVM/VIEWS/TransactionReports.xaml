@@ -33,6 +33,9 @@
                          VerticalOptions="Center"/>
         </Grid>
 
+        <!-- Current filter label -->
+        <Label Grid.Row="2" Grid.ColumnSpan="3" Text="{Binding FilterLabel}" HorizontalOptions="Center" FontAttributes="Italic" TextColor="#666" Margin="0,6,0,0" />
+
         <!-- Summary KPI strip -->
         <Grid Grid.Row="1"
               ColumnDefinitions="*, *, *"
@@ -127,11 +130,9 @@
                Margin="16"/>
 
         <!-- Transaction List -->
-        <CollectionView Grid.Row="4"
+        <CollectionView x:Name="transactionsCollectionView" Grid.Row="4"
                         ItemsSource="{Binding Transactions}"
-                        SelectionMode="Single"
-                        SelectionChangedCommand="{Binding ItemSelectedCommand}"
-                        IsVisible="{Binding IsBusy, Converter={x:StaticResource InvertedBoolConverter}}">
+                        SelectionMode="Single">
 
             <!-- Empty state -->
             <CollectionView.EmptyView>
@@ -197,6 +198,10 @@
                                        TextColor="#555"/>
                             </StackLayout>
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <!-- Use the page's BindingContext command so no vm xmlns is required -->
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ItemSelectedCommand}" CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

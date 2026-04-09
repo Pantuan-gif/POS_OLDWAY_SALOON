@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:POS_OLDWAY_SALOON.MVVM.VIEWMODELS"
              x:Class="POS_OLDWAY_SALOON.MVVM.VIEWS.Registration"
              Title="Registration">
 
@@ -66,10 +67,14 @@
                        FontSize="16"
                        Margin="0,0,0,10"/>
                 <Border Style="{StaticResource EntryBorder}">
-                    <Entry IsPassword="True"
-                           Visual="Default"
-                           BackgroundColor="Transparent"
-                           Text="{Binding Password}" />
+                    <Grid ColumnDefinitions="*,0.2*">
+                        <Entry Grid.Column="0"
+                               Text="{Binding Password}"
+                               IsPassword="{Binding IsPasswordHidden}" />
+                        <ImageButton Grid.Column="1"
+                                     Source="eye.svg"
+                                     Command="{Binding TogglePasswordCommand}" />
+                    </Grid>
                 </Border>
             </VerticalStackLayout>
         </Border>
@@ -82,13 +87,19 @@
                        FontSize="16"
                        Margin="0,0,0,10"/>
                 <Border Style="{StaticResource EntryBorder}">
-                    <Entry IsPassword="True"
-                           Visual="Default"
-                           BackgroundColor="Transparent"
-                           Text="{Binding ConfirmPassword}" />
+                    <Grid ColumnDefinitions="*,0.2*">
+                        <Entry Grid.Column="0"
+                               Text="{Binding ConfirmPassword}"
+                               IsPassword="{Binding IsConfirmPasswordHidden}" />
+                        <ImageButton Grid.Column="1"
+                                     Source="eye.svg"
+                                     Command="{Binding ToggleConfirmPasswordCommand}" />
+                    </Grid>
                 </Border>
             </VerticalStackLayout>
         </Border>
+
+        <!-- Role is set programmatically; picker removed -->
 
         <!-- Sign Up Button -->
         <Button Text="Register"

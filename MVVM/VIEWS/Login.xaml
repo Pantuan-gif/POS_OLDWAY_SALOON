@@ -37,11 +37,19 @@
                    FontSize="16"
                 />
                 <Border Style="{StaticResource EntryBorder}">
-                    <Entry
-                       Keyboard="Password"
-                       IsPassword="True"
-                       Visual="Material"
-                       Text="{Binding Password}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry Grid.Column="0"
+                               Keyboard="Text"
+                               IsPassword="{Binding IsPasswordHidden}"
+                               Visual="Material"
+                               Text="{Binding Password}" />
+                        <ImageButton Grid.Column="1"
+                                     Source="eye.svg"
+                                     BackgroundColor="Transparent"
+                                     Command="{Binding TogglePasswordCommand}"
+                                     WidthRequest="36"
+                                     HeightRequest="36" />
+                    </Grid>
                 </Border>
                 <Button Text="Login"
                     Margin="0,30,0,0"

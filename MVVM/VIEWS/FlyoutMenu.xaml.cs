@@ -23,7 +23,8 @@ public partial class FlyoutMenu : ContentPage
 		{
             new FlyoutMenuItem { Title = "Home", Icon = "home.svg", TargetPage = typeof(DashboardView) },
 			new FlyoutMenuItem { Title = "Inventory", Icon = "inventory.svg", TargetPage = typeof(InventoryManagementView) },
-			new FlyoutMenuItem { Title = "Orders", Icon = "order.svg", TargetPage = typeof(POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagement) }
+			new FlyoutMenuItem { Title = "Orders", Icon = "order.svg", TargetPage = typeof(POS_OLDWAY_SALOON.MVVM.VIEWS.OrderingManagement) },
+			new FlyoutMenuItem { Title = "Reports", Icon = "report.svg", TargetPage = typeof(POS_OLDWAY_SALOON.MVVM.VIEWS.Reports) }
 		};
 
 		// Find user and add User Management only for Admin
