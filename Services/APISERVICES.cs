@@ -17,11 +17,13 @@ namespace POS_OLDWAY_SALOON.Services
 
         public APISERVICES()
         {
+            //https://mockapi.io/clone/69d34763336103955f8ebef7 for cloning the mock api datas
             _client = new HttpClient
             {
                 BaseAddress = new Uri("https://69d34763336103955f8ebef6.mockapi.io/api/oldsaloon/")
             };
         }
+       
 
         // ════════════════════════════════════════════════════════════════════
         //  CATEGORY  CRUD

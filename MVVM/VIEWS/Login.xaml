@@ -39,7 +39,7 @@
                 <Border Style="{StaticResource EntryBorder}">
                     <Grid ColumnDefinitions="*,Auto">
                         <Entry Grid.Column="0"
-                               Keyboard="Text"
+                               Keyboard="Default"
                                IsPassword="{Binding IsPasswordHidden}"
                                Visual="Material"
                                Text="{Binding Password}" />
